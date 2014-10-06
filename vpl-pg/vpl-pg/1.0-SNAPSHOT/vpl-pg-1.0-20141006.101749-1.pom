@@ -36,9 +36,7 @@
                 <version>2.8.1</version>
                 <configuration>
                     <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
-                    <file>${build.directory}/${project.build.finalName}.${project.packaging}</file>
-                    <generatePom>false</generatePom>
-                    <pomFile>pom.xml</pomFile>
+                    <uniqueVersion>false</uniqueVersion>
                 </configuration>
             </plugin>
             <plugin>
