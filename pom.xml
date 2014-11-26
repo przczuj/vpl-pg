@@ -32,6 +32,12 @@
             <artifactId>jogl-all-main</artifactId>
             <version>2.2.4</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -45,32 +51,78 @@
                 </configuration>
             </plugin>
 
+            <!--<plugin>-->
+                <!--<artifactId>maven-assembly-plugin</artifactId>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>single</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+                <!--<configuration>-->
+                    <!--<appendAssemblyId>false</appendAssemblyId>-->
+                    <!--<descriptorRefs>-->
+                        <!--<descriptorRef>jar-with-dependencies</descriptorRef>-->
+                    <!--</descriptorRefs>-->
+                    <!--<archive>-->
+                        <!--<index>true</index>-->
+                        <!--<addMavenDescriptor>false</addMavenDescriptor>-->
+                        <!--<manifest>-->
+                            <!--<addDefaultImplementationEntries>true</addDefaultImplementationEntries>-->
+                        <!--</manifest>-->
+                        <!--<manifestEntries>-->
+                            <!--<Trusted-Only>true</Trusted-Only>-->
+                            <!--<Permissions>all-permissions</Permissions>-->
+                        <!--</manifestEntries>-->
+                    <!--</archive>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+            
             <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.16</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <id>unit-tests</id>
+                        <phase>test</phase>
                         <goals>
-                            <goal>single</goal>
+                            <goal>test</goal>
                         </goals>
+                        <configuration>
+                            <skip>false</skip>
+                            <excludes>
+                                <exclude>**/Manual*.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin> <!-- not yet working -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jarsigner-plugin</artifactId>
+                <version>1.2</version>
+                <executions>
+                    <execution>
+                        <id>sign</id>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <phase>deploy</phase>
                     </execution>
                 </executions>
                 <configuration>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <archive>
-                        <index>true</index>
-                        <addMavenDescriptor>false</addMavenDescriptor>
-                        <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                        </manifest>
-                        <manifestEntries>
-                            <Trusted-Library>true</Trusted-Library>
-                            <Permissions>all-permissions</Permissions>
-                        </manifestEntries>
-                    </archive>
+                    <keystore>${project.basedir}\keystore\vplpgSPC.pfx</keystore>
+                    <storetype>pkcs12</storetype>
+                    <alias>pvktmp:dada2fe2-204a-45db-b056-41d900dec043</alias>
+                    <storepass>vplpgPass</storepass>
+                    <keypass>vplpgPass</keypass>
                 </configuration>
             </plugin>
 

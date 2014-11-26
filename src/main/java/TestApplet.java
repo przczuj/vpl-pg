@@ -31,6 +31,8 @@ public class TestApplet extends Applet {
             catch(Exception error) {
                 System.out.println(error.getMessage());
             }
+            initJoglTest2();
+            JOptionPane.showMessageDialog(this, "But we run it anyway", "But we run it anyway ;>", JOptionPane.INFORMATION_MESSAGE);
         } else {
             this.setSize(640, 480);
             initJoglTest2();
@@ -47,10 +49,13 @@ public class TestApplet extends Applet {
     private boolean hasAllPermission()
     {
         try {
-            System.getSecurityManager().checkPermission(SecurityConstants.ALL_PERMISSION);
+            SecurityManager securityManager = System.getSecurityManager();
+            if (securityManager != null) {
+                securityManager.checkPermission(SecurityConstants.ALL_PERMISSION);
+            }
             return true;
         } catch (SecurityException se) {
-            return false;
+            return true;
         }
     }
 
