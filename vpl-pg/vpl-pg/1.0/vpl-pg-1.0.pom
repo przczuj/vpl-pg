@@ -120,7 +120,7 @@
                 <configuration>
                     <keystore>${project.basedir}\keystore\vplpgSPC.pfx</keystore>
                     <storetype>pkcs12</storetype>
-                    <alias>vplpgKey</alias>
+                    <alias>pvktmp:dada2fe2-204a-45db-b056-41d900dec043</alias>
                     <storepass>vplpgPass</storepass>
                     <keypass>vplpgPass</keypass>
                 </configuration>
