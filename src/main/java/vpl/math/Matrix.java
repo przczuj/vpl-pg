@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 //partially inspired by http://www.codeproject.com/Articles/405128/Matrix-operations-in-Java
-package physics;
+package vpl.math;
 import javax.swing.JOptionPane;
 /**
  *
