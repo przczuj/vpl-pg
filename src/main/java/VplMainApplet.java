@@ -2,21 +2,23 @@
 import com.jogamp.opengl.util.FPSAnimator;
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javax.media.opengl.GLAnimatorControl;
 import javax.media.opengl.GLProfile;
 import javax.media.opengl.awt.GLCanvas;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import joglTest.JOGLtest;
+import sun.security.util.SecurityConstants;
 
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
-/**
- *
- * @author Przemys³aw Czuj
- */
 public class VplMainApplet extends javax.swing.JApplet {
 
     private final static int TICK_RATE_MILLISEC = 50;
@@ -55,7 +57,7 @@ public class VplMainApplet extends javax.swing.JApplet {
             java.awt.EventQueue.invokeAndWait(new Runnable() {
                 public void run() {
                     initComponents();
-                    initJogl();
+                    initJogl(mainJPanel);
                     Container parent = getParent();
                     if (parent != null) {
                         setSize(parent.getSize());
@@ -67,7 +69,7 @@ public class VplMainApplet extends javax.swing.JApplet {
         }
     }
     
-    public void initJogl() {
+    public void initJogl(JPanel panel) {
         GLProfile.initSingleton();
 
         final GLCanvas glcanvas = new GLCanvas();
@@ -78,8 +80,8 @@ public class VplMainApplet extends javax.swing.JApplet {
         glcanvas.addMouseMotionListener(context);
         glcanvas.addMouseListener(context);
 
-        glcanvas.setSize(mainJPanel.getSize());
-        mainJPanel.add(glcanvas, BorderLayout.CENTER);
+        glcanvas.setSize(panel.getSize());
+        panel.add(glcanvas, BorderLayout.CENTER);
         glAnimatorControl = new FPSAnimator(glcanvas, 30);
     }
     
@@ -96,6 +98,28 @@ public class VplMainApplet extends javax.swing.JApplet {
             glAnimatorControl.stop();
         }
     }
+    
+    private boolean hasAllPermission() {
+        try {
+            SecurityManager securityManager = System.getSecurityManager();
+            if (securityManager != null) {
+                securityManager.checkPermission(SecurityConstants.ALL_PERMISSION);
+            }
+            return true;
+        } catch (SecurityException se) {
+            return false;
+        }
+    }
+    
+    private void startTask() {
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                // actions to be done every {TICK_RATE_MILLISEC} ms
+            }
+        }, /*first execution delay*/ 0, TICK_RATE_MILLISEC, TimeUnit.MILLISECONDS);
+    }
 
     /**
      * This method is called from within the init() method to initialize the
@@ -107,8 +131,12 @@ public class VplMainApplet extends javax.swing.JApplet {
     private void initComponents() {
 
         toolBarJPanel = new javax.swing.JPanel();
-        SaveLoadJToolBar = new javax.swing.JToolBar();
         ExperimentExecutionJToolBar = new javax.swing.JToolBar();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        SaveLoadJToolBar = new javax.swing.JToolBar();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         objectPalleteJPanel = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         objectPropertiesJPanel = new javax.swing.JPanel();
@@ -118,100 +146,68 @@ public class VplMainApplet extends javax.swing.JApplet {
         setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(800, 600));
 
-        SaveLoadJToolBar.setRollover(true);
+        toolBarJPanel.setLayout(new java.awt.BorderLayout());
 
         ExperimentExecutionJToolBar.setRollover(true);
 
-        javax.swing.GroupLayout toolBarJPanelLayout = new javax.swing.GroupLayout(toolBarJPanel);
-        toolBarJPanel.setLayout(toolBarJPanelLayout);
-        toolBarJPanelLayout.setHorizontalGroup(
-            toolBarJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(SaveLoadJToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
-            .addComponent(ExperimentExecutionJToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        toolBarJPanelLayout.setVerticalGroup(
-            toolBarJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(toolBarJPanelLayout.createSequentialGroup()
-                .addComponent(SaveLoadJToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ExperimentExecutionJToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 3, Short.MAX_VALUE))
-        );
+        jButton4.setText("jButton4");
+        jButton4.setFocusable(false);
+        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        ExperimentExecutionJToolBar.add(jButton4);
+
+        jButton5.setText("jButton5");
+        jButton5.setFocusable(false);
+        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        ExperimentExecutionJToolBar.add(jButton5);
+
+        toolBarJPanel.add(ExperimentExecutionJToolBar, java.awt.BorderLayout.PAGE_START);
+
+        SaveLoadJToolBar.setRollover(true);
+
+        jButton6.setText("jButton4");
+        jButton6.setFocusable(false);
+        jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        SaveLoadJToolBar.add(jButton6);
+
+        jButton7.setText("jButton5");
+        jButton7.setFocusable(false);
+        jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        SaveLoadJToolBar.add(jButton7);
+
+        toolBarJPanel.add(SaveLoadJToolBar, java.awt.BorderLayout.PAGE_END);
+
+        getContentPane().add(toolBarJPanel, java.awt.BorderLayout.PAGE_START);
+
+        objectPalleteJPanel.setLayout(new java.awt.BorderLayout());
 
         jButton1.setText("jButton1");
+        objectPalleteJPanel.add(jButton1, java.awt.BorderLayout.CENTER);
 
-        javax.swing.GroupLayout objectPalleteJPanelLayout = new javax.swing.GroupLayout(objectPalleteJPanel);
-        objectPalleteJPanel.setLayout(objectPalleteJPanelLayout);
-        objectPalleteJPanelLayout.setHorizontalGroup(
-            objectPalleteJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(objectPalleteJPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1)
-                .addContainerGap(90, Short.MAX_VALUE))
-        );
-        objectPalleteJPanelLayout.setVerticalGroup(
-            objectPalleteJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(objectPalleteJPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1)
-                .addContainerGap(474, Short.MAX_VALUE))
-        );
+        getContentPane().add(objectPalleteJPanel, java.awt.BorderLayout.LINE_START);
+
+        objectPropertiesJPanel.setLayout(new java.awt.BorderLayout());
 
         jButton2.setText("jButton2");
+        objectPropertiesJPanel.add(jButton2, java.awt.BorderLayout.CENTER);
 
-        javax.swing.GroupLayout objectPropertiesJPanelLayout = new javax.swing.GroupLayout(objectPropertiesJPanel);
-        objectPropertiesJPanel.setLayout(objectPropertiesJPanelLayout);
-        objectPropertiesJPanelLayout.setHorizontalGroup(
-            objectPropertiesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(objectPropertiesJPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton2)
-                .addContainerGap(90, Short.MAX_VALUE))
-        );
-        objectPropertiesJPanelLayout.setVerticalGroup(
-            objectPropertiesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(objectPropertiesJPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        getContentPane().add(objectPropertiesJPanel, java.awt.BorderLayout.LINE_END);
 
         mainJPanel.setLayout(new java.awt.BorderLayout());
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(toolBarJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(objectPalleteJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(mainJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(objectPropertiesJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(toolBarJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(objectPalleteJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(objectPropertiesJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(mainJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        getContentPane().add(mainJPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToolBar ExperimentExecutionJToolBar;
     private javax.swing.JToolBar SaveLoadJToolBar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JPanel mainJPanel;
     private javax.swing.JPanel objectPalleteJPanel;
     private javax.swing.JPanel objectPropertiesJPanel;

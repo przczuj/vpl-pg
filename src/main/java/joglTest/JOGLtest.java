@@ -38,6 +38,8 @@ public class JOGLtest implements GLEventListener, KeyListener,MouseListener, Mou
     float r=0.3f;
     public static List<Ball> balls=new ArrayList(); 
     float rot=0;
+    int width = 800;
+    int height = 600;
     
     public static void main(String[] args) {
         Frame frame = new Frame("JOGL test");
@@ -110,6 +112,8 @@ public class JOGLtest implements GLEventListener, KeyListener,MouseListener, Mou
         
             height = 1;
         }
+        this.width = width;
+        this.height = height;
         final float h = (float) width / (float) height;
         gl.glViewport(0, 0, width, height);
         gl.glMatrixMode(GL2.GL_PROJECTION);
@@ -301,7 +305,7 @@ public class JOGLtest implements GLEventListener, KeyListener,MouseListener, Mou
         gl.glLoadIdentity();
 
         // Perspective.
-        float widthHeightRatio = (float) 640 / (float) 480;
+        float widthHeightRatio = (float) width / (float) height;
         glu.gluPerspective(45, widthHeightRatio, 1, 1000);
         /*xl=x+1*Math.sin(xang);
         zl=z-1*Math.cos(xang);

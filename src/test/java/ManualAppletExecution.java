@@ -46,14 +46,6 @@ public class ManualAppletExecution {
     @Test
     @Category(VplMainApplet.class)
     public void manualExecution() {
-        //TestJApplet applet = new VplMainApplet();
-//        TestApplet applet = new TestApplet();
-//        JFrame frame = new JFrame("Manual Applet Execution Test");
-//        frame.add(applet);
-//        frame.setLocationRelativeTo(null);
-//        frame.setVisible(true);
-//        frame.setSize(applet.getSize());
-        
         MainFrame frame = initMainFrame();
         waitUntilWindowClose(frame);
     }
