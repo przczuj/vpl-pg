@@ -12,5 +12,5 @@ import java.util.List;
  */
 public class VplExperimentExecution {
     private VplExperiment experiment;
-    private List<VplExperimentSnapshot> snapshots
+    private List<VplExperimentSnapshot> snapshots;
 }
