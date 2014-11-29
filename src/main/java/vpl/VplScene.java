@@ -15,7 +15,7 @@ import java.util.Map;
 public class VplScene {
     // VplScene (single)
     // |- VplExperiment (starting[] + current)
-    //    |- VplExperimentState (object)
+    //    |- VplExperimentExecution (object)
     //       |- VplObject (physical state)
     //       |  |- VplShape (final + reference)
     //       |- VplForce (can be attached to VplObject)
@@ -30,7 +30,6 @@ public class VplScene {
     // new + load + save
     
     private Map<String, VplExperiment> experiments;
-    private VplExperiment currentExperiment;
-    private List<VplExperimentState> snapshots;
+    private VplExperimentExecution execution;
     private VplSettings settings;
 }

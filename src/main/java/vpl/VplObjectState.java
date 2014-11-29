@@ -4,10 +4,14 @@
  */
 package vpl;
 
+import vpl.math.Triple;
+
 /**
  *
  * @author Przemys³aw Czuj
  */
-public class VplExperimentState {
-    
+public class VplObjectState {
+    private Triple position;
+    private Triple velocity;
+    private Triple rotation;
 }

@@ -4,13 +4,13 @@
  */
 package vpl;
 
-import vpl.math.Triple;
+import java.util.List;
 
 /**
  *
  * @author Przemys³aw Czuj
  */
-public class VplForce {
-    // vector + point
-    private Triple vector;
+public class VplExperimentExecution {
+    private VplExperiment experiment;
+    private List<VplExperimentSnapshot> snapshots
 }

@@ -10,11 +10,8 @@ import java.util.Map;
  *
  * @author Przemys³aw Czuj
  */
-public class VplExperiment {
-    // state + rules of state change in time(/reaction)
-    
-    private Map<String, VplObject> objects;
+class VplExperimentSnapshot {
+    private Map<String, VplObjectState> objectStates;
     private Map<String, VplForce> forces;
     private VplGravity gravity;
-    // private VplExperimentRules rules;
 }
