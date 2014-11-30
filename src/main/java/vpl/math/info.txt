@@ -1,0 +1,4 @@
+Matrix - obs³uga macierzy, g³ównie 3x3
+Triple - wektor w r3
+BasicMath - troche przeksztalcen
+AxisAngle - bez zwiazku z problemem, uzywane do przygotowywanie katow do wyswietlenia z macierzy rotacji

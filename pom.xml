@@ -21,6 +21,25 @@
         <github.global.server>github</github.global.server>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.jogamp.gluegen</groupId>
+            <artifactId>gluegen-rt-main</artifactId>
+            <version>2.2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jogamp.jogl</groupId>
+            <artifactId>jogl-all-main</artifactId>
+            <version>2.2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -31,6 +50,53 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
+            
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.16</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>unit-tests</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <skip>false</skip>
+                            <excludes>
+                                <exclude>**/Manual*.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin> <!-- not yet working -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jarsigner-plugin</artifactId>
+                <version>1.2</version>
+                <executions>
+                    <execution>
+                        <id>sign</id>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <phase>deploy</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <keystore>${project.basedir}\keystore\vplpgSPC.pfx</keystore>
+                    <storetype>pkcs12</storetype>
+                    <alias>pvktmp:dada2fe2-204a-45db-b056-41d900dec043</alias>
+                    <storepass>vplpgPass</storepass>
+                    <keypass>vplpgPass</keypass>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <version>2.8.1</version>
