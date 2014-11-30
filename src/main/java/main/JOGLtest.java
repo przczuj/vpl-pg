@@ -1,4 +1,4 @@
-package org.yourorghere;
+package main;
 
 import com.sun.opengl.util.Animator;
 import java.awt.Frame;

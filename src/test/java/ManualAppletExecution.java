@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 
+import main.VplMainApplet;
 import Acme.MainFrame;
 import java.awt.Window;
 import java.awt.event.ComponentAdapter;

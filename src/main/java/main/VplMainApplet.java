@@ -1,3 +1,5 @@
+package main;
+
 
 import com.jogamp.opengl.util.FPSAnimator;
 import java.awt.BorderLayout;
