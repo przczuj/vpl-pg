@@ -11,7 +11,7 @@ import javax.media.opengl.GL2;
  *
  * @author krzysztof
  */
-public class Cuboid extends Cube{
+public class Cuboid extends Cube {
 
     float b,c;
     

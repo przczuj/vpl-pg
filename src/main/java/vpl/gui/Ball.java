@@ -13,7 +13,7 @@ import javax.media.opengl.glu.GLUquadric;
  *
  * @author krzysztof
  */
-public class Ball extends Shape{
+public class Ball extends Shape {
     float r;
     
     public Ball(float x, float y, float z, float r,float anglex, float angley, float anglez) {

@@ -4,51 +4,36 @@
  */
 package vpl.physics;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * @author kppx
  */
 public class Collision {
-    RigidBody rigidBody1;
-    RigidBody rigidBody2;
-    public boolean collisionPossible()
-    {
-     //not ready yet
+
+    @Getter @Setter private RigidBody rigidBody1;
+    @Getter @Setter private RigidBody rigidBody2;
+
+    public boolean collisionPossible() {
+        //not ready yet
         return boundingBoxesCheck();
     }
-    public boolean collisionHappened()
-    {
-     //not ready yet
+
+    public boolean collisionHappened() {
+        //not ready yet
         return detailedCheck();
     }
 
-    private boolean boundingBoxesCheck()
-    {
+    private boolean boundingBoxesCheck() {
         return true;
     }
 
-    private boolean detailedCheck() 
-    {
+    private boolean detailedCheck() {
         return true;
     }
 
-    public RigidBody getRigidBody1() {
-        return rigidBody1;
-    }
-
-    public void setRigidBody1(RigidBody a) {
-        this.rigidBody1 = a;
-    }
-
-    public RigidBody getRigidBody2() {
-        return rigidBody2;
-    }
-
-    public void setRigidBody2(RigidBody b) {
-        this.rigidBody2 = b;
-    }
-    public void solveCollisions()
-    {
-        
+    public void solveCollisions() {
     }
 }

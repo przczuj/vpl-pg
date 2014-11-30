@@ -8,10 +8,13 @@ package vpl.physics;
  *
  * @author kppx
  */
+import Acme.MainFrame;
 import vpl.physics.Force;
 import vpl.physics.Matrix;
 import javax.swing.*;
 import java.applet.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -27,6 +30,15 @@ public class TestApplet extends Applet {
     private final static int TICK_RATE_MILLISEC = 50;
 
     public static void main(String[] args) {
+        final Applet applet = new TestApplet();
+        final MainFrame frame = new MainFrame(applet, applet.getWidth(), applet.getHeight());
+        applet.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                frame.setPreferredSize(applet.getSize());
+            }
+        });
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     public void main() {
