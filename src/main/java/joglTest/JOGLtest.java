@@ -18,6 +18,7 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
+import javax.swing.JFrame;
 
 
 
@@ -42,7 +43,7 @@ public class JOGLtest implements GLEventListener, KeyListener,MouseListener, Mou
     int height = 600;
     
     public static void main(String[] args) {
-        Frame frame = new Frame("JOGL test");
+        JFrame frame = new JFrame("JOGL test");
         GLCanvas canvas = new GLCanvas();
 
         JOGLtest context = new JOGLtest();

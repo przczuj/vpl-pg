@@ -137,10 +137,9 @@ public class VplMainApplet extends javax.swing.JApplet {
         SaveLoadJToolBar = new javax.swing.JToolBar();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        objectPalleteJPanel = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        objectPropertiesJPanel = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        objectPalleteJScrollPanel = new javax.swing.JScrollPane();
+        elementsList = new javax.swing.JList();
+        objectPropertiesJScrollPanel1 = new javax.swing.JScrollPane();
         mainJPanel = new javax.swing.JPanel();
 
         setMaximumSize(new java.awt.Dimension(800, 600));
@@ -182,19 +181,19 @@ public class VplMainApplet extends javax.swing.JApplet {
 
         getContentPane().add(toolBarJPanel, java.awt.BorderLayout.PAGE_START);
 
-        objectPalleteJPanel.setLayout(new java.awt.BorderLayout());
+        objectPalleteJScrollPanel.setPreferredSize(new java.awt.Dimension(130, 20));
 
-        jButton1.setText("jButton1");
-        objectPalleteJPanel.add(jButton1, java.awt.BorderLayout.CENTER);
+        elementsList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        objectPalleteJScrollPanel.setViewportView(elementsList);
 
-        getContentPane().add(objectPalleteJPanel, java.awt.BorderLayout.LINE_START);
+        getContentPane().add(objectPalleteJScrollPanel, java.awt.BorderLayout.WEST);
 
-        objectPropertiesJPanel.setLayout(new java.awt.BorderLayout());
-
-        jButton2.setText("jButton2");
-        objectPropertiesJPanel.add(jButton2, java.awt.BorderLayout.CENTER);
-
-        getContentPane().add(objectPropertiesJPanel, java.awt.BorderLayout.LINE_END);
+        objectPropertiesJScrollPanel1.setPreferredSize(new java.awt.Dimension(130, 20));
+        getContentPane().add(objectPropertiesJScrollPanel1, java.awt.BorderLayout.EAST);
 
         mainJPanel.setLayout(new java.awt.BorderLayout());
         getContentPane().add(mainJPanel, java.awt.BorderLayout.CENTER);
@@ -202,15 +201,14 @@ public class VplMainApplet extends javax.swing.JApplet {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToolBar ExperimentExecutionJToolBar;
     private javax.swing.JToolBar SaveLoadJToolBar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JList elementsList;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JPanel mainJPanel;
-    private javax.swing.JPanel objectPalleteJPanel;
-    private javax.swing.JPanel objectPropertiesJPanel;
+    private javax.swing.JScrollPane objectPalleteJScrollPanel;
+    private javax.swing.JScrollPane objectPropertiesJScrollPanel1;
     private javax.swing.JPanel toolBarJPanel;
     // End of variables declaration//GEN-END:variables
 }

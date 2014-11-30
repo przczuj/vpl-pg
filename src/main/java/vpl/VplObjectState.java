@@ -4,7 +4,7 @@
  */
 package vpl;
 
-import vpl.math.Triple;
+import vpl.physics.Triple;
 
 /**
  *
