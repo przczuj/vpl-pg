@@ -6,10 +6,6 @@ package vpl;
 
 import java.util.Map;
 
-/**
- *
- * @author Przemys³aw Czuj
- */
 public class VplExperiment {
     // state + rules of state change in time(/reaction)
     

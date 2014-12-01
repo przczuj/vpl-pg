@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vpl.gui;
+package vpl.shapes;
 
 import javax.media.opengl.GL2;
 

@@ -4,10 +4,7 @@
  */
 package vpl;
 
-/**
- *
- * @author Przemys³aw Czuj
- */
+
 public class VplSettings {
     
 }

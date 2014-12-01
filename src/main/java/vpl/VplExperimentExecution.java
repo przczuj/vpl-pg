@@ -6,10 +6,7 @@ package vpl;
 
 import java.util.List;
 
-/**
- *
- * @author Przemys³aw Czuj
- */
+
 public class VplExperimentExecution {
     private VplExperiment experiment;
     private List<VplExperimentSnapshot> snapshots;

@@ -6,10 +6,7 @@ package vpl;
 
 import vpl.physics.Triple;
 
-/**
- *
- * @author Przemys³aw Czuj
- */
+
 public class VplForce {
     // vector + point
     private Triple vector;

@@ -5,6 +5,10 @@
  */
 package vpl.gui;
 
+import vpl.shapes.Ball;
+import vpl.shapes.Cuboid;
+import vpl.shapes.Cube;
+import vpl.shapes.Shape;
 import com.jogamp.opengl.util.Animator;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

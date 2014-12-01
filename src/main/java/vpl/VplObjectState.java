@@ -6,10 +6,7 @@ package vpl;
 
 import vpl.physics.Triple;
 
-/**
- *
- * @author Przemys³aw Czuj
- */
+
 public class VplObjectState {
     private Triple position;
     private Triple velocity;
