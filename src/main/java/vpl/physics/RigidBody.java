@@ -4,6 +4,7 @@
  */
 package vpl.physics;
 
+import vpl.physics.shapes.Shape;
 import vpl.math.Triple;
 import vpl.math.BasicMath;
 import vpl.physics.shapes.BallShape;

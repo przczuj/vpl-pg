@@ -4,7 +4,7 @@ package vpl.physics.controller;
 import vpl.physics.Collision;
 import vpl.physics.Force;
 import vpl.physics.RigidBody;
-import vpl.physics.Shape;
+import vpl.physics.shapes.Shape;
 import vpl.physics.shapes.BallShape;
 import vpl.math.Triple;
 import vpl.physics.api.RigidBodyApi;

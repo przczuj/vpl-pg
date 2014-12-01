@@ -4,7 +4,7 @@ package vpl.physics;
 import vpl.physics.AxisAngle;
 import vpl.physics.Force;
 import vpl.physics.RigidBody;
-import vpl.physics.Shape;
+import vpl.physics.shapes.Shape;
 import vpl.physics.shapes.BallShape;
 import vpl.physics.Torque;
 import vpl.math.Triple;

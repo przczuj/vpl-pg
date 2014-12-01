@@ -13,10 +13,10 @@ import javax.media.opengl.GL2;
  */
 
 public abstract class Shape {
-    protected float x,y,z;
-    protected float anglex,angley,anglez;
+    protected double x,y,z;
+    protected double anglex,angley,anglez;
     
-    Shape(float x,float y,float z, float anglex,float angley, float anglez){
+    Shape(double x,double y,double z, double anglex,double angley, double anglez){
         this.x=x;
         this.y=y;
         this.z=z;
@@ -30,84 +30,84 @@ public abstract class Shape {
     /**
      * @return the x
      */
-    public float getX() {
+    public double getX() {
         return x;
     }
 
     /**
      * @param x the x to set
      */
-    public void setX(float x) {
+    public void setX(double x) {
         this.x = x;
     }
 
     /**
      * @return the y
      */
-    public float getY() {
+    public double getY() {
         return y;
     }
 
     /**
      * @param y the y to set
      */
-    public void setY(float y) {
+    public void setY(double y) {
         this.y = y;
     }
 
     /**
      * @return the z
      */
-    public float getZ() {
+    public double getZ() {
         return z;
     }
 
     /**
      * @param z the z to set
      */
-    public void setZ(float z) {
+    public void setZ(double z) {
         this.z = z;
     }
 
     /**
      * @return the anglex
      */
-    public float getAnglex() {
+    public double getAnglex() {
         return anglex;
     }
 
     /**
      * @param anglex the anglex to set
      */
-    public void setAnglex(float anglex) {
+    public void setAnglex(double anglex) {
         this.anglex = anglex;
     }
 
     /**
      * @return the angley
      */
-    public float getAngley() {
+    public double getAngley() {
         return angley;
     }
 
     /**
      * @param angley the angley to set
      */
-    public void setAngley(float angley) {
+    public void setAngley(double angley) {
         this.angley = angley;
     }
 
     /**
      * @return the anglez
      */
-    public float getAnglez() {
+    public double getAnglez() {
         return anglez;
     }
 
     /**
      * @param anglez the anglez to set
      */
-    public void setAnglez(float anglez) {
+    public void setAnglez(double anglez) {
         this.anglez = anglez;
     }
 }

@@ -14,9 +14,9 @@ import javax.media.opengl.glu.GLUquadric;
  * @author krzysztof
  */
 public class Ball extends Shape{
-    float r;
+    double r;
     
-    public Ball(float x, float y, float z, float r,float anglex, float angley, float anglez) {
+    public Ball(double x, double y, double z, double r,double anglex, double angley, double anglez) {
         super(x, y, z, anglex, angley, anglez);
         this.r=r;
     }
@@ -26,10 +26,10 @@ public class Ball extends Shape{
         gl.glPushMatrix();
         GLU glu=new GLU();
         gl.glColor3f(0.3f,0.5f,0.3f);
-        gl.glTranslatef(x, y, z);
-        gl.glRotatef(anglex, 1, 0, 0);
-        gl.glRotatef(angley, 0, 1, 0);
-        gl.glRotatef(anglez, 0, 0, 1);
+        gl.glTranslated(x, y, z);
+        gl.glRotated(anglex, 1, 0, 0);
+        gl.glRotated(angley, 0, 1, 0);
+        gl.glRotated(anglez, 0, 0, 1);
         GLUquadric quadric=glu.gluNewQuadric();
         glu.gluQuadricDrawStyle(quadric, GLU.GLU_FILL);
         glu.gluQuadricNormals(quadric, GLU.GLU_FLAT);

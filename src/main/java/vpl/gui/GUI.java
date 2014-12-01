@@ -17,6 +17,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAnimatorControl;
@@ -29,30 +31,35 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import vpl.shapes.Cone;
 import vpl.shapes.Cyllinder;
+import vpl.physics.controller.ControllerStub;
+import vpl.physics.shapes.BallShape;
 
 /**
  *
  * @author krzysztof
  */
 public class GUI extends javax.swing.JFrame {
+
     /**
      * Creates new form GUI
      */
-    double xl,yl,zl;
-    float xang=0,yang=0;
-    float x,y,z;
-    double py=0;
-    int mx,my;
-    public static List<Shape> shapesList=new ArrayList<Shape>();
-    
+    double xl, yl, zl;
+    double xang = 0, yang = 0;
+    double x, y, z;
+    double py = 0;
+    int mx, my;
+    public static List<Shape> shapesList = new ArrayList<Shape>();
+    ControllerStub api;
+
     public GUI() {
         glCanvas = new GLCanvas();
-        
+
         initComponents();
+        ControllerStub api = new ControllerStub();
         this.jPanel1.add(this.glCanvas);
         glCanvas.setSize(jPanel1.getSize());
-        
-        DefaultListModel<String> model=new DefaultListModel<String>();
+
+        DefaultListModel<String> model = new DefaultListModel<String>();
         model.addElement("ball");
         model.addElement("cube");
         model.addElement("cuboid");
@@ -64,10 +71,10 @@ public class GUI extends javax.swing.JFrame {
             public void valueChanged(ListSelectionEvent lse) {
                 //tu będzie blokowanie odpowiednich pól
             }
-        } );       
+        });
     }
-    
-    public void prepareJOGL(){
+
+    public void prepareJOGL() {
         this.glCanvas.addKeyListener(new KeyListener() {
 
             @Override
@@ -163,9 +170,9 @@ public class GUI extends javax.swing.JFrame {
                 /*if(Math.abs(yang)>2*Math.PI)
                  yang=0;*/
                 if (yang > Math.PI / 2) {
-                    yang = (float) (Math.PI / 2);
+                    yang = (double) (Math.PI / 2);
                 } else if (yang < -Math.PI / 2) {
-                    yang = (float) (-Math.PI / 2);
+                    yang = (double) (-Math.PI / 2);
                 }
                 System.out.println("Poruszona, yang=" + yang);
             }
@@ -258,7 +265,7 @@ public class GUI extends javax.swing.JFrame {
                 gl.glLoadIdentity();
 
                 // Perspective.
-                float widthHeightRatio = (float) 640 / (float) 480;
+                double widthHeightRatio = (double) 640 / (double) 480;
                 glu.gluPerspective(45, widthHeightRatio, 1, 1000);
 
                 xl = Math.sin(xang);
@@ -297,7 +304,7 @@ public class GUI extends javax.swing.JFrame {
 
                     height = 1;
                 }
-                final float h = (float) width / (float) height;
+                final double h = (double) width / (double) height;
                 gl.glViewport(0, 0, width, height);
                 gl.glMatrixMode(GL2.GL_PROJECTION);
                 gl.glLoadIdentity();
@@ -306,9 +313,10 @@ public class GUI extends javax.swing.JFrame {
                 gl.glLoadIdentity();
             }
         });
-        final Animator animator=new Animator(this.glCanvas);
+        final Animator animator = new Animator(this.glCanvas);
         animator.start();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -525,62 +533,39 @@ public class GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addShapeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addShapeButtonActionPerformed
-        String selected= this.elementsList.getSelectedValue().toString();
-        if(selected.equals("ball")){
-            float x=Float.parseFloat(xTextField.getText());
-            float y=Float.parseFloat(yTextField.getText());
-            float z=Float.parseFloat(zTextField.getText());
-            float r=Float.parseFloat(rTextField.getText());
-            float xa=Float.parseFloat(xAngleTextField.getText());
-            float ya=Float.parseFloat(yAngleTextField.getText());
-            float za=Float.parseFloat(zAngleTextField.getText());
-            shapesList.add(new Ball(x,y,z,r,xa,ya,za));
-        }
-        else if(selected.equals("cube")){
-            float x=Float.parseFloat(xTextField.getText());
-            float y=Float.parseFloat(yTextField.getText());
-            float z=Float.parseFloat(zTextField.getText());
-            float xa=Float.parseFloat(xAngleTextField.getText());
-            float ya=Float.parseFloat(yAngleTextField.getText());
-            float za=Float.parseFloat(zAngleTextField.getText());
-            float a=Float.parseFloat(aTextField.getText());
-            shapesList.add(new Cube(x,y,z,xa,ya,za,a));
-        }
-        else if(selected.equals("cuboid")){
-            float x=Float.parseFloat(xTextField.getText());
-            float y=Float.parseFloat(yTextField.getText());
-            float z=Float.parseFloat(zTextField.getText());
-            float xa=Float.parseFloat(xAngleTextField.getText());
-            float ya=Float.parseFloat(yAngleTextField.getText());
-            float za=Float.parseFloat(zAngleTextField.getText());
-            float a=Float.parseFloat(aTextField.getText());
-            float b=Float.parseFloat(bTextField.getText());
-            float c=Float.parseFloat(cTextField.getText());
-            shapesList.add(new Cuboid(x,y,z,xa,ya,za,a,b,c));
-        }
-        else if(selected.equals("cyllinder")){
-            float x=Float.parseFloat(xTextField.getText());
-            float y=Float.parseFloat(yTextField.getText());
-            float z=Float.parseFloat(zTextField.getText());
-            float xa=Float.parseFloat(xAngleTextField.getText());
-            float ya=Float.parseFloat(yAngleTextField.getText());
-            float za=Float.parseFloat(zAngleTextField.getText());
-            float r=Float.parseFloat(rTextField.getText());
-            float h=Float.parseFloat(hTextField.getText());
-            shapesList.add(new Cyllinder(x,y,z,xa,ya,za,r,h));
-        }
-        else if(selected.equals("cone")){
-            float x=Float.parseFloat(xTextField.getText());
-            float y=Float.parseFloat(yTextField.getText());
-            float z=Float.parseFloat(zTextField.getText());
-            float xa=Float.parseFloat(xAngleTextField.getText());
-            float ya=Float.parseFloat(yAngleTextField.getText());
-            float za=Float.parseFloat(zAngleTextField.getText());
-            float r=Float.parseFloat(rTextField.getText());
-            float h=Float.parseFloat(hTextField.getText());
-            shapesList.add(new Cone(x,y,z,xa,ya,za,r,h));
-        }
-        else{
+        String selected = this.elementsList.getSelectedValue().toString();
+        double x = Double.parseDouble(xTextField.getText());
+        double y = Double.parseDouble(yTextField.getText());
+        double z = Double.parseDouble(zTextField.getText());
+        double r = Double.parseDouble(rTextField.getText());
+        double xa = Double.parseDouble(xAngleTextField.getText());
+        double ya = Double.parseDouble(yAngleTextField.getText());
+        double za = Double.parseDouble(zAngleTextField.getText());
+        double h = Double.parseDouble(hTextField.getText());
+        double a = Double.parseDouble(aTextField.getText());
+        double b = Double.parseDouble(bTextField.getText());
+        double c = Double.parseDouble(cTextField.getText());
+
+        if (selected.equals("ball")) {
+            shapesList.add(new Ball(x, y, z, r, xa, ya, za));
+            try {
+                BallShape ball=new BallShape();
+                //shape.setR(()r);
+            } catch (Exception ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            //api.createRigidBody(new Shape(), null, 0, 10);
+            
+        } else if (selected.equals("cube")) {
+            shapesList.add(new Cube(x, y, z, xa, ya, za, a));
+        } else if (selected.equals("cuboid")) {
+            shapesList.add(new Cuboid(x, y, z, xa, ya, za, a, b, c));
+        } else if (selected.equals("cyllinder")) {
+            shapesList.add(new Cyllinder(x, y, z, xa, ya, za, r, h));
+        } else if (selected.equals("cone")) {
+            shapesList.add(new Cone(x, y, z, xa, ya, za, r, h));
+        } else {
             System.out.println("ERROR. WRONG SELECTION");
         }
     }//GEN-LAST:event_addShapeButtonActionPerformed
@@ -611,14 +596,12 @@ public class GUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
-               
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                GUI gui=new GUI();
-                gui.setVisible(true);  
+                GUI gui = new GUI();
+                gui.setVisible(true);
                 gui.prepareJOGL();
             }
         });

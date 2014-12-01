@@ -13,9 +13,9 @@ import javax.media.opengl.GL2;
  */
 public class Cyllinder extends Shape {
 
-    protected float r, h;
+    protected double r, h;
 
-    public Cyllinder(float x, float y, float z, float anglex, float angley, float anglez, float r, float h) {
+    public Cyllinder(double x, double y, double z, double anglex, double angley, double anglez, double r, double h) {
         super(x, y, z, anglex, angley, anglez);
         this.r = r;
         this.h = h;
@@ -26,17 +26,17 @@ public class Cyllinder extends Shape {
 
         gl.glBegin(GL2.GL_TRIANGLE_FAN);
         gl.glColor3f(1, 0, 0);
-        gl.glVertex3f(x, y - (h / 2), z);
+        gl.glVertex3d(x, y - (h / 2), z);
         for (int i = 0; i <= 36; i++) {
-            gl.glVertex3f(x + (float) (r*Math.cos(Math.PI * 2  * i / 36)), y - (h / 2), z + (float) (r*Math.sin(Math.PI * 2  * i / 36)));
+            gl.glVertex3d(x + (double) (r*Math.cos(Math.PI * 2  * i / 36)), y - (h / 2), z + (double) (r*Math.sin(Math.PI * 2  * i / 36)));
         }
         gl.glEnd();
 
         gl.glBegin(GL2.GL_TRIANGLE_FAN);
         gl.glColor3f(0, 1, 0);
-        gl.glVertex3f(x, y + (h / 2), z);
+        gl.glVertex3d(x, y + (h / 2), z);
         for (int i = 0; i <= 36; i++) {
-            gl.glVertex3f(x + (float) (r*Math.cos(Math.PI * 2 *  i / 36)), y + (h / 2), z + (float) (r*Math.sin(Math.PI * 2 * i / 36)));
+            gl.glVertex3d(x + (double) (r*Math.cos(Math.PI * 2 *  i / 36)), y + (h / 2), z + (double) (r*Math.sin(Math.PI * 2 * i / 36)));
         }
         gl.glEnd();
 
@@ -45,11 +45,11 @@ public class Cyllinder extends Shape {
 
         for (int i = 0; i <= 36; i++) {
 
-            float s = (float) Math.sin(Math.PI * 2 * i / 36.0);
-            float c = (float) Math.cos(Math.PI * 2 * i / 36.0);
+            double s = (double) Math.sin(Math.PI * 2 * i / 36.0);
+            double c = (double) Math.cos(Math.PI * 2 * i / 36.0);
 
-            gl.glVertex3f(x + r * c, y - (h / 2), z + r * s);
-            gl.glVertex3f(x + r * c, y + (h / 2), z + r * s);
+            gl.glVertex3d(x + r * c, y - (h / 2), z + r * s);
+            gl.glVertex3d(x + r * c, y + (h / 2), z + r * s);
         }
         gl.glEnd();
 
