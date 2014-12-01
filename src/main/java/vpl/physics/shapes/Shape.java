@@ -73,7 +73,8 @@ public abstract class Shape {
     {   
          IBody = new Matrix(3,3);
          NormalizedIBody = new Matrix(3,3);
-         type = new String("DEFAULT");
+         if(type==null)
+            type = new String("DEFAULT");
     //     setDefault();
       //  BasicMath mathLogic = new BasicMath();
          

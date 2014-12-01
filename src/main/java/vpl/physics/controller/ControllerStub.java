@@ -138,7 +138,7 @@ public class ControllerStub {
         rb.setPosition(position);
         rb.setMass(mass);
         rb.getShape().recalculate();
-        
+        rigidBodies.add(rb);
     }
     public void createUniformForce(Triple value)
     {

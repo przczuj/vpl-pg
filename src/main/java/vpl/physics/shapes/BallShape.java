@@ -19,8 +19,9 @@ public class BallShape extends Shape{
     }
     public BallShape() throws Exception
             {
+                super();
              init();   
-             type = new String("BALL");
+             type = "BALL";
             }
     public void setR(double r) {
         this.r = r;

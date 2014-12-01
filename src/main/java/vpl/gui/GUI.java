@@ -29,10 +29,15 @@ import javax.media.opengl.glu.GLU;
 import javax.swing.DefaultListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import vpl.math.Triple;
+import vpl.physics.RigidBody;
 import vpl.shapes.Cone;
 import vpl.shapes.Cyllinder;
 import vpl.physics.controller.ControllerStub;
 import vpl.physics.shapes.BallShape;
+import vpl.physics.shapes.ConeShape;
+import vpl.physics.shapes.CuboidShape;
+import vpl.physics.shapes.CyllinderShape;
 
 /**
  *
@@ -55,7 +60,7 @@ public class GUI extends javax.swing.JFrame {
         glCanvas = new GLCanvas();
 
         initComponents();
-        ControllerStub api = new ControllerStub();
+        api = new ControllerStub();
         this.jPanel1.add(this.glCanvas);
         glCanvas.setSize(jPanel1.getSize());
 
@@ -257,6 +262,20 @@ public class GUI extends javax.swing.JFrame {
                 gl.glVertex3f(0.5f, 2f, -0.5f);
                 gl.glEnd();
 
+                shapesList = new ArrayList<Shape>();
+                List<RigidBody> rigidBodiesList = api.getRigidBodies();
+                for (RigidBody rb : rigidBodiesList) {
+                    String type = rb.getShape().getType();
+                    Triple position = rb.getPosition();
+                    Triple angles = rb.getRotationAngles().getAngles();
+                    switch (type.toUpperCase()) {
+                        case "BALL":
+                            shapesList.add(new Ball(position.getX(), position.getY(),
+                                    position.getZ(), ((BallShape) rb.getShape()).getR(), angles.getX(), angles.getY(), angles.getZ()
+                            ));
+                            break;
+                    }
+                }
                 for (Shape s : shapesList) {
                     s.draw(gl);
                 }
@@ -547,23 +566,62 @@ public class GUI extends javax.swing.JFrame {
         double c = Double.parseDouble(cTextField.getText());
 
         if (selected.equals("ball")) {
+
             shapesList.add(new Ball(x, y, z, r, xa, ya, za));
+
             try {
-                BallShape ball=new BallShape();
-                //shape.setR(()r);
+                BallShape ball = new BallShape();
+                ball.setR(r);
+                ball.setType("BALL");
+                api.createRigidBody(ball, new Triple(x, y, z), 0, 10);
             } catch (Exception ex) {
                 Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            //api.createRigidBody(new Shape(), null, 0, 10);
-            
         } else if (selected.equals("cube")) {
+            try {
+                CuboidShape cube = new CuboidShape();
+                cube.setX(a);
+                cube.setY(a);
+                cube.setZ(a);
+                api.createRigidBody(cube, new Triple(x, y, z), 0, 10);
+            } catch (Exception ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
             shapesList.add(new Cube(x, y, z, xa, ya, za, a));
         } else if (selected.equals("cuboid")) {
+            try {
+                CuboidShape cuboid = new CuboidShape();
+                cuboid.setX(a);
+                cuboid.setY(b);
+                cuboid.setZ(c);
+                api.createRigidBody(cuboid, new Triple(x, y, z), 0, 10);
+
+            } catch (Exception ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             shapesList.add(new Cuboid(x, y, z, xa, ya, za, a, b, c));
         } else if (selected.equals("cyllinder")) {
+            try {
+                CyllinderShape cyllinder = new CyllinderShape();
+                cyllinder.setR(r);
+                cyllinder.setH(h);
+                api.createRigidBody(cyllinder, new Triple(x, y, z), 0, 10);
+            } catch (Exception ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             shapesList.add(new Cyllinder(x, y, z, xa, ya, za, r, h));
         } else if (selected.equals("cone")) {
+            try {
+                ConeShape cone = new ConeShape();
+                cone.setR(r);
+                cone.setH(h);
+                api.createRigidBody(cone, new Triple(x, y, z), 0, 10);
+            } catch (Exception ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             shapesList.add(new Cone(x, y, z, xa, ya, za, r, h));
         } else {
             System.out.println("ERROR. WRONG SELECTION");
