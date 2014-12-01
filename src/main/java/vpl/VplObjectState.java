@@ -6,7 +6,6 @@ package vpl;
 
 import vpl.math.Triple;
 
-
 public class VplObjectState {
     private Triple position;
     private Triple velocity;

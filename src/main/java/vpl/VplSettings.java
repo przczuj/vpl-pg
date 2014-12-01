@@ -4,7 +4,6 @@
  */
 package vpl;
 
-
 public class VplSettings {
     
 }

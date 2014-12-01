@@ -58,6 +58,14 @@ public class MovementTest {
         performTest();
         
     }
+    
+    public static void main(String[] args) {
+        try {
+            new MovementTest().main();
+        } catch (Exception ex) {
+            Logger.getLogger(TorqueTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
         
     public void main()
     {

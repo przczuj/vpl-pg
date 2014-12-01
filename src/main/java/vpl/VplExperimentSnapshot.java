@@ -6,7 +6,6 @@ package vpl;
 
 import java.util.Map;
 
-
 class VplExperimentSnapshot {
     private Map<String, VplObjectState> objectStates;
     private Map<String, VplForce> forces;

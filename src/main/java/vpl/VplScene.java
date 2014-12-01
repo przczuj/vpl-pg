@@ -3,7 +3,6 @@ package vpl;
 import java.util.List;
 import java.util.Map;
 
-
 public class VplScene {
     // VplScene (single)
     // |- VplExperiment (starting[] + current)

@@ -28,7 +28,7 @@ public class Cone extends Shape {
         gl.glColor3f(1, 0, 0);
         gl.glVertex3d(x, y - (h / 4), z);
         for (int i = 0; i < 36; i++) {
-            gl.glVertex3d(x + (double) (r* Math.cos(Math.PI * 2  * i / 35)), y - (h / 4), z + (double) (r*Math.sin(Math.PI * 2 * i / 35)));
+            gl.glVertex3d(x + (double) (r * Math.cos(Math.PI * 2 * i / 35)), y - (h / 4), z + (double) (r * Math.sin(Math.PI * 2 * i / 35)));
         }
         gl.glEnd();
 
@@ -36,9 +36,8 @@ public class Cone extends Shape {
         gl.glColor3f(0, 1, 0);
         gl.glVertex3d(x, y + (3 / 4 * h), z);
         for (int i = 0; i < 36; i++) {
-            gl.glVertex3d(x + (double) (r*Math.cos(Math.PI * 2 * i / 35)), y - (h / 4), z + (double) (r* Math.sin(Math.PI * 2 * i / 35)));
+            gl.glVertex3d(x + (double) (r * Math.cos(Math.PI * 2 * i / 35)), y - (h / 4), z + (double) (r * Math.sin(Math.PI * 2 * i / 35)));
         }
         gl.glEnd();
     }
-
 }

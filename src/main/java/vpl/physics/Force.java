@@ -5,34 +5,20 @@
 package vpl.physics;
 
 import vpl.math.Triple;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  * @author kppx
  */
 public class Force {
-   private Triple forceValue;
-   private Triple forceLocation;
-   
-   public Force()
-   {
-    forceValue=new Triple();
-    forceLocation = new Triple();
-   }
-    public Triple getForceValue() {
-        return forceValue;
-    }
 
-    public void setForceValue(Triple forceValue) {
-        this.forceValue = forceValue;
-    }
+    @Getter @Setter private Triple forceValue;
+    @Getter @Setter private Triple forceLocation;
 
-    public Triple getForceLocation() {
-        return forceLocation;
+    public Force() {
+        forceValue = new Triple();
+        forceLocation = new Triple();
     }
-
-    public void setForceLocation(Triple forceLocation) {
-        this.forceLocation = forceLocation;
-    }
-   
 }

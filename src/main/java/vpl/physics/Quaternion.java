@@ -11,7 +11,6 @@ import vpl.math.Triple;
  *
  * @author kppx
  */
-
 //quaternion s + vx i + vy j + vz k
 //will be written asthe pair [s,v]
 //under this notation
@@ -35,29 +34,27 @@ import vpl.math.Triple;
 //q[3]= (R[1][0] - R[0][1])*s2
 //else....
 //
-
 public class Quaternion {
-    double w,x,y,z;
-    double s;
-    Triple v;
-    public Quaternion()
-    {
+
+    private double w, x, y, z;
+    private double s;
+    private Triple v;
+
+    public Quaternion() {
         v = new Triple();
         s = 0;
-        
+
     }
-    
+
     //obtaining rotation matrix from quaternion:
 // [1-2vy^2-2vz^2,2vxvy -   2svz, 2vxvz+2svy]
 // [2vxvy +2svz, 1-2v^2 - 2vz^2, 2vyvz-2svx]
 // [2vxvz - 2svy, 2vvz+2svx, 1-2vx^2-2vy^2]
-    public Matrix toRotationMatrix()
-    {
-     Matrix mat = new Matrix(3,3);
-     mat.setValueAt(0, 0, (1-2*Math.pow(v.getY(), 2) - 2*Math.pow(v.getZ(), 2)));
-     mat.setValueAt(1, 0, (1-2*Math.pow(v.getY(), 2) - 2*Math.pow(v.getZ(), 2)));
-    /// mat.
-     return mat;
+    public Matrix toRotationMatrix() {
+        Matrix mat = new Matrix(3, 3);
+        mat.setValueAt(0, 0, (1 - 2 * Math.pow(v.getY(), 2) - 2 * Math.pow(v.getZ(), 2)));
+        mat.setValueAt(1, 0, (1 - 2 * Math.pow(v.getY(), 2) - 2 * Math.pow(v.getZ(), 2)));
+        /// mat.
+        return mat;
     }
-        
 }

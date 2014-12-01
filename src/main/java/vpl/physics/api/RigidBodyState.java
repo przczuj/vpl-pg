@@ -4,6 +4,8 @@
  */
 package vpl.physics.api;
 
+import lombok.Getter;
+import lombok.Setter;
 import vpl.physics.AxisAngle;
 import vpl.math.Triple;
 
@@ -12,22 +14,7 @@ import vpl.math.Triple;
  * @author kppx
  */
 public class RigidBodyState {
-    private AxisAngle angles;
 
-    public AxisAngle getAngles() {
-        return angles;
-    }
-
-    public void setAngles(AxisAngle angles) {
-        this.angles = angles;
-    }
-
-    public Triple getLocation() {
-        return location;
-    }
-
-    public void setLocation(Triple location) {
-        this.location = location;
-    }
-    private Triple location;
+    @Getter @Setter private AxisAngle angles;
+    @Getter @Setter private Triple location;
 }
