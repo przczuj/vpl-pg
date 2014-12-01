@@ -4,6 +4,8 @@
  */
 package vpl.physics;
 
+import vpl.math.Triple;
+
 /**
  *
  * @author kppx

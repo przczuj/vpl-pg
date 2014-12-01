@@ -4,6 +4,8 @@
  */
 //partially inspired by http://www.codeproject.com/Articles/405128/Matrix-operations-in-Java
 package vpl.math;
+import vpl.math.Triple;
+import vpl.math.BasicMath;
 import javax.swing.JOptionPane;
 /**
  *
@@ -33,13 +35,23 @@ public class Matrix {
     {
         return (matrix.getValueAt(0, 0) * matrix.getValueAt(1, 1)) - ( matrix.getValueAt(0, 1) * matrix.getValueAt(1, 0));
     }
+    if(matrix.getColumns()==3)
+    {
+        return ((matrix.getValueAt(0, 0)*matrix.getValueAt(1, 1)*matrix.getValueAt(2, 2))+(matrix.getValueAt(0, 1)*matrix.getValueAt(1, 2)*matrix.getValueAt(0, 2))+(matrix.getValueAt(2, 0)*matrix.getValueAt(0, 1)*matrix.getValueAt(1, 2))
+                -(matrix.getValueAt(0, 0)*matrix.getValueAt(2, 1)*matrix.getValueAt(1, 2))-(matrix.getValueAt(0, 1)*matrix.getValueAt(1, 0)*matrix.getValueAt(2, 2))-(matrix.getValueAt(0, 2)*matrix.getValueAt(1, 1)*matrix.getValueAt(2, 0)));
+    }
     double sum = 0.0;
     for (int i=0; i<matrix.getColumns(); i++) 
     {
         sum += (-1)*(i) * matrix.getValueAt(0, i) * determinant(createSubMatrix(matrix, 0, i));
     }
+    
     return sum;
 } 
+    
+    
+    
+    
     public  Matrix createSubMatrix(Matrix matrix, int excludingRow, int excludingColumn) {
     Matrix mat = new Matrix(matrix.getRows()-1, matrix.getColumns()-1);
     int r = -1;
@@ -53,8 +65,8 @@ public class Matrix {
         {
             if (j==excludingColumn)
                 continue;
-            c++;
             mat.setValueAt(r, c, matrix.getValueAt(i, j));
+            c++;
         }
     }
     return mat;
@@ -80,6 +92,7 @@ public class Matrix {
     public  Matrix inverse(Matrix matrix) throws NoSquareException {
         Matrix mat = transpose(cofactor(matrix));
         BasicMath mathLogic = new BasicMath();
+        double test = (1.0/determinant(matrix));
         return mathLogic.multiplyByScalar((1.0/determinant(matrix)), mat);
 }
     public void setColumns(int columns) {

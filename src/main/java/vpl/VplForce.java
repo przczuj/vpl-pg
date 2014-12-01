@@ -4,7 +4,7 @@
  */
 package vpl;
 
-import vpl.physics.Triple;
+import vpl.math.Triple;
 
 
 public class VplForce {

@@ -4,9 +4,12 @@
  */
 package vpl.physics;
 
+import vpl.math.Triple;
+import vpl.math.BasicMath;
 import vpl.physics.shapes.BallShape;
 import java.util.ArrayList;
 import java.util.List;
+import vpl.math.Matrix;
 
 /**
  *

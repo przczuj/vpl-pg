@@ -7,7 +7,7 @@ import vpl.physics.RigidBody;
 import vpl.physics.Shape;
 import vpl.physics.shapes.BallShape;
 import vpl.physics.Torque;
-import vpl.physics.Triple;
+import vpl.math.Triple;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

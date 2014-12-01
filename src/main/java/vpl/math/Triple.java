@@ -3,6 +3,9 @@
  * and open the template in the editor.
  */
 package vpl.math;
+
+import vpl.math.Matrix;
+
 /**
  *
  * @author kppx
@@ -58,12 +61,22 @@ public class Triple {
      return t;
     }
 
-    Matrix toMatrix() {
+    public Matrix toMatrix() {
         Matrix mat = new Matrix(3,1);
         mat.setValueAt(0, 0, getX());  
         mat.setValueAt(1, 0, getY()); 
         mat.setValueAt(2, 0, getZ()); 
         return mat;
     }
-
+    @Override
+    public String toString()
+    {
+       StringBuilder sb = new StringBuilder();
+       sb.append("X: " + this.x + " Y: " + this.y + " Z: " + this.z);
+       return sb.toString();
+    }
+    public void print()
+    {
+        System.out.println(toString());
+    }
 }

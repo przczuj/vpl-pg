@@ -5,7 +5,7 @@
 package vpl.physics.api;
 
 import vpl.physics.AxisAngle;
-import vpl.physics.Triple;
+import vpl.math.Triple;
 
 /**
  *

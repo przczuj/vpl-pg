@@ -9,7 +9,7 @@ package vpl.physics;
  * @author kppx
  */
 import vpl.physics.Force;
-import vpl.physics.Matrix;
+import vpl.math.Matrix;
 import javax.swing.*;
 import java.applet.*;
 import java.util.TimerTask;
@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import vpl.physics.RigidBody;
-import vpl.physics.Triple;
+import vpl.math.Triple;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

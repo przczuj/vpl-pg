@@ -6,6 +6,7 @@ package vpl.physics;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import vpl.math.Matrix;
 
 /**
  *

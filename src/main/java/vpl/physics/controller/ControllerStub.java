@@ -6,7 +6,7 @@ import vpl.physics.Force;
 import vpl.physics.RigidBody;
 import vpl.physics.Shape;
 import vpl.physics.shapes.BallShape;
-import vpl.physics.Triple;
+import vpl.math.Triple;
 import vpl.physics.api.RigidBodyApi;
 import vpl.physics.api.RigidBodyDrawingInfo;
 import java.util.ArrayList;
