@@ -30,6 +30,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import vpl.math.Triple;
+import vpl.model.VplScene;
 import vpl.physics.RigidBody;
 import vpl.shapes.Cone;
 import vpl.shapes.Cyllinder;
@@ -55,8 +56,11 @@ public class GUI extends javax.swing.JFrame {
     int mx, my;
     public static List<Shape> shapesList = new ArrayList<Shape>();
     ControllerStub api;
+    
+    private VplScene sceneModel;
 
     public GUI() {
+        sceneModel = new VplScene();
         glCanvas = new GLCanvas();
 
         initComponents();
@@ -80,258 +84,11 @@ public class GUI extends javax.swing.JFrame {
     }
 
     public void prepareJOGL() {
-        this.glCanvas.addKeyListener(new KeyListener() {
-
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                //throw new UnsupportedOperationException("Not supported yet.");
-                int key = e.getKeyCode();
-                double x1 = xl - x;
-                double y1 = yl - y;
-                double z1 = zl - z;
-                int sx = 1, sz = 1;
-                if (x1 >= 0 && z1 >= 0) {
-                    sx = 1;
-                    sz = -1;
-                } else if (x1 <= 0 && z1 > 0) {
-                    sx = 1;
-                    sz = -1;
-                } else if (x1 < 0 && z1 <= 0) {//ok
-                    sx = 1;
-                    sz = -1;
-                } else if (x1 >= 0 && z1 < 0) {//ok
-                    sx = 1;
-                    sz = -1;
-                }
-                switch (key) {
-                    case KeyEvent.VK_A: //37:
-                        //trzeba wyliczyć jak się poruszyć
-                        //mamy wektor
-
-                        x += sx * 0.1 * z1;
-                        y += 0;
-                        z += sz * 0.1 * x1;
-                        break;
-                    case KeyEvent.VK_W: //38:
-                        x += 0.1 * x1;
-                        y += 0.1 * y1;
-                        z += 0.1 * z1;
-                        break;
-                    case KeyEvent.VK_D: //39:
-                        x -= sx * 0.1 * z1;
-                        y -= 0;
-                        z -= sz * 0.1 * x1;
-                        break;
-                    case KeyEvent.VK_S: //40:
-                        x -= 0.1 * x1;
-                        y -= 0.1 * y1;
-                        z -= 0.1 * z1;
-                        break;
-                    case KeyEvent.VK_SPACE: //'W':
-                        y += 0.1;
-                        break;
-                    case KeyEvent.VK_SHIFT: //'S':
-                        y -= 0.1;
-                        break;
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-            }
-        });
-        this.glCanvas.addMouseListener(new MouseListener() {
-            public void mouseClicked(MouseEvent me) {
-            }
-
-            public void mousePressed(MouseEvent me) {
-                System.out.println("Pressed");
-                mx = me.getX();
-                my = me.getY();
-            }
-
-            public void mouseReleased(MouseEvent me) {
-            }
-
-            public void mouseEntered(MouseEvent me) {
-            }
-
-            public void mouseExited(MouseEvent me) {
-            }
-        });
-        this.glCanvas.addMouseMotionListener(new MouseMotionListener() {
-            public void mouseDragged(MouseEvent me) {
-                xang += (me.getX() - mx) / 100.0;
-                mx = me.getX();
-                yang -= (me.getY() - my) / 100.0;
-                my = me.getY();
-                if (Math.abs(xang) > 2 * Math.PI) {
-                    xang = 0;
-                }
-                /*if(Math.abs(yang)>2*Math.PI)
-                 yang=0;*/
-                if (yang > Math.PI / 2) {
-                    yang = (double) (Math.PI / 2);
-                } else if (yang < -Math.PI / 2) {
-                    yang = (double) (-Math.PI / 2);
-                }
-                System.out.println("Poruszona, yang=" + yang);
-            }
-
-            public void mouseMoved(MouseEvent me) {
-            }
-        });
-        this.glCanvas.addGLEventListener(new GLEventListener() {
-
-            @Override
-            public void init(GLAutoDrawable drawable) {
-                GL2 gl = drawable.getGL().getGL2();
-                gl.setSwapInterval(1);
-                gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-                gl.glShadeModel(GL2.GL_SMOOTH); // try setting this to GL_FLAT and see what happens.
-                gl.glEnable(GL.GL_DEPTH_TEST);
-                gl.glDepthFunc(GL.GL_LEQUAL);
-            }
-
-            @Override
-            public void dispose(GLAutoDrawable drawable) {
-                //tu będzie  jakiś komentarz, póki co DUPA!!!!!!!!!!!!!!!!!(by kłuło w oczy, i bym szybko zmienił)
-            }
-
-            @Override
-            public void display(GLAutoDrawable drawable) {
-                GL2 gl = drawable.getGL().getGL2();
-                GLU glu = new GLU();
-
-                // Clear the drawing area
-                gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-                // Reset the current matrix to the "identity"
-                gl.glLoadIdentity();
-                gl.glPushMatrix();
-
-                //dla odniesienia
-                gl.glBegin(GL2.GL_QUADS);
-                gl.glColor3f(1f, 0f, 0f);
-                gl.glVertex3f(-0.5f, -0.5f, -2f);
-                gl.glVertex3f(0.5f, -0.5f, -2f);
-                gl.glVertex3f(0.5f, 0.5f, -2f);
-                gl.glVertex3f(-0.5f, 0.5f, -2f);
-                gl.glEnd();
-
-                gl.glBegin(GL2.GL_QUADS);
-                gl.glColor3f(0f, 1f, 0f);
-                gl.glVertex3f(-0.5f, -0.5f, 2f);
-                gl.glVertex3f(0.5f, -0.5f, 2f);
-                gl.glVertex3f(0.5f, 0.5f, 2f);
-                gl.glVertex3f(-0.5f, 0.5f, 2f);
-                gl.glEnd();
-
-                gl.glBegin(GL2.GL_QUADS);
-                gl.glColor3f(0f, 0f, 1f);
-                gl.glVertex3f(-2f, -0.5f, -0.5f);
-                gl.glVertex3f(-2f, -0.5f, 0.5f);
-                gl.glVertex3f(-2f, 0.5f, 0.5f);
-                gl.glVertex3f(-2f, 0.5f, -0.5f);
-                gl.glEnd();
-
-                gl.glBegin(GL2.GL_QUADS);
-                gl.glColor3f(1f, 1f, 1f);
-                gl.glVertex3f(2f, -0.5f, -0.5f);
-                gl.glVertex3f(2f, -0.5f, 0.5f);
-                gl.glVertex3f(2f, 0.5f, 0.5f);
-                gl.glVertex3f(2f, 0.5f, -0.5f);
-                gl.glEnd();
-
-                gl.glBegin(GL2.GL_QUADS);
-                gl.glColor3f(1f, 1f, 0f);
-                gl.glVertex3f(0.5f, -2f, 0.5f);
-                gl.glVertex3f(-0.5f, -2f, 0.5f);
-                gl.glVertex3f(-0.5f, -2f, -0.5f);
-                gl.glVertex3f(0.5f, -2f, -0.5f);
-                gl.glEnd();
-
-                gl.glBegin(GL2.GL_QUADS);
-                gl.glColor3f(1f, 0f, 1f);
-                gl.glVertex3f(0.5f, 2f, 0.5f);
-                gl.glVertex3f(-0.5f, 2f, 0.5f);
-                gl.glVertex3f(-0.5f, 2f, -0.5f);
-                gl.glVertex3f(0.5f, 2f, -0.5f);
-                gl.glEnd();
-
-                shapesList = new ArrayList<Shape>();
-                List<RigidBody> rigidBodiesList = api.getRigidBodies();
-                for (RigidBody rb : rigidBodiesList) {
-                    String type = rb.getShape().getType();
-                    Triple position = rb.getPosition();
-                    Triple angles = rb.getRotationAngles().getAngles();
-                    switch (type.toUpperCase()) {
-                        case "BALL":
-                            shapesList.add(new Ball(position.getX(), position.getY(),
-                                    position.getZ(), ((BallShape) rb.getShape()).getR(), angles.getX(), angles.getY(), angles.getZ()
-                            ));
-                            break;
-                    }
-                }
-                for (Shape s : shapesList) {
-                    s.draw(gl);
-                }
-
-                gl.glMatrixMode(GL2.GL_PROJECTION);
-                gl.glLoadIdentity();
-
-                // Perspective.
-                double widthHeightRatio = (double) 640 / (double) 480;
-                glu.gluPerspective(45, widthHeightRatio, 1, 1000);
-
-                xl = Math.sin(xang);
-                xl *= Math.cos(yang);
-                zl = Math.cos(xang);
-                zl *= Math.cos(yang);
-                yl = y + Math.sin(yang);
-
-                xl = x + xl;
-                zl = z - zl;
-
-                if (py != yl) {
-                    System.out.println("xl=" + xl + ", yl=" + yl + ", zl=" + zl + "\n "
-                            + "x=" + x + ", y=" + y + ", z=" + z);
-                    py = yl;
-                }
-
-                glu.gluLookAt(x, y, z, xl, yl, zl, 0, 1, 0);
-                //glu.gluLookAt(x, y, z, -1, 0, 0, 0, 1, 0);
-        /*tu będzie funkcja na poruszanie*/
-
-                // Change back to model view matrix.
-                gl.glMatrixMode(GL2.GL_MODELVIEW);
-                gl.glLoadIdentity();
-                //System.out.println("x="+x+" y="+y+" z="+z);
-                // Flush all drawing operations to the graphics card
-                gl.glFlush();
-            }
-
-            @Override
-            public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
-                GL2 gl = drawable.getGL().getGL2();
-                GLU glu = new GLU();
-
-                if (height <= 0) { // avoid a divide by zero error!
-
-                    height = 1;
-                }
-                final double h = (double) width / (double) height;
-                gl.glViewport(0, 0, width, height);
-                gl.glMatrixMode(GL2.GL_PROJECTION);
-                gl.glLoadIdentity();
-                glu.gluPerspective(45.0f, h, 1.0, 20.0);
-                gl.glMatrixMode(GL2.GL_MODELVIEW);
-                gl.glLoadIdentity();
-            }
-        });
+        GuiControlHandler controlHandler = new GuiControlHandler(sceneModel);
+        this.glCanvas.addKeyListener(controlHandler);
+        this.glCanvas.addMouseListener(controlHandler);
+        this.glCanvas.addMouseMotionListener(controlHandler);
+        this.glCanvas.addGLEventListener(new GLDrawingHandler(sceneModel));
         final Animator animator = new Animator(this.glCanvas);
         animator.start();
     }
