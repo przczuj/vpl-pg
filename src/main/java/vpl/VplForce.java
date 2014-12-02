@@ -8,5 +8,6 @@ import vpl.math.Triple;
 
 public class VplForce {
     // vector + point
+    private VplObject object;
     private Triple vector;
 }

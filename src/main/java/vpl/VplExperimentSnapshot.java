@@ -5,9 +5,10 @@
 package vpl;
 
 import java.util.Map;
+import vpl.math.Triple;
 
 class VplExperimentSnapshot {
     private Map<String, VplObjectState> objectStates;
-    private Map<String, VplForce> forces;
+    private Map<String, Triple> forces;
     private VplGravity gravity;
 }
