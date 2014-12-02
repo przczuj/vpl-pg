@@ -14,6 +14,7 @@ import javax.media.opengl.glu.GLU;
 import vpl.math.Triple;
 import vpl.model.VplScene;
 import vpl.physics.RigidBody;
+import vpl.physics.controller.ControllerStub;
 import vpl.physics.shapes.BallShape;
 import vpl.shapes.Ball;
 import vpl.shapes.Shape;
@@ -22,9 +23,34 @@ import vpl.shapes.Shape;
 public class GLDrawingHandler implements GLEventListener {
 
     private VplScene sceneModel;
+    private Triple cameraPosition;
+    private Triple lookingPoint;
+    private double angleX;
+    private double angleY;
+    private double x,y,z;
+    private double xl,yl,zl;
+    double mx,my;
+    double py = 0;
+    public static List<Shape> shapesList;
+    private ControllerStub api;
 
-    GLDrawingHandler(VplScene sceneModel) {
-        this.sceneModel = sceneModel;
+    GLDrawingHandler() {
+        /*this.sceneModel = GUI.getSceneModel();
+        this.cameraPosition=sceneModel.getCameraPosition();
+        this.lookingPoint=sceneModel.getLookingPoint();
+        this.angleX=sceneModel.getCameraAngleH();
+        this.angleY=sceneModel.getCameraAngleV();
+        
+        x=this.cameraPosition.getX();
+        y=this.cameraPosition.getY();
+        z=this.cameraPosition.getZ();
+        
+        xl=this.lookingPoint.getX();
+        yl=this.lookingPoint.getY();
+        zl=this.lookingPoint.getZ();
+        
+        shapesList=GUI.shapesList;
+        this.api=this.sceneModel.getPhysics();*/
     }
     
     @Override
@@ -55,9 +81,22 @@ public class GLDrawingHandler implements GLEventListener {
 
         //dla odniesienia
         drawReferenceSquares(gl);
+        
+        this.angleX=GUI.getSceneModel().getCameraAngleH();
+        this.angleY=GUI.getSceneModel().getCameraAngleV();
+        
+        Triple cameraPosition=GUI.getSceneModel().getCameraPosition();
+        this.x=cameraPosition.getX();
+        this.y=cameraPosition.getY();
+        this.z=cameraPosition.getZ();
+        
+        Triple lookingPoint=GUI.getSceneModel().getLookingPoint();
+        this.xl=lookingPoint.getX();
+        this.yl=lookingPoint.getY();
+        this.zl=lookingPoint.getZ();
 
         shapesList = new ArrayList<Shape>();
-        List<RigidBody> rigidBodiesList = api.getRigidBodies();
+        List<RigidBody> rigidBodiesList = GUI.getApi().getRigidBodies();
         for (RigidBody rb : rigidBodiesList) {
             String type = rb.getShape().getType();
             Triple position = rb.getPosition();
@@ -80,14 +119,21 @@ public class GLDrawingHandler implements GLEventListener {
         double widthHeightRatio = (double) 640 / (double) 480;
         glu.gluPerspective(45, widthHeightRatio, 1, 1000);
 
-        xl = Math.sin(xang);
-        xl *= Math.cos(yang);
-        zl = Math.cos(xang);
-        zl *= Math.cos(yang);
-        yl = y + Math.sin(yang);
+        xl = Math.sin(angleX);
+        xl *= Math.cos(angleY);
+        zl = Math.cos(angleX);
+        zl *= Math.cos(angleY);
+        yl = y + Math.sin(angleY);
 
         xl = x + xl;
         zl = z - zl;
+        
+        
+        GUI.getSceneModel().getLookingPoint().setX(xl);
+        GUI.getSceneModel().getLookingPoint().setY(yl);
+        GUI.getSceneModel().getLookingPoint().setZ(zl);
+        
+        
 
         if (py != yl) {
             System.out.println("xl=" + xl + ", yl=" + yl + ", zl=" + zl + "\n "

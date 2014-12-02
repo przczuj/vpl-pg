@@ -9,24 +9,37 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import vpl.math.Triple;
+import vpl.model.VplObserver;
 import vpl.model.VplScene;
 
 public class GuiControlHandler implements KeyListener, MouseListener, MouseMotionListener{
     
-    private VplScene sceneModel;
+    private Triple cameraPosition;
+    private Triple lookingPoint;
+    private double angleX;
+    private double angleY;
+    private double x,y,z;
+    private double xl,yl,zl;
+    double mx,my;
 
-    GuiControlHandler(VplScene sceneModel) {
-        this.sceneModel = sceneModel;
+    GuiControlHandler() {
     }
     
     @Override
     public void keyTyped(KeyEvent e) {
+        //empty method
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         //throw new UnsupportedOperationException("Not supported yet.");
         int key = e.getKeyCode();
+        this.lookingPoint=GUI.getSceneModel().getLookingPoint();
+        xl=this.lookingPoint.getX();
+        yl=this.lookingPoint.getY();
+        zl=this.lookingPoint.getZ();
+        
         double x1 = xl - x;
         double y1 = yl - y;
         double z1 = zl - z;
@@ -46,9 +59,6 @@ public class GuiControlHandler implements KeyListener, MouseListener, MouseMotio
         }
         switch (key) {
             case KeyEvent.VK_A: //37:
-                //trzeba wyliczyć jak się poruszyć
-                //mamy wektor
-
                 x += sx * 0.1 * z1;
                 y += 0;
                 z += sz * 0.1 * x1;
@@ -75,13 +85,18 @@ public class GuiControlHandler implements KeyListener, MouseListener, MouseMotio
                 y -= 0.1;
                 break;
         }
+        GUI.getSceneModel().getCameraPosition().setX(x);
+        GUI.getSceneModel().getCameraPosition().setY(y);
+        GUI.getSceneModel().getCameraPosition().setZ(z);  
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        //empty method
     }
     
     public void mouseClicked(MouseEvent me) {
+        //empty method
     }
 
     public void mousePressed(MouseEvent me) {
@@ -100,21 +115,22 @@ public class GuiControlHandler implements KeyListener, MouseListener, MouseMotio
     }
     
     public void mouseDragged(MouseEvent me) {
-        xang += (me.getX() - mx) / 100.0;
+        angleX += (me.getX() - mx) / 100.0;
         mx = me.getX();
-        yang -= (me.getY() - my) / 100.0;
+        angleY -= (me.getY() - my) / 100.0;
         my = me.getY();
-        if (Math.abs(xang) > 2 * Math.PI) {
-            xang = 0;
+        if (Math.abs(angleX) > 2 * Math.PI) {
+            angleX = 0;
         }
-        /*if(Math.abs(yang)>2*Math.PI)
-         yang=0;*/
-        if (yang > Math.PI / 2) {
-            yang = (double) (Math.PI / 2);
-        } else if (yang < -Math.PI / 2) {
-            yang = (double) (-Math.PI / 2);
+        if (angleY > Math.PI / 2) {
+            angleY = (double) (Math.PI / 2);
+        } else if (angleY < -Math.PI / 2) {
+            angleY = (double) (-Math.PI / 2);
         }
-        System.out.println("Poruszona, yang=" + yang);
+        System.out.println("Poruszona, angleY=" + angleY);
+        
+        GUI.getSceneModel().setCameraAngleH(angleX);
+        GUI.getSceneModel().setCameraAngleV(angleY);
     }
 
     public void mouseMoved(MouseEvent me) {

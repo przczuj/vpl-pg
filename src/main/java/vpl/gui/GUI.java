@@ -29,6 +29,8 @@ import javax.media.opengl.glu.GLU;
 import javax.swing.DefaultListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import lombok.Getter;
+import lombok.Setter;
 import vpl.math.Triple;
 import vpl.model.VplScene;
 import vpl.physics.RigidBody;
@@ -51,13 +53,11 @@ public class GUI extends javax.swing.JFrame {
      */
     double xl, yl, zl;
     double xang = 0, yang = 0;
-    double x, y, z;
-    double py = 0;
+    double x, y, z;    
     int mx, my;
     public static List<Shape> shapesList = new ArrayList<Shape>();
-    ControllerStub api;
-    
-    private VplScene sceneModel;
+    @Getter @Setter private static VplScene sceneModel;
+    @Getter @Setter private static ControllerStub api;
 
     public GUI() {
         sceneModel = new VplScene();
@@ -84,11 +84,11 @@ public class GUI extends javax.swing.JFrame {
     }
 
     public void prepareJOGL() {
-        GuiControlHandler controlHandler = new GuiControlHandler(sceneModel);
+        GuiControlHandler controlHandler = new GuiControlHandler();
         this.glCanvas.addKeyListener(controlHandler);
         this.glCanvas.addMouseListener(controlHandler);
         this.glCanvas.addMouseMotionListener(controlHandler);
-        this.glCanvas.addGLEventListener(new GLDrawingHandler(sceneModel));
+        this.glCanvas.addGLEventListener(new GLDrawingHandler());
         final Animator animator = new Animator(this.glCanvas);
         animator.start();
     }

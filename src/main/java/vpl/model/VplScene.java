@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
+import lombok.Setter;
 import vpl.math.Triple;
 import vpl.physics.controller.ControllerStub;
 import vpl.shapes.Shape;
@@ -36,9 +37,10 @@ public class VplScene {
     @Getter private VplSettings settings;
     
     @Getter private Triple cameraPosition;
-    @Getter private double cameraAngleV, cameraAngleH;
+    @Getter private Triple lookingPoint;
+    @Getter @Setter private double cameraAngleV, cameraAngleH;
     
-    @Getter private ControllerStub physics;
+    @Getter @Setter private ControllerStub physics;    
     
     public VplScene() {
         //experiments = new HashMap<>();
@@ -46,7 +48,10 @@ public class VplScene {
         execution = new VplExperimentExecution(experiment);
         settings = new VplSettings();
         
-        cameraPosition = new Triple();
+        cameraPosition = new Triple(0,0,0);
+        lookingPoint=new Triple(0,0,-1);
+        cameraAngleV=0;
+        cameraAngleH=0;
         
         physics = new ControllerStub();
     }
