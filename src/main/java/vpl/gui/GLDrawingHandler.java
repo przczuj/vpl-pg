@@ -179,6 +179,7 @@ public class GLDrawingHandler implements GLEventListener {
 
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
+        System.out.println("RESIZE! " + width + " " + height);
         GL2 gl = drawable.getGL().getGL2();
         GLU glu = new GLU();
 
