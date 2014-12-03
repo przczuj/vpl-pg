@@ -19,10 +19,7 @@ public class CuboidShape extends Shape {
 
     public CuboidShape() throws Exception {
         init();
-        if(x==y&&y==z)
-            type="CUBE";
-        else
-            type=("CUBOID");
+        type=("CUBOID");
     }
 
     @Override

@@ -86,7 +86,7 @@ public class GLDrawingHandler implements GLEventListener {
         gl.glLoadIdentity();
 
         // Perspective.
-        double widthHeightRatio = (double) 640 / (double) 480;
+        double widthHeightRatio = (double) drawable.getSurfaceWidth() / (double) drawable.getSurfaceHeight();
         glu.gluPerspective(45, widthHeightRatio, 1, 1000);
 
         xl = Math.sin(angleX);
