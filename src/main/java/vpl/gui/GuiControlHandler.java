@@ -10,8 +10,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import vpl.math.Triple;
-import vpl.model.VplObserver;
-import vpl.model.VplScene;
 
 public class GuiControlHandler implements KeyListener, MouseListener, MouseMotionListener{
     

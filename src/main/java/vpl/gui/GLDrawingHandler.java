@@ -21,10 +21,7 @@ import vpl.shapes.Shape;
 
 
 public class GLDrawingHandler implements GLEventListener {
-
-    private VplScene sceneModel;
-    private Triple cameraPosition;
-    private Triple lookingPoint;
+    
     private double angleX;
     private double angleY;
     private double x,y,z;
@@ -32,25 +29,8 @@ public class GLDrawingHandler implements GLEventListener {
     double mx,my;
     double py = 0;
     public static List<Shape> shapesList;
-    private ControllerStub api;
 
     GLDrawingHandler() {
-        /*this.sceneModel = GUI.getSceneModel();
-        this.cameraPosition=sceneModel.getCameraPosition();
-        this.lookingPoint=sceneModel.getLookingPoint();
-        this.angleX=sceneModel.getCameraAngleH();
-        this.angleY=sceneModel.getCameraAngleV();
-        
-        x=this.cameraPosition.getX();
-        y=this.cameraPosition.getY();
-        z=this.cameraPosition.getZ();
-        
-        xl=this.lookingPoint.getX();
-        yl=this.lookingPoint.getY();
-        zl=this.lookingPoint.getZ();
-        
-        shapesList=GUI.shapesList;
-        this.api=this.sceneModel.getPhysics();*/
     }
     
     @Override
@@ -65,7 +45,7 @@ public class GLDrawingHandler implements GLEventListener {
 
     @Override
     public void dispose(GLAutoDrawable drawable) {
-        //todo: tu będzie  jakiś komentarz, póki co DUPA!!!!!!!!!!!!!!!!!(by kłuło w oczy, i bym szybko zmienił)
+        
     }
 
     @Override
@@ -79,7 +59,7 @@ public class GLDrawingHandler implements GLEventListener {
         gl.glLoadIdentity();
         gl.glPushMatrix();
 
-        //dla odniesienia
+        //for reference
         drawReferenceSquares(gl);
         
         this.angleX=GUI.getSceneModel().getCameraAngleH();
@@ -94,23 +74,9 @@ public class GLDrawingHandler implements GLEventListener {
         this.xl=lookingPoint.getX();
         this.yl=lookingPoint.getY();
         this.zl=lookingPoint.getZ();
-
-        shapesList = new ArrayList<Shape>();
-        List<RigidBody> rigidBodiesList = GUI.getApi().getRigidBodies();
-        for (RigidBody rb : rigidBodiesList) {
-            String type = rb.getShape().getType();
-            Triple position = rb.getPosition();
-            Triple angles = rb.getRotationAngles().getAngles();
-            switch (type.toUpperCase()) {
-                case "BALL":
-                    shapesList.add(new Ball(position.getX(), position.getY(),
-                            position.getZ(), ((BallShape) rb.getShape()).getR(), angles.getX(), angles.getY(), angles.getZ()));
-                    break;
-            }
-        }
-        for (Shape s : shapesList) {
-            s.draw(gl);
-        }
+        
+        convertRigidBodiesToShapes();       
+        drawShapes(gl);
 
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
@@ -142,14 +108,10 @@ public class GLDrawingHandler implements GLEventListener {
         }
 
         glu.gluLookAt(x, y, z, xl, yl, zl, 0, 1, 0);
-        //glu.gluLookAt(x, y, z, -1, 0, 0, 0, 1, 0);
-        /*tu będzie funkcja na poruszanie*/
 
         // Change back to model view matrix.
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
-        //System.out.println("x="+x+" y="+y+" z="+z);
-        // Flush all drawing operations to the graphics card
         gl.glFlush();
     }
     
@@ -219,5 +181,27 @@ public class GLDrawingHandler implements GLEventListener {
         glu.gluPerspective(45.0f, h, 1.0, 20.0);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
+    }
+    
+    public void drawShapes(GL2 gl){
+        for (Shape s : shapesList) {
+            s.draw(gl);
+        }
+    }
+   
+    public void convertRigidBodiesToShapes(){
+        shapesList = new ArrayList<Shape>();
+        List<RigidBody> rigidBodiesList = GUI.getApi().getRigidBodies();
+        for (RigidBody rb : rigidBodiesList) {
+            String type = rb.getShape().getType();
+            Triple position = rb.getPosition();
+            Triple angles = rb.getRotationAngles().getAngles();
+            switch (type.toUpperCase()) {
+                case "BALL":
+                    shapesList.add(new Ball(position.getX(), position.getY(),
+                            position.getZ(), ((BallShape) rb.getShape()).getR(), angles.getX(), angles.getY(), angles.getZ()));
+                    break;
+            }
+        }
     }
 }
