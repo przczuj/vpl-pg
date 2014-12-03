@@ -11,6 +11,7 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
+import vpl.Utils.Timer;
 import vpl.math.Triple;
 import vpl.physics.RigidBody;
 import vpl.physics.shapes.BallShape;
@@ -54,6 +55,7 @@ public class GLDrawingHandler implements GLEventListener {
 
     @Override
     public void display(GLAutoDrawable drawable) {
+        Timer.measureTime();
         GL2 gl = drawable.getGL().getGL2();
         GLU glu = new GLU();
 
@@ -114,6 +116,8 @@ public class GLDrawingHandler implements GLEventListener {
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
         gl.glFlush();
+        Timer.measureTime();
+        System.out.println(Timer.getDelta());
     }
 
     private void drawReferenceSquares(GL2 gl) {
