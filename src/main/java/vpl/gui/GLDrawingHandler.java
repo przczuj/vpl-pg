@@ -33,8 +33,13 @@ public class GLDrawingHandler implements GLEventListener {
     double py = 0;
     public static List<Shape> shapesList;
     private ControllerStub api;
+    private int width = 800, height = 600;
+    
+    private VplScene model;
 
-    GLDrawingHandler() {
+    public GLDrawingHandler(VplScene model, ControllerStub api) {
+        this.model = model;
+        this.api = api;
         /*this.sceneModel = GUI.getSceneModel();
         this.cameraPosition=sceneModel.getCameraPosition();
         this.lookingPoint=sceneModel.getLookingPoint();
@@ -82,21 +87,21 @@ public class GLDrawingHandler implements GLEventListener {
         //dla odniesienia
         drawReferenceSquares(gl);
         
-        this.angleX=GUI.getSceneModel().getCameraAngleH();
-        this.angleY=GUI.getSceneModel().getCameraAngleV();
+        this.angleX= model.getCameraAngleH();
+        this.angleY= model.getCameraAngleV();
         
-        Triple cameraPosition=GUI.getSceneModel().getCameraPosition();
+        Triple cameraPosition= model.getCameraPosition();
         this.x=cameraPosition.getX();
         this.y=cameraPosition.getY();
         this.z=cameraPosition.getZ();
         
-        Triple lookingPoint=GUI.getSceneModel().getLookingPoint();
+        Triple lookingPoint= model.getLookingPoint();
         this.xl=lookingPoint.getX();
         this.yl=lookingPoint.getY();
         this.zl=lookingPoint.getZ();
 
         shapesList = new ArrayList<Shape>();
-        List<RigidBody> rigidBodiesList = GUI.getApi().getRigidBodies();
+        List<RigidBody> rigidBodiesList = api.getRigidBodies();
         for (RigidBody rb : rigidBodiesList) {
             String type = rb.getShape().getType();
             Triple position = rb.getPosition();
@@ -116,7 +121,7 @@ public class GLDrawingHandler implements GLEventListener {
         gl.glLoadIdentity();
 
         // Perspective.
-        double widthHeightRatio = (double) 640 / (double) 480;
+        double widthHeightRatio = (double) width / (double) height;
         glu.gluPerspective(45, widthHeightRatio, 1, 1000);
 
         xl = Math.sin(angleX);
@@ -129,9 +134,9 @@ public class GLDrawingHandler implements GLEventListener {
         zl = z - zl;
         
         
-        GUI.getSceneModel().getLookingPoint().setX(xl);
-        GUI.getSceneModel().getLookingPoint().setY(yl);
-        GUI.getSceneModel().getLookingPoint().setZ(zl);
+        model.getLookingPoint().setX(xl);
+        model.getLookingPoint().setY(yl);
+        model.getLookingPoint().setZ(zl);
         
         
 
@@ -212,6 +217,8 @@ public class GLDrawingHandler implements GLEventListener {
 
             height = 1;
         }
+        this.width = width;
+        this.height = height;
         final double h = (double) width / (double) height;
         gl.glViewport(0, 0, width, height);
         gl.glMatrixMode(GL2.GL_PROJECTION);

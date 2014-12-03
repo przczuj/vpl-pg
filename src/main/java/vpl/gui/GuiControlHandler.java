@@ -22,8 +22,11 @@ public class GuiControlHandler implements KeyListener, MouseListener, MouseMotio
     private double x,y,z;
     private double xl,yl,zl;
     double mx,my;
+    
+    private VplScene model;
 
-    GuiControlHandler() {
+    public GuiControlHandler(VplScene model) {
+        this.model = model;
     }
     
     @Override
@@ -35,7 +38,7 @@ public class GuiControlHandler implements KeyListener, MouseListener, MouseMotio
     public void keyPressed(KeyEvent e) {
         //throw new UnsupportedOperationException("Not supported yet.");
         int key = e.getKeyCode();
-        this.lookingPoint=GUI.getSceneModel().getLookingPoint();
+        this.lookingPoint= model.getLookingPoint();
         xl=this.lookingPoint.getX();
         yl=this.lookingPoint.getY();
         zl=this.lookingPoint.getZ();
@@ -85,9 +88,9 @@ public class GuiControlHandler implements KeyListener, MouseListener, MouseMotio
                 y -= 0.1;
                 break;
         }
-        GUI.getSceneModel().getCameraPosition().setX(x);
-        GUI.getSceneModel().getCameraPosition().setY(y);
-        GUI.getSceneModel().getCameraPosition().setZ(z);  
+        model.getCameraPosition().setX(x);
+        model.getCameraPosition().setY(y);
+        model.getCameraPosition().setZ(z);  
     }
 
     @Override
@@ -129,8 +132,8 @@ public class GuiControlHandler implements KeyListener, MouseListener, MouseMotio
         }
         System.out.println("Poruszona, angleY=" + angleY);
         
-        GUI.getSceneModel().setCameraAngleH(angleX);
-        GUI.getSceneModel().setCameraAngleV(angleY);
+        model.setCameraAngleH(angleX);
+        model.setCameraAngleV(angleY);
     }
 
     public void mouseMoved(MouseEvent me) {

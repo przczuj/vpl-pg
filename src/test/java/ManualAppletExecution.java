@@ -44,7 +44,7 @@ public class ManualAppletExecution {
     }
     
     @Test
-    @Category(VplMainApplet.class)
+    @Category(VplMainAppletOld.class)
     public void manualExecution() {
         MainFrame frame = initMainFrame();
         waitUntilWindowClose(frame);
