@@ -12,27 +12,31 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 import vpl.math.Triple;
-import vpl.model.VplScene;
 import vpl.physics.RigidBody;
-import vpl.physics.controller.ControllerStub;
 import vpl.physics.shapes.BallShape;
+import vpl.physics.shapes.ConeShape;
+import vpl.physics.shapes.CuboidShape;
+import vpl.physics.shapes.CyllinderShape;
 import vpl.shapes.Ball;
+import vpl.shapes.Cone;
+import vpl.shapes.Cube;
+import vpl.shapes.Cuboid;
+import vpl.shapes.Cyllinder;
 import vpl.shapes.Shape;
 
-
 public class GLDrawingHandler implements GLEventListener {
-    
+
     private double angleX;
     private double angleY;
-    private double x,y,z;
-    private double xl,yl,zl;
-    double mx,my;
+    private double x, y, z;
+    private double xl, yl, zl;
+    double mx, my;
     double py = 0;
     public static List<Shape> shapesList;
 
     GLDrawingHandler() {
     }
-    
+
     @Override
     public void init(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
@@ -45,7 +49,7 @@ public class GLDrawingHandler implements GLEventListener {
 
     @Override
     public void dispose(GLAutoDrawable drawable) {
-        
+
     }
 
     @Override
@@ -61,21 +65,21 @@ public class GLDrawingHandler implements GLEventListener {
 
         //for reference
         drawReferenceSquares(gl);
-        
-        this.angleX=GUI.getSceneModel().getCameraAngleH();
-        this.angleY=GUI.getSceneModel().getCameraAngleV();
-        
-        Triple cameraPosition=GUI.getSceneModel().getCameraPosition();
-        this.x=cameraPosition.getX();
-        this.y=cameraPosition.getY();
-        this.z=cameraPosition.getZ();
-        
-        Triple lookingPoint=GUI.getSceneModel().getLookingPoint();
-        this.xl=lookingPoint.getX();
-        this.yl=lookingPoint.getY();
-        this.zl=lookingPoint.getZ();
-        
-        convertRigidBodiesToShapes();       
+
+        this.angleX = GUI.getSceneModel().getCameraAngleH();
+        this.angleY = GUI.getSceneModel().getCameraAngleV();
+
+        Triple cameraPosition = GUI.getSceneModel().getCameraPosition();
+        this.x = cameraPosition.getX();
+        this.y = cameraPosition.getY();
+        this.z = cameraPosition.getZ();
+
+        Triple lookingPoint = GUI.getSceneModel().getLookingPoint();
+        this.xl = lookingPoint.getX();
+        this.yl = lookingPoint.getY();
+        this.zl = lookingPoint.getZ();
+
+        convertRigidBodiesToShapes();
         drawShapes(gl);
 
         gl.glMatrixMode(GL2.GL_PROJECTION);
@@ -93,13 +97,10 @@ public class GLDrawingHandler implements GLEventListener {
 
         xl = x + xl;
         zl = z - zl;
-        
-        
+
         GUI.getSceneModel().getLookingPoint().setX(xl);
         GUI.getSceneModel().getLookingPoint().setY(yl);
         GUI.getSceneModel().getLookingPoint().setZ(zl);
-        
-        
 
         if (py != yl) {
             System.out.println("xl=" + xl + ", yl=" + yl + ", zl=" + zl + "\n "
@@ -114,7 +115,7 @@ public class GLDrawingHandler implements GLEventListener {
         gl.glLoadIdentity();
         gl.glFlush();
     }
-    
+
     private void drawReferenceSquares(GL2 gl) {
         gl.glBegin(GL2.GL_QUADS);
         gl.glColor3f(1f, 0f, 0f);
@@ -182,14 +183,14 @@ public class GLDrawingHandler implements GLEventListener {
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
     }
-    
-    public void drawShapes(GL2 gl){
+
+    public void drawShapes(GL2 gl) {
         for (Shape s : shapesList) {
             s.draw(gl);
         }
     }
-   
-    public void convertRigidBodiesToShapes(){
+
+    public void convertRigidBodiesToShapes() {
         shapesList = new ArrayList<Shape>();
         List<RigidBody> rigidBodiesList = GUI.getApi().getRigidBodies();
         for (RigidBody rb : rigidBodiesList) {
@@ -200,6 +201,26 @@ public class GLDrawingHandler implements GLEventListener {
                 case "BALL":
                     shapesList.add(new Ball(position.getX(), position.getY(),
                             position.getZ(), ((BallShape) rb.getShape()).getR(), angles.getX(), angles.getY(), angles.getZ()));
+                    break;
+                case "CUBE":
+                    CuboidShape cube = (CuboidShape) rb.getShape();
+                    shapesList.add(new Cube(position.getX(), position.getY(),
+                            position.getZ(), angles.getX(), angles.getY(), angles.getZ(), cube.getX()));
+                    break;
+                case "CUBOID":
+                    CuboidShape cs = (CuboidShape) rb.getShape();
+                    shapesList.add(new Cuboid(position.getX(), position.getY(), position.getZ(),
+                            angles.getX(), angles.getY(), angles.getZ(), cs.getX(), cs.getY(), cs.getZ()));
+                    break;
+                case "CYLLINDER":
+                    CyllinderShape cyl = (CyllinderShape) rb.getShape();
+                    shapesList.add(new Cyllinder(position.getX(), position.getY(), position.getZ(),
+                            angles.getX(), angles.getY(), angles.getZ(), cyl.getR(), cyl.getH()));
+                    break;
+                case "CONE":
+                    ConeShape cone = (ConeShape) rb.getShape();
+                    shapesList.add(new Cone(position.getX(), position.getY(), position.getZ(),
+                            angles.getX(), angles.getY(), angles.getZ(), cone.getR(), cone.getH()));
                     break;
             }
         }
