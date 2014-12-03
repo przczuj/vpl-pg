@@ -13,7 +13,9 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 import vpl.Utils.Timer;
 import vpl.math.Triple;
+import vpl.model.VplScene;
 import vpl.physics.RigidBody;
+import vpl.physics.controller.ControllerStub;
 import vpl.physics.shapes.BallShape;
 import vpl.physics.shapes.ConeShape;
 import vpl.physics.shapes.CuboidShape;
@@ -34,8 +36,13 @@ public class GLDrawingHandler implements GLEventListener {
     double mx, my;
     double py = 0;
     public static List<Shape> shapesList;
+    
+    private final VplScene model;
+    private final ControllerStub api;
 
-    GLDrawingHandler() {
+    public GLDrawingHandler(VplScene model, ControllerStub api) {
+        this.model = model;
+        this.api = api;
     }
 
     @Override
@@ -68,15 +75,15 @@ public class GLDrawingHandler implements GLEventListener {
         //for reference
         drawReferenceSquares(gl);
 
-        this.angleX = GUI.getSceneModel().getCameraAngleH();
-        this.angleY = GUI.getSceneModel().getCameraAngleV();
+        this.angleX = model.getCameraAngleH();
+        this.angleY = model.getCameraAngleV();
 
-        Triple cameraPosition = GUI.getSceneModel().getCameraPosition();
+        Triple cameraPosition = model.getCameraPosition();
         this.x = cameraPosition.getX();
         this.y = cameraPosition.getY();
         this.z = cameraPosition.getZ();
 
-        Triple lookingPoint = GUI.getSceneModel().getLookingPoint();
+        Triple lookingPoint = model.getLookingPoint();
         this.xl = lookingPoint.getX();
         this.yl = lookingPoint.getY();
         this.zl = lookingPoint.getZ();
@@ -100,9 +107,9 @@ public class GLDrawingHandler implements GLEventListener {
         xl = x + xl;
         zl = z - zl;
 
-        GUI.getSceneModel().getLookingPoint().setX(xl);
-        GUI.getSceneModel().getLookingPoint().setY(yl);
-        GUI.getSceneModel().getLookingPoint().setZ(zl);
+        model.getLookingPoint().setX(xl);
+        model.getLookingPoint().setY(yl);
+        model.getLookingPoint().setZ(zl);
 
         if (py != yl) {
             System.out.println("xl=" + xl + ", yl=" + yl + ", zl=" + zl + "\n "
@@ -196,7 +203,7 @@ public class GLDrawingHandler implements GLEventListener {
 
     public void convertRigidBodiesToShapes() {
         shapesList = new ArrayList<Shape>();
-        List<RigidBody> rigidBodiesList = GUI.getApi().getRigidBodies();
+        List<RigidBody> rigidBodiesList = api.getRigidBodies();
         for (RigidBody rb : rigidBodiesList) {
             String type = rb.getShape().getType();
             Triple position = rb.getPosition();

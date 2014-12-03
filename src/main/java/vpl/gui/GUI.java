@@ -43,9 +43,9 @@ public class GUI extends javax.swing.JFrame {
     double xang = 0, yang = 0;
     double x, y, z;    
     int mx, my;
-    public static List<Shape> shapesList = new ArrayList<Shape>();
-    @Getter @Setter private static VplScene sceneModel;
-    @Getter @Setter private static ControllerStub api;
+    public List<Shape> shapesList = new ArrayList<Shape>();
+    @Getter @Setter private VplScene sceneModel;
+    @Getter @Setter private ControllerStub api;
 
     public GUI() {
         sceneModel = new VplScene();
@@ -72,11 +72,11 @@ public class GUI extends javax.swing.JFrame {
     }
 
     public void prepareJOGL() {
-        GuiControlHandler controlHandler = new GuiControlHandler();
+        GuiControlHandler controlHandler = new GuiControlHandler(sceneModel);
         this.glCanvas.addKeyListener(controlHandler);
         this.glCanvas.addMouseListener(controlHandler);
         this.glCanvas.addMouseMotionListener(controlHandler);
-        this.glCanvas.addGLEventListener(new GLDrawingHandler());
+        this.glCanvas.addGLEventListener(new GLDrawingHandler(sceneModel, api));
         final Animator animator = new Animator(this.glCanvas);
         animator.start();
     }

@@ -13,10 +13,11 @@ public class VplObjectState {
 
     @Getter @Setter private Triple velocity;
     @Getter @Setter private Shape shape;
-    @Getter @Setter private double mase;
+    @Getter @Setter private double mass;
 
-    VplObjectState(Shape shape) {
+    VplObjectState(Shape shape, double mass) {
         this.velocity = new Triple();
         this.shape = shape;
+        this.mass = mass;
     }
 }

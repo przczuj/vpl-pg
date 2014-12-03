@@ -9,7 +9,6 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -91,7 +90,7 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="zAngleTextField" pref="100" max="32767" attributes="0"/>
+                              <Component id="zAngleTextField" pref="133" max="32767" attributes="0"/>
                               <Component id="aTextField" max="32767" attributes="0"/>
                               <Component id="hTextField" alignment="0" max="32767" attributes="0"/>
                               <Component id="yTextField" alignment="0" max="32767" attributes="0"/>
