@@ -20,6 +20,7 @@ public class BallShape extends Shape {
         super();
         init();
         type = new String("BALL");
+        sphereRadius=r;
     }
 
     public void setR(double r) {

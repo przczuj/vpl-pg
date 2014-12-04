@@ -16,13 +16,25 @@ import lombok.Setter;
  */
 public abstract class Shape {
 
-    @Getter @Setter protected String type;
-    @Getter @Setter protected Matrix IBody;
-    @Getter @Setter protected Matrix TIBody;
-    @Getter @Setter protected Matrix NormalizedIBody;
-    @Getter @Setter protected Matrix InvertedIBody;
-    
-    @Getter protected double mass;
+    @Getter
+    @Setter
+    protected String type;
+    @Getter
+    @Setter
+    protected Matrix IBody;
+    @Getter
+    @Setter
+    protected Matrix TIBody;
+    @Getter
+    @Setter
+    protected Matrix NormalizedIBody;
+    @Getter
+    @Setter
+    protected Matrix InvertedIBody;
+    @Getter
+    protected double sphereRadius;//used for simple elimination in collisions
+    @Getter
+    protected double mass;
 
     public void setMass(double mass) throws Exception {
         this.mass = mass;

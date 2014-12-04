@@ -15,11 +15,14 @@ import lombok.Setter;
  */
 public class CyllinderShape extends Shape {
 
-    @Setter @Getter protected double r, h;
+    @Setter
+    @Getter
+    protected double r, h;
 
     public CyllinderShape() throws Exception {
         init();
         type = new String("CYLLINDER");
+        sphereRadius = Math.sqrt(r * r + h * h);
     }
 
     @Override
