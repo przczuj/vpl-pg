@@ -6,6 +6,7 @@ package vpl.math;
 
 import vpl.physics.AxisAngle;
 import vpl.math.Matrix;
+import java.lang.Exception;
 
 /**
  *
@@ -70,7 +71,7 @@ public class BasicMath {
         //for multiplication to be possible
         assert (a.getColumns() == b.getRows());
         final Matrix result = new Matrix(a.getRows(), b.getColumns());
-     //time to calculate
+        //time to calculate
         //since dimensions of matrices are small
         //(most likely 3x3)
         //there is no need for algorithm to be faster than O(n^3)
@@ -122,7 +123,43 @@ public class BasicMath {
 
     }
 
+    //inspired by http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/index.htm
+
+    public Matrix anglesToRotationMatrix(AxisAngle angles) {
+        Matrix matrix = new Matrix(3, 3);
+        double c = Math.cos(Math.toRadians(angles.getAngle()));
+        double s = Math.sin(Math.toRadians(angles.getAngle()));
+
+        double t = 1.0 - c;
+        //time to scale
+        double magnitude = 2 * Math.PI / 360;
+              ///Math.sqrt(angles.getAngles().getX()*angles.getAngles().getX()
+        ///  + angles.getAngles().getY()*angles.getAngles().getY() + angles.getAngles().getZ()*angles.getAngles().getZ());
+
+        angles.getAngles().setX(angles.getAngles().getX() / magnitude);
+        angles.getAngles().setY(angles.getAngles().getY() / magnitude);
+        angles.getAngles().setZ(angles.getAngles().getZ() / magnitude);
+        matrix.setValueAt(0, 0, (c + angles.getAngles().getX() * angles.getAngles().getX() * t));
+        matrix.setValueAt(1, 1, (c + angles.getAngles().getY() * angles.getAngles().getY() * t));
+        matrix.setValueAt(2, 2, (c + angles.getAngles().getZ() * angles.getAngles().getZ() * t));
+        double tmp1 = angles.getAngles().getX() * angles.getAngles().getY() * t;
+        double tmp2 = angles.getAngles().getZ() * s;
+        matrix.setValueAt(1, 0, tmp1 + tmp2);
+        matrix.setValueAt(0, 1, tmp1 - tmp2);
+        tmp1 = angles.getAngles().getX() * angles.getAngles().getZ() * t;
+        tmp2 = angles.getAngles().getY() * s;
+        matrix.setValueAt(2, 0, tmp1 - tmp2);
+        matrix.setValueAt(0, 2, tmp1 + tmp2);
+        tmp1 = angles.getAngles().getY() * angles.getAngles().getZ() * t;
+
+        tmp2 = angles.getAngles().getX() * s;
+        matrix.setValueAt(2, 1, tmp1 + tmp2);
+        matrix.setValueAt(1, 2, tmp1 - tmp2);
+        return matrix;
+    }
+
     //inspired by http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/index.htm
+
     public AxisAngle rotationMatrixToAngles(Matrix rot) {
         Triple t = new Triple();
         double angle;
@@ -135,7 +172,7 @@ public class BasicMath {
         if ((Math.abs(m[0][1] - m[1][0]) < epsilon)
                 && (Math.abs(m[0][2] - m[2][0]) < epsilon)
                 && (Math.abs(m[1][2] - m[2][1]) < epsilon)) {
-		// singularity found
+            // singularity found
             // first check for identity matrix which must have +1 for all terms
             //  in leading diagonaland zero in other terms
             if ((Math.abs(m[0][1] + m[1][0]) < epsilon2)
@@ -193,14 +230,16 @@ public class BasicMath {
         if (Math.abs(s) < 0.001) {
             s = 1;
         }
-		// prevents division by zero, should not happen if matrix is orthogonal and should be
+        // prevents division by zero, should not happen if matrix is orthogonal and should be
         // caught by singularity test above, but I've left it in just in case
         angle = Math.acos((m[0][0] + m[1][1] + m[2][2] - 1) / 2);
-        t.setX((m[2][1] - m[1][2]) / s);
-        t.setY((m[0][2] - m[2][0]) / s);
-        t.setZ((m[1][0] - m[0][1]) / s);
+        t.setX(Math.toDegrees((m[2][1] - m[1][2]) / s));
+        t.setY(Math.toDegrees((m[0][2] - m[2][0]) / s));
+        t.setZ(Math.toDegrees((m[1][0] - m[0][1]) / s));
+        angle = Math.toDegrees(angle);
 
         AxisAngle result = new AxisAngle(angle, t);
+
         return result;
     }
 }

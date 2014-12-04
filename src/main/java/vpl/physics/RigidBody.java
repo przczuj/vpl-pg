@@ -9,7 +9,6 @@ import vpl.math.Triple;
 import vpl.math.BasicMath;
 import vpl.physics.shapes.BallShape;
 import java.util.ArrayList;
-import java.util.List;
 import vpl.math.Matrix;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,26 +20,51 @@ import lombok.Setter;
 public class RigidBody {
 
     private BasicMath mathLogic;
-    
-    @Getter private double timeTick;
-    @Getter private double mass;
-    @Getter @Setter private Quaternion q;//for calculations of rotation
-    @Getter @Setter private Triple linearMomentum;
-    @Getter @Setter private Triple angularMomentum;
-    @Getter @Setter private Triple linearVelocity;
-    @Getter @Setter private Triple angularVelocity;
-    @Getter @Setter private Shape shape; //defines the shape of rigid body (eg. block, ball, disc etc)
-    @Getter @Setter private Force totalForce;
-    @Getter @Setter private Torque totalTorque;
-    @Getter @Setter private ArrayList<Force> actingForces;
-    @Getter @Setter private ArrayList<Torque> actingTorques;
-    @Getter @Setter private boolean forcesChanged;
-    @Setter private Triple position;// location of the center of mass
-    
+
+    @Getter
+    private double timeTick;
+    @Getter
+    private double mass;
+    @Getter
+    @Setter
+    private Quaternion q;//for calculations of rotation
+    @Getter
+    @Setter
+    private Triple linearMomentum;
+    @Getter
+    @Setter
+    private Triple angularMomentum;
+    @Getter
+    @Setter
+    private Triple linearVelocity;
+    @Getter
+    @Setter
+    private Triple angularVelocity;
+    @Getter
+    @Setter
+    private Shape shape; //defines the shape of rigid body (eg. block, ball, disc etc)
+    @Getter
+    @Setter
+    private Force totalForce;
+    @Getter
+    @Setter
+    private Torque totalTorque;
+    @Getter
+    @Setter
+    private ArrayList<Force> actingForces;
+    @Getter
+    @Setter
+    private ArrayList<Torque> actingTorques;
+    @Getter
+    @Setter
+    private boolean forcesChanged;
+    @Setter
+    private Triple position;// location of the center of mass
+
     private Force previousTotalForce;
     private Torque previousTotalTorque;
     private ArrayList<Force> actingUniformForces;
-    
+
     private AxisAngle rotationAngles;
     private Matrix rotationMatrix;
     private Matrix rotationMatrixRateOfChange;
@@ -98,13 +122,12 @@ public class RigidBody {
         calculatePosition();
         return position;
     }
-    
+
     /*   public Force calculateTotalForce()
      {
      this.totalForce = totalForce;
      }
      */
-
     public void registerForce(Force f) //'normal' force
     {
         actingForces.add(f);
@@ -177,8 +200,6 @@ public class RigidBody {
         //value of F(t)dt integral over that could be approximated as the area of following trapesius 
         //deltaP = (Fcurrent - Fold)*timeElapsed
         //obviously current (estimated) value of linear momentum equals to linearMomentum + linMom
-
-
         linMom.setX(mathLogic.integrate(previousTotalForce.getForceValue().getX(), totalForce.getForceValue().getX(), timeTick));
         linMom.setY(mathLogic.integrate(previousTotalForce.getForceValue().getY(), totalForce.getForceValue().getY(), timeTick));
         linMom.setZ(mathLogic.integrate(previousTotalForce.getForceValue().getZ(), totalForce.getForceValue().getZ(), timeTick));
@@ -202,7 +223,6 @@ public class RigidBody {
         //value of F(t)dt integral over that could be approximated as the area of following trapesius 
         //deltaP = (Fcurrent - Fold)*timeElapsed
         //obviously current (estimated) value of linear momentum equals to linearMomentum + linMom
-
         //  totalTorque.
         angMom.setX(mathLogic.integrate(previousTotalTorque.getTorque().getX(), totalTorque.getTorque().getX(), timeTick));
         angMom.setY(mathLogic.integrate(previousTotalTorque.getTorque().getY(), totalTorque.getTorque().getY(), timeTick));
@@ -265,7 +285,6 @@ public class RigidBody {
             }
         }
 
-
     }
 
     public void print() {
@@ -281,6 +300,9 @@ public class RigidBody {
     }
 
     public void calculate() {
+        for (Force f : actingForces) {
+            f.decrementTimeToLive(timeTick, this);
+        }
         calculatePosition();
         calculateRotation();
     }
