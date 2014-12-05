@@ -15,11 +15,26 @@ import lombok.Setter;
  */
 public class ConeShape extends Shape {
 
-    @Getter @Setter protected double r, h;
+    @Getter
+    @Setter
+    protected double r, h;
 
     public ConeShape() throws Exception {
         init();
         type = new String("CONE");
+
+    }
+
+    @Override
+    public void calculateRadius() {
+        double radius1, radius2;
+        radius1 = h * 3 / 4.0;
+        radius2 = h / 16.0 * h + r * r;
+        if (radius1 > radius2) {
+            sphereRadius = radius1;
+        } else {
+            sphereRadius = radius2;
+        }
     }
 
     @Override

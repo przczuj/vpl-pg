@@ -4,10 +4,6 @@
  */
 package vpl.gui;
 
-/**
- *
- * @author Przemys³aw Czuj
- */
 public class ExperimentExecutionJPanel extends javax.swing.JPanel {
 
     /**

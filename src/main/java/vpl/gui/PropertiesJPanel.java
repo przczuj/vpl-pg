@@ -4,10 +4,6 @@
  */
 package vpl.gui;
 
-/**
- *
- * @author Przemys³aw Czuj
- */
 public class PropertiesJPanel extends javax.swing.JPanel {
 
     /**

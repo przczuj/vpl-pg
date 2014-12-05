@@ -21,10 +21,6 @@ import vpl.physics.RigidBody;
 import vpl.physics.controller.Model;
 import vpl.physics.controller.SimpleListener;
 
-/**
- *
- * @author Przemys³aw Czuj
- */
 public class ObjectListJPanel extends javax.swing.JPanel implements SimpleListener {
     
     private Map<String, RigidBody> rigidBodies;

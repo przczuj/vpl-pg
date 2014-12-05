@@ -14,11 +14,39 @@ import lombok.Setter;
  */
 public class Force {
 
-    @Getter @Setter private Triple forceValue;
-    @Getter @Setter private Triple forceLocation;
+    @Setter
+    private Triple forceValue;
+    @Getter
+    @Setter
+    private Triple forceLocation;
+    @Getter
+    @Setter
+    private double timeToLive;
+    @Getter
+    @Setter
+    private boolean forever;
 
     public Force() {
         forceValue = new Triple();
         forceLocation = new Triple();
+        timeToLive = 1;
+        forever = true;
+    }
+
+    public Triple getForceValue() {
+        if (timeToLive < 0 && !forever) {
+            return new Triple();
+        }
+        return forceValue;
+    }
+
+    public void decrementTimeToLive(double timeTick, RigidBody rb) {
+        if (!forever) {
+            timeToLive = timeToLive - timeTick;
+        }
+        if (timeToLive < 0 && !forever) {
+
+            rb.setForcesChanged(true);
+        }
     }
 }

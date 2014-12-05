@@ -25,10 +25,6 @@ import vpl.shapes.Cuboid;
 import vpl.shapes.Cyllinder;
 import vpl.shapes.Shape;
 
-/**
- *
- * @author Przemys³aw Czuj
- */
 public class AddObjectJPanel extends javax.swing.JPanel {
 
     public List<Shape> shapesList;
@@ -284,6 +280,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                 BallShape ball = new BallShape();
                 ball.setR(r);
                 ball.setType("BALL");
+                ball.calculateRadius();
                 api.createRigidBody(ball, new Triple(x, y, z), 0, 10);
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
@@ -296,6 +293,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                 cube.setX(a);
                 cube.setY(a);
                 cube.setZ(a);
+                cube.calculateRadius();
                 api.createRigidBody(cube, new Triple(x, y, z), 0, 10);
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
@@ -308,9 +306,10 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                 cuboid.setX(a);
                 cuboid.setY(b);
                 cuboid.setZ(c);
-                if(a==b&&b==c&&a==c){
+                if (a == b && b == c && a == c) {
                     cuboid.setType("CUBE");
                 }
+                cuboid.calculateRadius();
                 api.createRigidBody(cuboid, new Triple(x, y, z), 0, 10);
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
@@ -322,6 +321,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                 CyllinderShape cyllinder = new CyllinderShape();
                 cyllinder.setR(r);
                 cyllinder.setH(h);
+                cyllinder.calculateRadius();
                 api.createRigidBody(cyllinder, new Triple(x, y, z), 0, 10);
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
@@ -333,6 +333,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                 ConeShape cone = new ConeShape();
                 cone.setR(r);
                 cone.setH(h);
+                cone.calculateRadius();
                 api.createRigidBody(cone, new Triple(x, y, z), 0, 10);
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);

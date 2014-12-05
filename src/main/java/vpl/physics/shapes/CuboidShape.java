@@ -15,11 +15,18 @@ import lombok.Setter;
  */
 public class CuboidShape extends Shape {
 
-    @Getter @Setter protected double x, y, z;
+    @Getter
+    @Setter
+    protected double x, y, z;
 
     public CuboidShape() throws Exception {
         init();
-        type=("CUBOID");
+        type = ("CUBOID");
+    }
+
+    @Override
+    public void calculateRadius() {
+        sphereRadius = Math.sqrt(x * x + y * y + z * z) / 2;
     }
 
     @Override
