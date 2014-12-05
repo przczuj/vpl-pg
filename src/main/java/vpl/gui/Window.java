@@ -5,45 +5,18 @@
  */
 package vpl.gui;
 
-import vpl.shapes.Ball;
-import vpl.shapes.Cuboid;
-import vpl.shapes.Cube;
-import vpl.shapes.Shape;
-import com.jogamp.opengl.util.Animator;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.media.opengl.awt.GLCanvas;
-import javax.swing.DefaultListModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import lombok.Getter;
-import lombok.Setter;
-import vpl.math.Triple;
-import vpl.model.VplScene;
-import vpl.shapes.Cone;
-import vpl.shapes.Cyllinder;
-import vpl.physics.controller.ControllerStub;
-import vpl.physics.shapes.BallShape;
-import vpl.physics.shapes.ConeShape;
-import vpl.physics.shapes.CuboidShape;
-import vpl.physics.shapes.CyllinderShape;
-
 /**
  *
  * @author krzysztof
  */
-public class GUI extends javax.swing.JFrame {
+public class Window extends javax.swing.JFrame {
 
     /**
-     * Creates new form GUI
+     * Creates new form Window
      */
-    public GUI() {
+    public Window() {
         initComponents();
-        mainPanel = new GuiCoreJPanel();
-        add(mainPanel);
-        mainPanel.prepareJOGL();
+        rootJPanel1.startAnimator();
     }
 
     /**
@@ -55,9 +28,12 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        rootJPanel1 = new vpl.gui.RootJPanel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(460, 360));
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        setPreferredSize(new java.awt.Dimension(1086, 661));
+        getContentPane().add(rootJPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -79,26 +55,26 @@ public class GUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                GUI gui = new GUI();
+                Window gui = new Window();
                 gui.setVisible(true);
             }
         });
     }
 
-    private GuiCoreJPanel mainPanel;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private vpl.gui.RootJPanel rootJPanel1;
     // End of variables declaration//GEN-END:variables
 }

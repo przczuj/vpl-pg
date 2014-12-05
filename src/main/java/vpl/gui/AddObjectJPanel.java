@@ -4,83 +4,59 @@
  */
 package vpl.gui;
 
-import vpl.shapes.Ball;
-import vpl.shapes.Cuboid;
-import vpl.shapes.Cube;
-import vpl.shapes.Shape;
-import com.jogamp.opengl.util.Animator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.media.opengl.awt.GLCanvas;
 import javax.swing.DefaultListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import lombok.Getter;
-import lombok.Setter;
 import vpl.math.Triple;
-import vpl.model.VplScene;
-import vpl.shapes.Cone;
-import vpl.shapes.Cyllinder;
 import vpl.physics.controller.ControllerStub;
+import vpl.physics.controller.Model;
 import vpl.physics.shapes.BallShape;
 import vpl.physics.shapes.ConeShape;
 import vpl.physics.shapes.CuboidShape;
 import vpl.physics.shapes.CyllinderShape;
+import vpl.shapes.Ball;
+import vpl.shapes.Cone;
+import vpl.shapes.Cube;
+import vpl.shapes.Cuboid;
+import vpl.shapes.Cyllinder;
+import vpl.shapes.Shape;
 
-public class GuiCoreJPanel extends javax.swing.JPanel {
+/**
+ *
+ * @author Przemys�aw Czuj
+ */
+public class AddObjectJPanel extends javax.swing.JPanel {
 
-    private Animator animator;
-
-    double xl, yl, zl;
-    double xang = 0, yang = 0;
-    double x, y, z;
-    int mx, my;
-    public List<Shape> shapesList = new ArrayList<Shape>();
-    @Getter @Setter private VplScene sceneModel;
-    @Getter @Setter private ControllerStub api;
+    public List<Shape> shapesList;
+    private Model model;
+    private ControllerStub api;
     
     /**
-     * Creates new form GuiCoreJPanel
+     * Creates new form AddObjectJPanel
      */
-    public GuiCoreJPanel() {
-        sceneModel = new VplScene();
-        glCanvas = new GLCanvas();
-
+    public AddObjectJPanel() {
+        model = Model.getInstance();
+        api = model.getPhysics();
+        
+        shapesList = new ArrayList<>();
         initComponents();
-        api = new ControllerStub();
-        this.graphicsPanel.add(this.glCanvas);
-        glCanvas.setSize(graphicsPanel.getSize());
 
-        DefaultListModel<String> model = new DefaultListModel<String>();
-        model.addElement("ball");
-        model.addElement("cube");
-        model.addElement("cuboid");
-        model.addElement("cyllinder");
-        model.addElement("cone");
-        this.elementsList.setModel(model);
+        DefaultListModel<String> listModel = new DefaultListModel<String>();
+        listModel.addElement("ball");
+        listModel.addElement("cube");
+        listModel.addElement("cuboid");
+        listModel.addElement("cyllinder");
+        listModel.addElement("cone");
+        this.elementsList.setModel(listModel);
         this.elementsList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent lse) {
                 //tu będzie blokowanie odpowiednich pól
             }
         });
-    }
-        
-    public void prepareJOGL() {
-        GuiControlHandler controlHandler = new GuiControlHandler(sceneModel);
-        this.glCanvas.addKeyListener(controlHandler);
-        this.glCanvas.addMouseListener(controlHandler);
-        this.glCanvas.addMouseMotionListener(controlHandler);
-        this.glCanvas.addGLEventListener(new GLDrawingHandler(sceneModel, api));
-        animator = new Animator(this.glCanvas);
-        animator.start();
-    }
-    
-    public void stopAnimator() {
-        if (animator != null) {
-            animator.stop();
-        }
     }
 
     /**
@@ -92,7 +68,6 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        MenuPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         elementsList = new javax.swing.JList();
         propertiesLabel = new javax.swing.JLabel();
@@ -120,11 +95,8 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
         positionLabel = new javax.swing.JLabel();
         hLabel = new javax.swing.JLabel();
         hTextField = new javax.swing.JTextField();
-        graphicsPanel = new javax.swing.JPanel();
 
-        setLayout(new java.awt.BorderLayout());
-
-        MenuPanel.setMinimumSize(new java.awt.Dimension(300, 400));
+        setMaximumSize(new java.awt.Dimension(257, 32767));
 
         elementsList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -192,23 +164,23 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
 
         hTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
-        javax.swing.GroupLayout MenuPanelLayout = new javax.swing.GroupLayout(MenuPanel);
-        MenuPanel.setLayout(MenuPanelLayout);
-        MenuPanelLayout.setHorizontalGroup(
-            MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MenuPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(positionLabel)
-                    .addComponent(addShapeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(addShapeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(MenuPanelLayout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(propertiesLabel)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(MenuPanelLayout.createSequentialGroup()
-                        .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(bLabel)
                             .addComponent(cLabel)
                             .addComponent(xAngleLabel)
@@ -221,7 +193,7 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
                             .addComponent(xLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(zAngleLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(zAngleTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(aTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(hTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -235,68 +207,62 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
                             .addComponent(yAngleTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
-        MenuPanelLayout.setVerticalGroup(
-            MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MenuPanelLayout.createSequentialGroup()
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(propertiesLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(MenuPanelLayout.createSequentialGroup()
-                        .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(xLabel)
-                            .addComponent(xTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(xTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(xLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(yLabel)
                             .addComponent(yTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(zTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(zLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(rLabel)
                             .addComponent(rTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(hLabel)
                             .addComponent(hTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(aLabel)
                             .addComponent(aTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(bLabel)
                             .addComponent(bTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cLabel)
                             .addComponent(cTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(xAngleLabel)
                             .addComponent(xAngleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(yAngleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(yAngleLabel)
                     .addComponent(addShapeButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(zAngleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(zAngleLabel)
                     .addComponent(positionLabel))
-                .addContainerGap(201, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        add(MenuPanel, java.awt.BorderLayout.WEST);
-
-        graphicsPanel.setMinimumSize(new java.awt.Dimension(200, 200));
-        graphicsPanel.setLayout(new java.awt.BorderLayout());
-        add(graphicsPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void addShapeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addShapeButtonActionPerformed
@@ -323,7 +289,7 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
                 ball.setType("BALL");
                 api.createRigidBody(ball, new Triple(x, y, z), 0, 10);
             } catch (Exception ex) {
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (selected.equals("cube")) {
             try {
@@ -333,7 +299,7 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
                 cube.setZ(a);
                 api.createRigidBody(cube, new Triple(x, y, z), 0, 10);
             } catch (Exception ex) {
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
             shapesList.add(new Cube(x, y, z, xa, ya, za, a));
         } else if (selected.equals("cuboid")) {
@@ -348,7 +314,7 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
                 api.createRigidBody(cuboid, new Triple(x, y, z), 0, 10);
 
             } catch (Exception ex) {
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             shapesList.add(new Cuboid(x, y, z, xa, ya, za, a, b, c));
@@ -359,7 +325,7 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
                 cyllinder.setH(h);
                 api.createRigidBody(cyllinder, new Triple(x, y, z), 0, 10);
             } catch (Exception ex) {
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             shapesList.add(new Cyllinder(x, y, z, xa, ya, za, r, h));
@@ -370,7 +336,7 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
                 cone.setH(h);
                 api.createRigidBody(cone, new Triple(x, y, z), 0, 10);
             } catch (Exception ex) {
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             shapesList.add(new Cone(x, y, z, xa, ya, za, r, h));
@@ -379,9 +345,7 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_addShapeButtonActionPerformed
 
-    private GLCanvas glCanvas;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel MenuPanel;
     private javax.swing.JLabel aLabel;
     private javax.swing.JTextField aTextField;
     private javax.swing.JButton addShapeButton;
@@ -390,7 +354,6 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel cLabel;
     private javax.swing.JTextField cTextField;
     private javax.swing.JList elementsList;
-    private javax.swing.JPanel graphicsPanel;
     private javax.swing.JLabel hLabel;
     private javax.swing.JTextField hTextField;
     private javax.swing.JScrollPane jScrollPane1;

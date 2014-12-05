@@ -9,7 +9,9 @@ import vpl.math.Triple;
 import vpl.physics.api.RigidBodyApi;
 import vpl.physics.api.RigidBodyDrawingInfo;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,10 +25,13 @@ import lombok.Setter;
  */
 public class ControllerStub {
 
-    @Getter @Setter private List<RigidBody> rigidBodies;
-    @Getter @Setter private List<Force> uniformForces;
+    @Getter @Setter private Experiment experiment;
+    
+    @Getter @Setter private Map<String, RigidBody> rigidBodies;
+    @Getter @Setter private Map<String, Force> uniformForces;
     @Getter @Setter private List<Collision> collisions;
     @Getter @Setter private List<RigidBodyDrawingInfo> toBeDrawn;
+    
     private RigidBodyApi api;
 
     private void checkCollisions() {
@@ -34,8 +39,8 @@ public class ControllerStub {
         possibleCollisions = new ArrayList<Collision>();
         //checking if possible (not yet finally implemented
         //basically used to reduce the number of complex collision detection calculation
-        for (RigidBody rb1 : rigidBodies) {
-            for (RigidBody rb2 : rigidBodies) {
+        for (RigidBody rb1 : rigidBodies.values()) {
+            for (RigidBody rb2 : rigidBodies.values()) {
                 //if rb1 and rb2 are both the same object, there won't be any collision...
                 if (rb1.equals(rb2)) {
                     continue;
@@ -69,7 +74,7 @@ public class ControllerStub {
 
     public void update() {
         toBeDrawn = new ArrayList<RigidBodyDrawingInfo>();
-        for (RigidBody rb : rigidBodies) {
+        for (RigidBody rb : rigidBodies.values()) {
             rb.calculate();
             RigidBodyDrawingInfo drawingInfo = new RigidBodyDrawingInfo();
             drawingInfo.setShape(api.getShape(rb));
@@ -81,10 +86,10 @@ public class ControllerStub {
     }
 
     private void init() {
-        rigidBodies = new ArrayList<RigidBody>();
+        rigidBodies = new HashMap<String, RigidBody>();
 
         collisions = new ArrayList<Collision>();
-        uniformForces = new ArrayList<Force>();
+        uniformForces = new HashMap<String, Force>();
         api = new RigidBodyApi();
     }
 
@@ -108,14 +113,14 @@ public class ControllerStub {
         rb.setPosition(position);
         rb.setMass(mass);
         rb.getShape().recalculate();
-        rigidBodies.add(rb);
+        rigidBodies.put("body " + rigidBodies.size(), rb);
     }
 
     public void createUniformForce(Triple value) {
         Force uniformForce = new Force();
         uniformForce.setForceValue(value);
-        uniformForces.add(uniformForce);
-        for (RigidBody rb : rigidBodies) {
+        uniformForces.put("force " + uniformForces.size(), uniformForce);
+        for (RigidBody rb : rigidBodies.values()) {
             rb.registerUniformForce(uniformForce);
         }
     }

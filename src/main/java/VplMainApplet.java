@@ -11,9 +11,8 @@ import javax.media.opengl.GLProfile;
 import javax.media.opengl.awt.GLCanvas;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import joglTest.JOGLtest;
 import sun.security.util.SecurityConstants;
-import vpl.gui.GuiCoreJPanel;
+import vpl.gui.RootJPanel;
 
 /*
  * To change this template, choose Tools | Templates
@@ -55,11 +54,10 @@ public class VplMainApplet extends javax.swing.JApplet {
             java.awt.EventQueue.invokeAndWait(new Runnable() {
                 public void run() {
                     initComponents();
-                    mainPanel =  new GuiCoreJPanel();
-                    add(mainPanel);
                     Container parent = getParent();
                     if (parent != null) {
                         setSize(parent.getSize());
+                        setPreferredSize(parent.getPreferredSize());
                     }
                 }
             });
@@ -71,7 +69,7 @@ public class VplMainApplet extends javax.swing.JApplet {
     @Override
     public void start() {
         if (mainPanel != null) {
-            mainPanel.prepareJOGL();
+            mainPanel.startAnimator();
         }
     }
 
@@ -91,11 +89,13 @@ public class VplMainApplet extends javax.swing.JApplet {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        mainPanel = new vpl.gui.RootJPanel();
+
         setMinimumSize(new java.awt.Dimension(460, 360));
         setPreferredSize(new java.awt.Dimension(800, 600));
+        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private vpl.gui.RootJPanel mainPanel;
     // End of variables declaration//GEN-END:variables
-
-    GuiCoreJPanel mainPanel;
 }

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package vpl.gui;
+package vpl.gui.gl;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -10,9 +10,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import vpl.math.Triple;
-import vpl.model.VplScene;
+import vpl.physics.controller.Model;
 
-public class GuiControlHandler implements KeyListener, MouseListener, MouseMotionListener{
+public class GLControlHandler implements KeyListener, MouseListener, MouseMotionListener {
     
     private Triple cameraPosition;
     private Triple lookingPoint;
@@ -22,10 +22,10 @@ public class GuiControlHandler implements KeyListener, MouseListener, MouseMotio
     private double xl,yl,zl;
     double mx,my;
     
-    private final VplScene model;
+    private final Model model;
 
-    GuiControlHandler(VplScene model) {
-        this.model = model;
+    GLControlHandler() {
+        this.model = Model.getInstance();
     }
     
     @Override

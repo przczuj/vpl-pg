@@ -60,6 +60,7 @@ public class ManualAppletExecution {
         });
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        frame.setSize(applet.getPreferredSize());
         return frame;
     }
     

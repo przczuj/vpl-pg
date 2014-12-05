@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package vpl.gui;
+package vpl.gui.gl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +11,9 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
-import vpl.Utils.Timer;
+import vpl.utils.Timer;
 import vpl.math.Triple;
-import vpl.model.VplScene;
+import vpl.physics.controller.Model;
 import vpl.physics.RigidBody;
 import vpl.physics.controller.ControllerStub;
 import vpl.physics.shapes.BallShape;
@@ -37,12 +37,12 @@ public class GLDrawingHandler implements GLEventListener {
     double py = 0;
     public static List<Shape> shapesList;
     
-    private final VplScene model;
+    private final Model model;
     private final ControllerStub api;
 
-    public GLDrawingHandler(VplScene model, ControllerStub api) {
-        this.model = model;
-        this.api = api;
+    public GLDrawingHandler() {
+        this.model = Model.getInstance();
+        this.api = model.getPhysics();
     }
 
     @Override
@@ -204,7 +204,7 @@ public class GLDrawingHandler implements GLEventListener {
 
     public void convertRigidBodiesToShapes() {
         shapesList = new ArrayList<Shape>();
-        List<RigidBody> rigidBodiesList = api.getRigidBodies();
+        List<RigidBody> rigidBodiesList = new ArrayList(api.getRigidBodies().values());
         for (RigidBody rb : rigidBodiesList) {
             String type = rb.getShape().getType();
             Triple position = rb.getPosition();
