@@ -9,6 +9,7 @@ import vpl.math.Triple;
 import javax.swing.JOptionPane;
 import lombok.Getter;
 import lombok.Setter;
+import vpl.physics.AxisAngle;
 
 /**
  *
@@ -16,9 +17,15 @@ import lombok.Setter;
  */
 public class Matrix {
 
-    @Getter @Setter private int columns;
-    @Getter @Setter private int rows;
-    @Getter @Setter private double[][] matrix;
+    @Getter
+    @Setter
+    private int columns;
+    @Getter
+    @Setter
+    private int rows;
+    @Getter
+    @Setter
+    private double[][] matrix;
 
     private boolean isSquare() {
         if (this.rows == this.columns) {
@@ -47,6 +54,39 @@ public class Matrix {
         }
 
         return sum;
+    }
+
+    public Matrix anglesToRotationMatrix(AxisAngle angles) {
+        Matrix matrix = new Matrix(3, 3);
+        double c = Math.cos(Math.toRadians(angles.getAngle()));
+        double s = Math.sin(Math.toRadians(angles.getAngle()));
+
+        double t = 1.0 - c;
+        //time to scale
+        double magnitude = //2.0 * Math.PI / 360.0;
+                Math.sqrt(angles.getAngles().getX() * angles.getAngles().getX()
+                        + angles.getAngles().getY() * angles.getAngles().getY() + angles.getAngles().getZ() * angles.getAngles().getZ());
+
+        angles.getAngles().setX(angles.getAngles().getX() / magnitude);
+        angles.getAngles().setY(angles.getAngles().getY() / magnitude);
+        angles.getAngles().setZ(angles.getAngles().getZ() / magnitude);
+        matrix.setValueAt(0, 0, (c + angles.getAngles().getX() * angles.getAngles().getX() * t));
+        matrix.setValueAt(1, 1, (c + angles.getAngles().getY() * angles.getAngles().getY() * t));
+        matrix.setValueAt(2, 2, (c + angles.getAngles().getZ() * angles.getAngles().getZ() * t));
+        double tmp1 = angles.getAngles().getX() * angles.getAngles().getY() * t;
+        double tmp2 = angles.getAngles().getZ() * s;
+        matrix.setValueAt(1, 0, tmp1 + tmp2);
+        matrix.setValueAt(0, 1, tmp1 - tmp2);
+        tmp1 = angles.getAngles().getX() * angles.getAngles().getZ() * t;
+        tmp2 = angles.getAngles().getY() * s;
+        matrix.setValueAt(2, 0, tmp1 - tmp2);
+        matrix.setValueAt(0, 2, tmp1 + tmp2);
+        tmp1 = angles.getAngles().getY() * angles.getAngles().getZ() * t;
+
+        tmp2 = angles.getAngles().getX() * s;
+        matrix.setValueAt(2, 1, tmp1 + tmp2);
+        matrix.setValueAt(1, 2, tmp1 - tmp2);
+        return matrix;
     }
 
     public Matrix createSubMatrix(Matrix matrix, int excludingRow, int excludingColumn) {
