@@ -34,10 +34,12 @@ public class Triple {
         return l;
     }
 
-    public Triple getDistance(Triple a, Triple b) {
-        Triple t = new Triple();
-
-        return t;
+    public double getDistance(Triple other) {
+        double dx=this.x-other.x;
+        double dy=this.y-other.y;
+        double dz=this.z-other.z;
+        double distance=Math.sqrt(dx*dx+dy*dy+dz*dz);
+        return distance;
     }
 
     public Matrix toMatrix() {

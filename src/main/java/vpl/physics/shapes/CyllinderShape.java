@@ -26,6 +26,11 @@ public class CyllinderShape extends Shape {
     }
 
     @Override
+    public void calculateRadius() {
+        sphereRadius = Math.sqrt(r * r + h * h) / 2;
+    }
+
+    @Override
     public void recalculate() {
         //for a x*y*z block
         IBody.setValueAt(0, 0, (12 * h * h + 3 * r * r) * mass / 20);

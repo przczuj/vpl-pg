@@ -22,7 +22,11 @@ public class CuboidShape extends Shape {
     public CuboidShape() throws Exception {
         init();
         type = ("CUBOID");
-        sphereRadius = Math.sqrt(x * x + y * y + z * z);
+    }
+
+    @Override
+    public void calculateRadius() {
+        sphereRadius = Math.sqrt(x * x + y * y + z * z) / 2;
     }
 
     @Override

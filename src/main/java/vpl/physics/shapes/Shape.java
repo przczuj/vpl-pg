@@ -65,6 +65,8 @@ public abstract class Shape {
         //   InvertedIBody =  IBody.inverse(IBody);
     }
 
+    public abstract void calculateRadius();
+
     public abstract void recalculate();/*
      {
      //for a axbxc block

@@ -38,9 +38,13 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
     double x, y, z;
     int mx, my;
     public List<Shape> shapesList = new ArrayList<Shape>();
-    @Getter @Setter private VplScene sceneModel;
-    @Getter @Setter private ControllerStub api;
-    
+    @Getter
+    @Setter
+    private VplScene sceneModel;
+    @Getter
+    @Setter
+    private ControllerStub api;
+
     /**
      * Creates new form GuiCoreJPanel
      */
@@ -66,7 +70,7 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
             }
         });
     }
-        
+
     public void prepareJOGL() {
         GuiControlHandler controlHandler = new GuiControlHandler(sceneModel);
         this.glCanvas.addKeyListener(controlHandler);
@@ -76,7 +80,7 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
         animator = new Animator(this.glCanvas);
         animator.start();
     }
-    
+
     public void stopAnimator() {
         if (animator != null) {
             animator.stop();
@@ -321,6 +325,7 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
                 BallShape ball = new BallShape();
                 ball.setR(r);
                 ball.setType("BALL");
+                ball.calculateRadius();
                 api.createRigidBody(ball, new Triple(x, y, z), 0, 10);
             } catch (Exception ex) {
                 Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -331,6 +336,7 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
                 cube.setX(a);
                 cube.setY(a);
                 cube.setZ(a);
+                cube.calculateRadius();
                 api.createRigidBody(cube, new Triple(x, y, z), 0, 10);
             } catch (Exception ex) {
                 Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -342,9 +348,10 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
                 cuboid.setX(a);
                 cuboid.setY(b);
                 cuboid.setZ(c);
-                if(a==b&&b==c&&a==c){
+                if (a == b && b == c && a == c) {
                     cuboid.setType("CUBE");
                 }
+                cuboid.calculateRadius();
                 api.createRigidBody(cuboid, new Triple(x, y, z), 0, 10);
 
             } catch (Exception ex) {
@@ -357,6 +364,7 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
                 CyllinderShape cyllinder = new CyllinderShape();
                 cyllinder.setR(r);
                 cyllinder.setH(h);
+                cyllinder.calculateRadius();
                 api.createRigidBody(cyllinder, new Triple(x, y, z), 0, 10);
             } catch (Exception ex) {
                 Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -368,6 +376,7 @@ public class GuiCoreJPanel extends javax.swing.JPanel {
                 ConeShape cone = new ConeShape();
                 cone.setR(r);
                 cone.setH(h);
+                cone.calculateRadius();
                 api.createRigidBody(cone, new Triple(x, y, z), 0, 10);
             } catch (Exception ex) {
                 Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);

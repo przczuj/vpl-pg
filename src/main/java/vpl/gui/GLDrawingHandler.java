@@ -36,7 +36,7 @@ public class GLDrawingHandler implements GLEventListener {
     double mx, my;
     double py = 0;
     public static List<Shape> shapesList;
-    
+
     private final VplScene model;
     private final ControllerStub api;
 
@@ -87,6 +87,9 @@ public class GLDrawingHandler implements GLEventListener {
         this.xl = lookingPoint.getX();
         this.yl = lookingPoint.getY();
         this.zl = lookingPoint.getZ();
+
+        //collisions (should be moved to better place)
+        checkCollisions();
 
         convertRigidBodiesToShapes();
         drawShapes(gl);
@@ -234,6 +237,24 @@ public class GLDrawingHandler implements GLEventListener {
                     shapesList.add(new Cone(position.getX(), position.getY(), position.getZ(),
                             angles.getX(), angles.getY(), angles.getZ(), cone.getR(), cone.getH()));
                     break;
+            }
+        }
+    }
+
+    private void checkCollisions() {
+        List<RigidBody> rigidBodies = api.getRigidBodies();
+
+        for (int i = 0; i < rigidBodies.size(); i++) {
+            List<RigidBody> checkInNextStep = new ArrayList<RigidBody>();
+            for (int j = i + 1; j < rigidBodies.size(); j++) {
+                RigidBody rb1 = rigidBodies.get(i);
+                RigidBody rb2 = rigidBodies.get(j);
+                double distance = rb1.getPosition().getDistance(rb2.getPosition());
+                double r1 = rb1.getShape().getSphereRadius();
+                double r2 = rb2.getShape().getSphereRadius();
+                if (distance <= r1 + r2) {
+                    checkInNextStep.add(rb2);
+                }
             }
         }
     }

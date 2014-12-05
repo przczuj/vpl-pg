@@ -14,13 +14,18 @@ import lombok.Getter;
  */
 public class BallShape extends Shape {
 
-    @Getter protected double r;
+    @Getter
+    protected double r;
 
     public BallShape() throws Exception {
         super();
         init();
         type = new String("BALL");
-        sphereRadius=r;
+    }
+
+    @Override
+    public void calculateRadius() {
+        sphereRadius = r;
     }
 
     public void setR(double r) {
