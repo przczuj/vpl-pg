@@ -7,6 +7,8 @@ package vpl.math;
 import vpl.physics.AxisAngle;
 import vpl.math.Matrix;
 import java.lang.Exception;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
 /**
  *
@@ -34,10 +36,10 @@ public class BasicMath {
     }
 
     public Triple crossProduct(Triple A, Triple B) {
-        //crossproduct of A and B gives C, where:       
-//Cx = AyBz - AzBy 
-//Cy = AzBx - AxBz 
-//Cz = AxBy - AyBx 
+        //crossproduct of A and B gives C, where:      
+//Cx = AyBz - AzBy
+//Cy = AzBx - AxBz
+//Cz = AxBy - AyBx
         //thus:
         Triple C = new Triple();
         C.setX(A.getY() * B.getZ() - A.getZ() * B.getY());
@@ -53,6 +55,61 @@ public class BasicMath {
         C.setY(A.getY() + B.getY());
         C.setZ(A.getZ() + B.getZ());
         return C;
+    }
+
+    public Triple createNormalVector(Triple A, Triple B, Triple C) {
+        Triple AB = new Triple();
+        AB.setX(B.getX() - A.getX());
+        AB.setY(B.getY() - A.getY());
+        AB.setZ(B.getZ() - A.getZ());
+
+        Triple AC = new Triple();
+        AC.setX(C.getX() - A.getX());
+        AC.setY(C.getY() - A.getY());
+        AC.setZ(C.getZ() - A.getZ());
+
+        return crossProduct(AB, AC);
+    }
+
+    public Triple rotatePoint(Triple p, Triple c, double anglex, double angley, double anglez) {
+        p.setXYZ(p.getX() - c.getX(), p.getY() - c.getY(), p.getZ() - c.getZ());
+        double[][] pcoords = new double[1][3];
+        pcoords[0][0] = p.getX();
+        pcoords[0][1] = p.getY();
+        pcoords[0][2] = p.getZ();
+        Matrix P = new Matrix(pcoords);
+        Matrix Rx = createRotationMatrix(1, 0, 0, anglex);
+        Matrix Ry = createRotationMatrix(0, 1, 0, angley);
+        Matrix Rz = createRotationMatrix(0, 0, 1, anglez);
+
+        //multipling
+        P = multiplyByMatrix(P, Rx);
+        P = multiplyByMatrix(P, Ry);
+        P = multiplyByMatrix(P, Rz);
+
+        p.setX(P.getValueAt(0, 0) + c.getX());
+        p.setY(P.getValueAt(0, 1) + c.getY());
+        p.setZ(P.getValueAt(0, 2) + c.getZ());
+
+        return p;
+    }
+
+    public Matrix createRotationMatrix(int x, int y, int z, double angle) {
+        double[][] m = new double[3][3];
+        double s = sin(angle);
+        double c = cos(angle);
+        m[0][0] = x * x * (1.0 - c) + c;
+        m[0][1] = x * y * (1.0 - c) - z * s;
+        m[0][2] = x * z * (1.0 - c) + y * s;
+
+        m[1][0] = y * x * (1.0 - c) + z * s;
+        m[1][1] = y * y * (1.0 - c) + c;
+        m[1][2] = y * z * (1.0 - c) - x * s;
+
+        m[2][0] = x * z * (1.0 - c) - y * s;
+        m[2][1] = y * z * (1.0 - c) + x * s;
+        m[2][2] = z * z * (1.0 - c) + c;
+        return new Matrix(m);
     }
 
     public Matrix multiplyByScalar(double scalar, Matrix toBeMultiplicated) {
@@ -124,7 +181,6 @@ public class BasicMath {
     }
 
     //inspired by http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/index.htm
-
     public Matrix anglesToRotationMatrix(AxisAngle angles) {
         Matrix matrix = new Matrix(3, 3);
         double c = Math.cos(Math.toRadians(angles.getAngle()));
@@ -132,8 +188,8 @@ public class BasicMath {
 
         double t = 1.0 - c;
         //time to scale
-        double magnitude = 2 * Math.PI / 360;
-              ///Math.sqrt(angles.getAngles().getX()*angles.getAngles().getX()
+        double magnitude = 2.0 * Math.PI / 360.0;
+        ///Math.sqrt(angles.getAngles().getX()*angles.getAngles().getX()
         ///  + angles.getAngles().getY()*angles.getAngles().getY() + angles.getAngles().getZ()*angles.getAngles().getZ());
 
         angles.getAngles().setX(angles.getAngles().getX() / magnitude);
@@ -158,8 +214,15 @@ public class BasicMath {
         return matrix;
     }
 
-    //inspired by http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/index.htm
+    public Triple dotProduct(Triple t1, Triple t2) {
+        Triple result = new Triple();
+        result.setX(t1.getX() * t2.getX());
+        result.setY(t1.getY() * t2.getY());
+        result.setZ(t1.getZ() * t2.getZ());
+        return result;
+    }
 
+    //inspired by http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/index.htm
     public AxisAngle rotationMatrixToAngles(Matrix rot) {
         Triple t = new Triple();
         double angle;

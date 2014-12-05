@@ -66,7 +66,7 @@ public class RigidBody {
     private ArrayList<Force> actingUniformForces;
 
     private AxisAngle rotationAngles;
-    private Matrix rotationMatrix;
+    @Setter private Matrix rotationMatrix;
     private Matrix rotationMatrixRateOfChange;
 
     public RigidBody() throws Exception {

@@ -10,6 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import lombok.Getter;
 
 public class PhysicsExecutionTask {
     private static PhysicsExecutionTask instance;
@@ -26,7 +27,7 @@ public class PhysicsExecutionTask {
     }
         
     ScheduledFuture<?> scheduleFuture;
-    private final static int TICK_RATE_MILLISEC = 50;
+    public final static int TICK_RATE_MILLISEC = 50;
     Model model;
 
     public void start() {

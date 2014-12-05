@@ -1,5 +1,5 @@
 package vpl.physics.controller;
-
+ 
 import vpl.physics.Collision;
 import vpl.physics.Force;
 import vpl.physics.RigidBody;
@@ -14,7 +14,10 @@ import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
-
+import vpl.math.BasicMath;
+import vpl.math.Matrix;
+import vpl.physics.AxisAngle;
+ 
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -24,16 +27,16 @@ import lombok.Setter;
  * @author kppx
  */
 public class ControllerStub {
-
+ 
     private Model model;
-    
+   
     @Getter @Setter private Map<String, RigidBody> rigidBodies;
     @Getter @Setter private Map<String, Force> uniformForces;
     @Getter @Setter private List<Collision> collisions;
     @Getter @Setter private List<RigidBodyDrawingInfo> toBeDrawn;
-    
+    private BasicMath mathLogic;
     private RigidBodyApi api;
-
+ 
     private void checkCollisions() {
         List<Collision> possibleCollisions;
         possibleCollisions = new ArrayList<Collision>();
@@ -59,20 +62,20 @@ public class ControllerStub {
             }
         }
     }
-
+ 
     public void solveCollisions() {
         checkCollisions();
         for (Collision c : collisions) {
             c.solveCollisions();
         }
     }
-
+ 
     public ControllerStub(Model model) {
         init();
         this.model = model;
     }
     //to be done every $timetick
-
+ 
     public void update() {
         toBeDrawn = new ArrayList<RigidBodyDrawingInfo>();
         for (RigidBody rb : rigidBodies.values()) {
@@ -81,24 +84,24 @@ public class ControllerStub {
             drawingInfo.setShape(api.getShape(rb));
             drawingInfo.setState(api.getState(rb));
             toBeDrawn.add(drawingInfo);
-
+ 
         }
         solveCollisions();
     }
-
+ 
     private void init() {
         rigidBodies = new HashMap<String, RigidBody>();
-
+        mathLogic = new BasicMath();
         collisions = new ArrayList<Collision>();
         uniformForces = new HashMap<String, Force>();
         api = new RigidBodyApi();
     }
-
+ 
     public void createRigidBodyExample() throws Exception {
-
+ 
         RigidBody rb = new RigidBody();
         BallShape shape = new BallShape();
-        shape.setR(10); //r of the ball     
+        shape.setR(10); //r of the ball    
         rb.setShape(shape);
         rb.setTimeTick(20);//20 ms
         Triple initialPosition = new Triple(0, 0, 0);//starting location is 0,0,0
@@ -106,17 +109,30 @@ public class ControllerStub {
         rb.setMass(1);//1 kg
         rb.getShape().recalculate();
     }
-
+ 
     public void createRigidBody(Shape shape, Triple position, double timeTick, double mass) throws Exception {
         RigidBody rb = new RigidBody();
         rb.setShape(shape);
-        rb.setTimeTick(timeTick);
+        //rb.setTimeTick(timeTick);
+        rb.setTimeTick(PhysicsExecutionTask.TICK_RATE_MILLISEC);
         rb.setPosition(position);
         rb.setMass(mass);
         rb.getShape().recalculate();
         rigidBodies.put("body " + rigidBodies.size(), rb);
     }
-
+    public void createRigidBody(Shape shape, Triple position, double timeTick, double mass, AxisAngle initialRotation) throws Exception {
+        RigidBody rb = new RigidBody();
+        rb.setShape(shape);
+        //rb.setTimeTick(timeTick);
+        Matrix rotation = mathLogic.anglesToRotationMatrix(initialRotation);
+       
+        rb.setTimeTick(PhysicsExecutionTask.TICK_RATE_MILLISEC);
+        rb.setPosition(position);
+        rb.setMass(mass);
+        rb.getShape().recalculate();
+        rb.setRotationMatrix(rotation);
+        rigidBodies.put("body " + rigidBodies.size(), rb);
+    }
     public void createUniformForce(Triple value) {
         Force uniformForce = new Force();
         uniformForce.setForceValue(value);
@@ -125,7 +141,7 @@ public class ControllerStub {
             rb.registerUniformForce(uniformForce);
         }
     }
-
+ 
     public void createForce(Triple value, Triple location, RigidBody rb, double timeToLive, boolean forever) {
         Force force = new Force();
         force.setForceValue(value);
@@ -133,6 +149,6 @@ public class ControllerStub {
         force.setTimeToLive(timeToLive);
         force.setForever(forever);
         rb.registerForce(force);
-
+ 
     }
 }

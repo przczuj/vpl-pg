@@ -34,12 +34,26 @@ public class Triple {
         return l;
     }
 
+    public void setXYZ(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
     public double getDistance(Triple other) {
-        double dx=this.x-other.x;
-        double dy=this.y-other.y;
-        double dz=this.z-other.z;
-        double distance=Math.sqrt(dx*dx+dy*dy+dz*dz);
+        double dx = this.x - other.x;
+        double dy = this.y - other.y;
+        double dz = this.z - other.z;
+        double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
         return distance;
+    }
+
+    public Triple getDistance(Triple a, Triple b) {
+        Triple t = new Triple();
+        t.setX(a.getX() - b.getX());
+        t.setX(a.getY() - b.getY());
+        t.setX(a.getZ() - b.getZ());
+        return t;
     }
 
     public Matrix toMatrix() {
