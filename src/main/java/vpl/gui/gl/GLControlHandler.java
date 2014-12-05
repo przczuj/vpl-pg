@@ -14,12 +14,12 @@ import vpl.physics.controller.Model;
 
 public class GLControlHandler implements KeyListener, MouseListener, MouseMotionListener {
     
-    private Triple cameraPosition;
-    private Triple lookingPoint;
-    private double angleX;
-    private double angleY;
-    private double x,y,z;
-    private double xl,yl,zl;
+//    private Triple cameraPosition;
+//    private Triple lookingPoint;
+//    private double angleX;
+//    private double angleY;
+//    private double x,y,z;
+//    private double xl,yl,zl;
     double mx,my;
     
     private final Model model;
@@ -37,14 +37,16 @@ public class GLControlHandler implements KeyListener, MouseListener, MouseMotion
     public void keyPressed(KeyEvent e) {
         //throw new UnsupportedOperationException("Not supported yet.");
         int key = e.getKeyCode();
-        this.lookingPoint= model.getLookingPoint();
-        xl=this.lookingPoint.getX();
-        yl=this.lookingPoint.getY();
-        zl=this.lookingPoint.getZ();
+        Triple lookingPoint = model.getLookingPoint();
+        Triple cameraPosition = model.getCameraPosition();
         
-        double x1 = xl - x;
-        double y1 = yl - y;
-        double z1 = zl - z;
+        double x = cameraPosition.getX();
+        double y = cameraPosition.getY();
+        double z = cameraPosition.getZ();
+        
+        double x1 = lookingPoint.getX() - x;
+        double y1 = lookingPoint.getY() - y;
+        double z1 = lookingPoint.getZ() - z;
         int sx = 1, sz = 1;
         if (x1 >= 0 && z1 >= 0) {
             sx = 1;
@@ -87,9 +89,9 @@ public class GLControlHandler implements KeyListener, MouseListener, MouseMotion
                 y -= 0.1;
                 break;
         }
-        model.getCameraPosition().setX(x);
-        model.getCameraPosition().setY(y);
-        model.getCameraPosition().setZ(z);  
+        cameraPosition.setX(x);
+        cameraPosition.setY(y);
+        cameraPosition.setZ(z);  
     }
 
     @Override
@@ -117,6 +119,9 @@ public class GLControlHandler implements KeyListener, MouseListener, MouseMotion
     }
     
     public void mouseDragged(MouseEvent me) {
+        double angleX = model.getCameraAngleH();
+        double angleY = model.getCameraAngleV();
+        
         angleX += (me.getX() - mx) / 100.0;
         mx = me.getX();
         angleY -= (me.getY() - my) / 100.0;

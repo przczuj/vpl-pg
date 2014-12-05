@@ -87,6 +87,11 @@ public class AddForceJPanel extends javax.swing.JPanel {
         ttlCheckBox.setText("forever");
 
         addForceButton.setText("Add");
+        addForceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addForceButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -170,6 +175,10 @@ public class AddForceJPanel extends javax.swing.JPanel {
                 .addContainerGap(21, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void addForceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addForceButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addForceButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel aLabel;

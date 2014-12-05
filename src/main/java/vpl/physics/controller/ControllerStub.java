@@ -25,7 +25,7 @@ import lombok.Setter;
  */
 public class ControllerStub {
 
-    @Getter @Setter private Experiment experiment;
+    private Model model;
     
     @Getter @Setter private Map<String, RigidBody> rigidBodies;
     @Getter @Setter private Map<String, Force> uniformForces;
@@ -67,8 +67,9 @@ public class ControllerStub {
         }
     }
 
-    public ControllerStub() {
+    public ControllerStub(Model model) {
         init();
+        this.model = model;
     }
     //to be done every $timetick
 

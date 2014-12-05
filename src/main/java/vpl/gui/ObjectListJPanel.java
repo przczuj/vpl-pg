@@ -18,27 +18,38 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import vpl.physics.Force;
 import vpl.physics.RigidBody;
+import vpl.physics.controller.Model;
+import vpl.physics.controller.SimpleListener;
 
 /**
  *
  * @author Przemys³aw Czuj
  */
-public class ObjectListJPanel extends javax.swing.JPanel {
+public class ObjectListJPanel extends javax.swing.JPanel implements SimpleListener {
     
     private Map<String, RigidBody> rigidBodies;
     private DefaultTreeModel treeModel;
     private DefaultMutableTreeNode root;
+    private Model model;
 
     /**
      * Creates new form ObjectListJPanel
      */
     public ObjectListJPanel() {
+        model = Model.getInstance();
         root = new DefaultMutableTreeNode("");
         treeModel = new DefaultTreeModel(root);
         
         initComponents();
         jTree1.setRootVisible(false);
         jTree1.setModel(treeModel);
+        
+        model.register(this);
+    }
+
+    @Override
+    public void valuesChanged(String message) {
+        refreshModel(model.getPhysics().getRigidBodies());
     }
     
     public void refreshModel(Map<String, RigidBody> rigidBodies) {
@@ -105,4 +116,5 @@ public class ObjectListJPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
+
 }

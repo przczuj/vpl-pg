@@ -280,9 +280,6 @@ public class AddObjectJPanel extends javax.swing.JPanel {
         double c = Double.parseDouble(cTextField.getText());
 
         if (selected.equals("ball")) {
-
-            shapesList.add(new Ball(x, y, z, r, xa, ya, za));
-
             try {
                 BallShape ball = new BallShape();
                 ball.setR(r);
@@ -291,6 +288,8 @@ public class AddObjectJPanel extends javax.swing.JPanel {
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            shapesList.add(new Ball(x, y, z, r, xa, ya, za));
         } else if (selected.equals("cube")) {
             try {
                 CuboidShape cube = new CuboidShape();
@@ -301,6 +300,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
             shapesList.add(new Cube(x, y, z, xa, ya, za, a));
         } else if (selected.equals("cuboid")) {
             try {
@@ -312,11 +312,10 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                     cuboid.setType("CUBE");
                 }
                 api.createRigidBody(cuboid, new Triple(x, y, z), 0, 10);
-
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
             shapesList.add(new Cuboid(x, y, z, xa, ya, za, a, b, c));
         } else if (selected.equals("cyllinder")) {
             try {
@@ -327,7 +326,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
             shapesList.add(new Cyllinder(x, y, z, xa, ya, za, r, h));
         } else if (selected.equals("cone")) {
             try {
@@ -343,6 +342,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
         } else {
             System.out.println("ERROR. WRONG SELECTION");
         }
+        model.refreshView("rigidBodyList");
     }//GEN-LAST:event_addShapeButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -17,6 +17,8 @@ import vpl.shapes.Shape;
 
 public class Model {
     private static Model instance;
+    
+    private List<SimpleListener> listeners;
 
     public static Model getInstance() {
         if (instance == null) {
@@ -44,7 +46,9 @@ public class Model {
         cameraAngleV=0;
         cameraAngleH=0;
         
-        physics = new ControllerStub();
+        physics = new ControllerStub(this);
+        
+        listeners = new ArrayList<>();
     }
     
 //    public List<Shape> getStaticShapeList() {
@@ -76,4 +80,14 @@ public class Model {
 //    public void addShape(String name, Shape shape) {
 //        execution.getExperiment().getObjects().put(name, new VplObject(0, shape, 10));
 //    }
+
+    public void register(SimpleListener listener) {
+        listeners.add(listener);
+    }
+    
+    public void refreshView(String message) {
+        for(SimpleListener listener : listeners) {
+            listener.valuesChanged(message);
+        }
+    }
 }
