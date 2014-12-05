@@ -4,6 +4,8 @@
  */
 package vpl.gui;
 
+import vpl.physics.controller.PhysicsExecutionTask;
+
 public class ExperimentExecutionJPanel extends javax.swing.JPanel {
 
     /**
@@ -31,8 +33,18 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel {
         setMaximumSize(new java.awt.Dimension(32767, 46));
 
         jToggleButton1.setText("Play");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Stop");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("time:");
 
@@ -67,6 +79,20 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        if (jToggleButton1.isSelected()) {
+            PhysicsExecutionTask.getInstance().start();
+        } else {
+            PhysicsExecutionTask.getInstance().stop();
+        }
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        PhysicsExecutionTask.getInstance().stop();
+        jToggleButton1.setSelected(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;

@@ -20,12 +20,12 @@ import vpl.physics.shapes.BallShape;
 import vpl.physics.shapes.ConeShape;
 import vpl.physics.shapes.CuboidShape;
 import vpl.physics.shapes.CyllinderShape;
-import vpl.shapes.Ball;
-import vpl.shapes.Cone;
-import vpl.shapes.Cube;
-import vpl.shapes.Cuboid;
-import vpl.shapes.Cyllinder;
-import vpl.shapes.Shape;
+import vpl.gui.shapes.Ball;
+import vpl.gui.shapes.Cone;
+import vpl.gui.shapes.Cube;
+import vpl.gui.shapes.Cuboid;
+import vpl.gui.shapes.Cyllinder;
+import vpl.gui.shapes.Shape;
 
 public class GLDrawingHandler implements GLEventListener {
 
@@ -62,7 +62,7 @@ public class GLDrawingHandler implements GLEventListener {
 
     @Override
     public void display(GLAutoDrawable drawable) {
-        Timer.measureTime();
+        //Timer.measureTime();
         GL2 gl = drawable.getGL().getGL2();
         GLU glu = new GLU();
 
@@ -127,7 +127,7 @@ public class GLDrawingHandler implements GLEventListener {
         gl.glLoadIdentity();
         gl.glFlush();
         Timer.measureTime();
-        System.out.println(Timer.getDelta());
+        //System.out.println(String.format("%.5f", Timer.getDelta()));
     }
 
     private void drawReferenceSquares(GL2 gl) {

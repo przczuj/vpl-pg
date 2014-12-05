@@ -18,12 +18,12 @@ import vpl.physics.shapes.BallShape;
 import vpl.physics.shapes.ConeShape;
 import vpl.physics.shapes.CuboidShape;
 import vpl.physics.shapes.CyllinderShape;
-import vpl.shapes.Ball;
-import vpl.shapes.Cone;
-import vpl.shapes.Cube;
-import vpl.shapes.Cuboid;
-import vpl.shapes.Cyllinder;
-import vpl.shapes.Shape;
+import vpl.gui.shapes.Ball;
+import vpl.gui.shapes.Cone;
+import vpl.gui.shapes.Cube;
+import vpl.gui.shapes.Cuboid;
+import vpl.gui.shapes.Cyllinder;
+import vpl.gui.shapes.Shape;
 
 public class AddObjectJPanel extends javax.swing.JPanel {
 
@@ -111,18 +111,22 @@ public class AddObjectJPanel extends javax.swing.JPanel {
 
         cLabel.setText("c:");
 
+        zTextField.setText("0.0");
         zTextField.setMaximumSize(new java.awt.Dimension(80, 28));
         zTextField.setMinimumSize(new java.awt.Dimension(80, 28));
         zTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
+        yTextField.setText("0.0");
         yTextField.setMaximumSize(new java.awt.Dimension(80, 28));
         yTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
+        xTextField.setText("0.0");
         xTextField.setMaximumSize(new java.awt.Dimension(80, 28));
         xTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
         xAngleLabel.setText("x angle:");
 
+        rTextField.setText("0.0");
         rTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
         rLabel.setText("r:");
@@ -131,20 +135,26 @@ public class AddObjectJPanel extends javax.swing.JPanel {
 
         aLabel.setText("a:");
 
+        aTextField.setText("0.0");
         aTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
         yAngleLabel.setText("y angle:");
 
         bLabel.setText("b:");
 
+        bTextField.setText("0.0");
         bTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
+        cTextField.setText("0.0");
         cTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
+        xAngleTextField.setText("0.0");
         xAngleTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
+        yAngleTextField.setText("0.0");
         yAngleTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
+        zAngleTextField.setText("0.0");
         zAngleTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
         addShapeButton.setText("Add");
@@ -158,6 +168,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
 
         hLabel.setText("h:");
 
+        hTextField.setText("0.0");
         hTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

@@ -13,7 +13,7 @@ import vpl.physics.RigidBody;
 import vpl.physics.api.RigidBodyDrawingInfo;
 import vpl.physics.controller.ControllerStub;
 import vpl.physics.controller.Experiment;
-import vpl.shapes.Shape;
+import vpl.gui.shapes.Shape;
 
 public class Model {
     private static Model instance;

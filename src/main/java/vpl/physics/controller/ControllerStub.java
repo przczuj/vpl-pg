@@ -60,7 +60,7 @@ public class ControllerStub {
         }
     }
 
-    private void solveCollisions() {
+    public void solveCollisions() {
         checkCollisions();
         for (Collision c : collisions) {
             c.solveCollisions();
@@ -126,10 +126,12 @@ public class ControllerStub {
         }
     }
 
-    public void createForce(Triple value, Triple location, RigidBody rb) {
+    public void createForce(Triple value, Triple location, RigidBody rb, double timeToLive, boolean forever) {
         Force force = new Force();
         force.setForceValue(value);
         force.setForceLocation(location);
+        force.setTimeToLive(timeToLive);
+        force.setForever(forever);
         rb.registerForce(force);
 
     }

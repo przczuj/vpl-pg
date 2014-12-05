@@ -4,13 +4,29 @@
  */
 package vpl.gui;
 
-public class AddForceJPanel extends javax.swing.JPanel {
+import vpl.math.Triple;
+import vpl.physics.Force;
+import vpl.physics.RigidBody;
+import vpl.physics.controller.Model;
+import vpl.physics.controller.SimpleListener;
 
+public class AddForceJPanel extends javax.swing.JPanel implements SimpleListener {
+
+    Model model;
     /**
      * Creates new form AddForceJPanel
      */
     public AddForceJPanel() {
+        model = Model.getInstance();
         initComponents();
+        model.register(this);
+    }
+
+    @Override
+    public void valuesChanged(String message) {
+        if (message.equals("selectedItemName")) {
+            objectAttachedTextField.setText(model.getSelectedItemName());
+        }
     }
 
     /**
@@ -37,9 +53,9 @@ public class AddForceJPanel extends javax.swing.JPanel {
         bLabel = new javax.swing.JLabel();
         bTextField = new javax.swing.JTextField();
         cTextField = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
+        objectAttachedTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        ttlCheckBox = new javax.swing.JCheckBox();
+        foreverCheckBox = new javax.swing.JCheckBox();
         addForceButton = new javax.swing.JButton();
 
         propertiesLabel.setText("properties:");
@@ -52,35 +68,42 @@ public class AddForceJPanel extends javax.swing.JPanel {
 
         cLabel.setText("c:");
 
+        zTextField.setText("0.0");
         zTextField.setMaximumSize(new java.awt.Dimension(80, 28));
         zTextField.setMinimumSize(new java.awt.Dimension(80, 28));
         zTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
+        yTextField.setText("0.0");
         yTextField.setMaximumSize(new java.awt.Dimension(80, 28));
         yTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
+        xTextField.setText("0.0");
         xTextField.setMaximumSize(new java.awt.Dimension(80, 28));
         xTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
+        ttlTextField.setText("0.0");
         ttlTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
         ttlLabel.setText("ttl:");
 
         aLabel.setText("a:");
 
+        aTextField.setText("0.0");
         aTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
         bLabel.setText("b:");
 
+        bTextField.setText("0.0");
         bTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
+        cTextField.setText("0.0");
         cTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
-        jTextField1.setEditable(false);
+        objectAttachedTextField.setEditable(false);
 
         jLabel1.setText("force attached to:");
 
-        ttlCheckBox.setText("forever");
+        foreverCheckBox.setText("forever");
 
         addForceButton.setText("Add");
         addForceButton.addActionListener(new java.awt.event.ActionListener() {
@@ -116,11 +139,11 @@ public class AddForceJPanel extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(ttlTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ttlCheckBox))))
+                                .addComponent(foreverCheckBox))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1))
+                        .addComponent(objectAttachedTextField))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(propertiesLabel)
@@ -133,7 +156,7 @@ public class AddForceJPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(objectAttachedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(2, 2, 2)
                 .addComponent(propertiesLabel)
@@ -153,7 +176,7 @@ public class AddForceJPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ttlLabel)
                     .addComponent(ttlTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ttlCheckBox))
+                    .addComponent(foreverCheckBox))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(aLabel)
@@ -173,7 +196,18 @@ public class AddForceJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addForceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addForceButtonActionPerformed
-        // TODO add your handling code here:
+        double x = Double.parseDouble(xTextField.getText());
+        double y = Double.parseDouble(yTextField.getText());
+        double z = Double.parseDouble(zTextField.getText());
+        double a = Double.parseDouble(aTextField.getText());
+        double b = Double.parseDouble(bTextField.getText());
+        double c = Double.parseDouble(cTextField.getText());
+        boolean forever = foreverCheckBox.isSelected();
+        double ttl = Double.parseDouble(ttlTextField.getText());
+        
+        RigidBody body = model.getPhysics().getRigidBodies().get(model.getSelectedItemName());
+        model.getPhysics().createForce(new Triple(a, b, c), new Triple(x, y, z), body, ttl, forever);
+        model.refreshView("rigidBodyList");
     }//GEN-LAST:event_addForceButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -184,10 +218,10 @@ public class AddForceJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField bTextField;
     private javax.swing.JLabel cLabel;
     private javax.swing.JTextField cTextField;
+    private javax.swing.JCheckBox foreverCheckBox;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField objectAttachedTextField;
     private javax.swing.JLabel propertiesLabel;
-    private javax.swing.JCheckBox ttlCheckBox;
     private javax.swing.JLabel ttlLabel;
     private javax.swing.JTextField ttlTextField;
     private javax.swing.JLabel xLabel;
@@ -197,4 +231,5 @@ public class AddForceJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel zLabel;
     private javax.swing.JTextField zTextField;
     // End of variables declaration//GEN-END:variables
+
 }

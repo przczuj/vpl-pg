@@ -190,6 +190,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="zTextField">
       <Properties>
+        <Property name="text" type="java.lang.String" value="0.0"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[80, 28]"/>
         </Property>
@@ -203,6 +204,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="yTextField">
       <Properties>
+        <Property name="text" type="java.lang.String" value="0.0"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[80, 28]"/>
         </Property>
@@ -213,6 +215,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="xTextField">
       <Properties>
+        <Property name="text" type="java.lang.String" value="0.0"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[80, 28]"/>
         </Property>
@@ -228,6 +231,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="rTextField">
       <Properties>
+        <Property name="text" type="java.lang.String" value="0.0"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[80, 28]"/>
         </Property>
@@ -250,6 +254,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="aTextField">
       <Properties>
+        <Property name="text" type="java.lang.String" value="0.0"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[80, 28]"/>
         </Property>
@@ -267,6 +272,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="bTextField">
       <Properties>
+        <Property name="text" type="java.lang.String" value="0.0"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[80, 28]"/>
         </Property>
@@ -274,6 +280,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="cTextField">
       <Properties>
+        <Property name="text" type="java.lang.String" value="0.0"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[80, 28]"/>
         </Property>
@@ -281,6 +288,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="xAngleTextField">
       <Properties>
+        <Property name="text" type="java.lang.String" value="0.0"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[80, 28]"/>
         </Property>
@@ -288,6 +296,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="yAngleTextField">
       <Properties>
+        <Property name="text" type="java.lang.String" value="0.0"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[80, 28]"/>
         </Property>
@@ -295,6 +304,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="zAngleTextField">
       <Properties>
+        <Property name="text" type="java.lang.String" value="0.0"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[80, 28]"/>
         </Property>
@@ -320,6 +330,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="hTextField">
       <Properties>
+        <Property name="text" type="java.lang.String" value="0.0"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[80, 28]"/>
         </Property>

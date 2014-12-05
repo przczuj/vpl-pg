@@ -4,12 +4,14 @@
  */
 package vpl.gui;
 
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeModelListener;
+import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -39,13 +41,48 @@ public class ObjectListJPanel extends javax.swing.JPanel implements SimpleListen
         initComponents();
         jTree1.setRootVisible(false);
         jTree1.setModel(treeModel);
+        jTree1.addTreeSelectionListener(new TreeSelectionListener() {
+
+            @Override
+            public void valueChanged(TreeSelectionEvent e) {
+                String selectedItemName = getSelectedItemName();
+                if (selectedItemName != null) {
+                    model.setSelectedItemName(selectedItemName);
+                    model.refreshView("selectedItemName");
+                }
+            }
+        });
         
         model.register(this);
+    }
+    
+    public String getSelectedItemName() {
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
+        if (node == null) {
+            return null;
+        }
+        return (String) node.getUserObject();
+    }
+    
+    public void setSelectedItemName(String name) {
+//        Enumeration enumeration = root.children();
+//        while(enumeration.hasMoreElements()) {
+//            DefaultMutableTreeNode node = (DefaultMutableTreeNode) enumeration.nextElement();
+//            if (((String)node.getUserObject()).equals(name)) {
+//                jTree1.getSelectionModel().setSelectionPath();
+//                int a = jTree1.
+//                break;
+//            }
+//        }
+//        
+//        jTree1.setSelectionRow(WIDTH);
     }
 
     @Override
     public void valuesChanged(String message) {
-        refreshModel(model.getPhysics().getRigidBodies());
+        if (message.equals("rigidBodyList")) {
+            refreshModel(model.getPhysics().getRigidBodies());
+        }
     }
     
     public void refreshModel(Map<String, RigidBody> rigidBodies) {
