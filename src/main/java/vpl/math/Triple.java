@@ -13,7 +13,9 @@ import lombok.Setter;
  */
 public class Triple {
 
-    @Getter @Setter private double x, y, z;
+    @Getter
+    @Setter
+    private double x, y, z;
 
     public Triple() {
         this.x = 0;
@@ -35,10 +37,10 @@ public class Triple {
     }
 
     public double getDistance(Triple other) {
-        double dx=this.x-other.x;
-        double dy=this.y-other.y;
-        double dz=this.z-other.z;
-        double distance=Math.sqrt(dx*dx+dy*dy+dz*dz);
+        double dx = this.x - other.x;
+        double dy = this.y - other.y;
+        double dz = this.z - other.z;
+        double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
         return distance;
     }
 
@@ -48,6 +50,12 @@ public class Triple {
         mat.setValueAt(1, 0, getY());
         mat.setValueAt(2, 0, getZ());
         return mat;
+    }
+
+    public void setXYZ(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 
     @Override
