@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package vpl.gui;
-
+ 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,23 +24,24 @@ import vpl.gui.shapes.Cube;
 import vpl.gui.shapes.Cuboid;
 import vpl.gui.shapes.Cyllinder;
 import vpl.gui.shapes.Shape;
-
+import vpl.physics.AxisAngle;
+ 
 public class AddObjectJPanel extends javax.swing.JPanel {
-
+ 
     public List<Shape> shapesList;
     private Model model;
     private ControllerStub api;
-    
+   
     /**
      * Creates new form AddObjectJPanel
      */
     public AddObjectJPanel() {
         model = Model.getInstance();
         api = model.getPhysics();
-        
+       
         shapesList = new ArrayList<>();
         initComponents();
-
+ 
         DefaultListModel<String> listModel = new DefaultListModel<String>();
         listModel.addElement("ball");
         listModel.addElement("cube");
@@ -50,7 +51,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
         this.elementsList.setModel(listModel);
         this.elementsList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent lse) {
-                //tu będzie blokowanie odpowiednich pól
+                //tu bÄ™dzie blokowanie odpowiednich pĂłl
             }
         });
     }
@@ -285,18 +286,20 @@ public class AddObjectJPanel extends javax.swing.JPanel {
         double a = Double.parseDouble(aTextField.getText());
         double b = Double.parseDouble(bTextField.getText());
         double c = Double.parseDouble(cTextField.getText());
-
+        AxisAngle angles = new AxisAngle();
+        angles.setAngle(0);
+        angles.setAngles(new Triple(xa,ya,za));
         if (selected.equals("ball")) {
             try {
                 BallShape ball = new BallShape();
                 ball.setR(r);
                 ball.setType("BALL");
-                ball.calculateRadius();
-                api.createRigidBody(ball, new Triple(x, y, z), 0, 10);
+                    ball.calculateRadius();
+                    api.createRigidBody(ball, new Triple(x, y, z), 0, 10,angles);
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+           
             shapesList.add(new Ball(x, y, z, r, xa, ya, za));
         } else if (selected.equals("cube")) {
             try {
@@ -305,11 +308,11 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                 cube.setY(a);
                 cube.setZ(a);
                 cube.calculateRadius();
-                api.createRigidBody(cube, new Triple(x, y, z), 0, 10);
+                api.createRigidBody(cube, new Triple(x, y, z), 0, 10,angles);
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+           
             shapesList.add(new Cube(x, y, z, xa, ya, za, a));
         } else if (selected.equals("cuboid")) {
             try {
@@ -321,11 +324,11 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                     cuboid.setType("CUBE");
                 }
                 cuboid.calculateRadius();
-                api.createRigidBody(cuboid, new Triple(x, y, z), 0, 10);
+                api.createRigidBody(cuboid, new Triple(x, y, z), 0, 10,angles);
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+           
             shapesList.add(new Cuboid(x, y, z, xa, ya, za, a, b, c));
         } else if (selected.equals("cyllinder")) {
             try {
@@ -333,11 +336,11 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                 cyllinder.setR(r);
                 cyllinder.setH(h);
                 cyllinder.calculateRadius();
-                api.createRigidBody(cyllinder, new Triple(x, y, z), 0, 10);
+                api.createRigidBody(cyllinder, new Triple(x, y, z), 0, 10,angles);
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+           
             shapesList.add(new Cyllinder(x, y, z, xa, ya, za, r, h));
         } else if (selected.equals("cone")) {
             try {
@@ -345,11 +348,11 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                 cone.setR(r);
                 cone.setH(h);
                 cone.calculateRadius();
-                api.createRigidBody(cone, new Triple(x, y, z), 0, 10);
+                api.createRigidBody(cone, new Triple(x, y, z), 0, 10,angles);
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+ 
             shapesList.add(new Cone(x, y, z, xa, ya, za, r, h));
         } else {
             System.out.println("ERROR. WRONG SELECTION");
