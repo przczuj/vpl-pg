@@ -294,7 +294,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                 BallShape ball = new BallShape();
                 ball.setR(r);
                 ball.setType("BALL");
-                    ball.calculateRadius();
+                    ball.calculateRadius();                   
                     api.createRigidBody(ball, new Triple(x, y, z), 0, 10,angles);
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);

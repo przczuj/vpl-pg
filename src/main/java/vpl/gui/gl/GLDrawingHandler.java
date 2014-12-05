@@ -211,7 +211,8 @@ public class GLDrawingHandler implements GLEventListener {
         for (RigidBody rb : rigidBodiesList) {
             String type = rb.getShape().getType();
             Triple position = rb.getPosition();
-            Triple angles = rb.getRotationAngles().getAngles();
+            //Triple angles = rb.getRotationAngles().getAngles();
+            Triple angles=rb.getSimpleAngles();
             switch (type.toUpperCase()) {
                 case "BALL":
                     shapesList.add(new Ball(position.getX(), position.getY(),

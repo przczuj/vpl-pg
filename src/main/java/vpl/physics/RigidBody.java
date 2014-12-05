@@ -67,6 +67,7 @@
         private Torque previousTotalTorque;
         private ArrayList<Force> actingUniformForces;
      
+        
         private AxisAngle rotationAngles;
         @Getter @Setter
         private Matrix rotationMatrix;
@@ -314,7 +315,11 @@
             rotationAngles = mathLogic.rotationMatrixToAngles(rotationMatrix);
             return rotationAngles;
         }
-       
+        
+        public Triple getSimpleAngles() { //in drawing no complicated operations are needed.
+            //neccessary operations will be made by functions like glRotate
+            return new Triple(0,0,0);
+        }       
        
         public Triple getPointVelociy (Triple point)
         {
