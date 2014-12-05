@@ -11,8 +11,8 @@ import javax.media.opengl.GLProfile;
 import javax.media.opengl.awt.GLCanvas;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import joglTest.JOGLtest;
 import sun.security.util.SecurityConstants;
+import vpl.gui.RootJPanel;
 
 /*
  * To change this template, choose Tools | Templates
@@ -20,9 +20,6 @@ import sun.security.util.SecurityConstants;
  */
 
 public class VplMainApplet extends javax.swing.JApplet {
-
-    private final static int TICK_RATE_MILLISEC = 50;
-    private GLAnimatorControl glAnimatorControl;
 
     /**
      * Initializes the applet VplMainApplet
@@ -57,10 +54,10 @@ public class VplMainApplet extends javax.swing.JApplet {
             java.awt.EventQueue.invokeAndWait(new Runnable() {
                 public void run() {
                     initComponents();
-                    initJogl(mainJPanel);
                     Container parent = getParent();
                     if (parent != null) {
                         setSize(parent.getSize());
+                        setPreferredSize(parent.getPreferredSize());
                     }
                 }
             });
@@ -69,56 +66,18 @@ public class VplMainApplet extends javax.swing.JApplet {
         }
     }
     
-    public void initJogl(JPanel panel) {
-        GLProfile.initSingleton();
-
-        final GLCanvas glcanvas = new GLCanvas();
-
-        JOGLtest context = new JOGLtest();
-        glcanvas.addGLEventListener(context);
-        glcanvas.addKeyListener(context);
-        glcanvas.addMouseMotionListener(context);
-        glcanvas.addMouseListener(context);
-
-        glcanvas.setSize(panel.getSize());
-        panel.add(glcanvas, BorderLayout.CENTER);
-        glAnimatorControl = new FPSAnimator(glcanvas, 30);
-    }
-    
     @Override
     public void start() {
-        if (glAnimatorControl != null) {
-            glAnimatorControl.start();
+        if (mainPanel != null) {
+            mainPanel.startAnimator();
         }
     }
 
     @Override
     public void stop() {
-        if (glAnimatorControl != null) {
-            glAnimatorControl.stop();
+        if (mainPanel != null) {
+            mainPanel.stopAnimator();
         }
-    }
-    
-    private boolean hasAllPermission() {
-        try {
-            SecurityManager securityManager = System.getSecurityManager();
-            if (securityManager != null) {
-                securityManager.checkPermission(SecurityConstants.ALL_PERMISSION);
-            }
-            return true;
-        } catch (SecurityException se) {
-            return false;
-        }
-    }
-    
-    private void startTask() {
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                // actions to be done every {TICK_RATE_MILLISEC} ms
-            }
-        }, /*first execution delay*/ 0, TICK_RATE_MILLISEC, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -130,87 +89,13 @@ public class VplMainApplet extends javax.swing.JApplet {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        toolBarJPanel = new javax.swing.JPanel();
-        ExperimentExecutionJToolBar = new javax.swing.JToolBar();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        SaveLoadJToolBar = new javax.swing.JToolBar();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        objectPalleteJPanel = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        objectPropertiesJPanel = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        mainJPanel = new javax.swing.JPanel();
+        mainPanel = new vpl.gui.RootJPanel();
 
-        setMaximumSize(new java.awt.Dimension(800, 600));
-        setMinimumSize(new java.awt.Dimension(800, 600));
-
-        toolBarJPanel.setLayout(new java.awt.BorderLayout());
-
-        ExperimentExecutionJToolBar.setRollover(true);
-
-        jButton4.setText("jButton4");
-        jButton4.setFocusable(false);
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        ExperimentExecutionJToolBar.add(jButton4);
-
-        jButton5.setText("jButton5");
-        jButton5.setFocusable(false);
-        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        ExperimentExecutionJToolBar.add(jButton5);
-
-        toolBarJPanel.add(ExperimentExecutionJToolBar, java.awt.BorderLayout.PAGE_START);
-
-        SaveLoadJToolBar.setRollover(true);
-
-        jButton6.setText("jButton4");
-        jButton6.setFocusable(false);
-        jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        SaveLoadJToolBar.add(jButton6);
-
-        jButton7.setText("jButton5");
-        jButton7.setFocusable(false);
-        jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        SaveLoadJToolBar.add(jButton7);
-
-        toolBarJPanel.add(SaveLoadJToolBar, java.awt.BorderLayout.PAGE_END);
-
-        getContentPane().add(toolBarJPanel, java.awt.BorderLayout.PAGE_START);
-
-        objectPalleteJPanel.setLayout(new java.awt.BorderLayout());
-
-        jButton1.setText("jButton1");
-        objectPalleteJPanel.add(jButton1, java.awt.BorderLayout.CENTER);
-
-        getContentPane().add(objectPalleteJPanel, java.awt.BorderLayout.LINE_START);
-
-        objectPropertiesJPanel.setLayout(new java.awt.BorderLayout());
-
-        jButton2.setText("jButton2");
-        objectPropertiesJPanel.add(jButton2, java.awt.BorderLayout.CENTER);
-
-        getContentPane().add(objectPropertiesJPanel, java.awt.BorderLayout.LINE_END);
-
-        mainJPanel.setLayout(new java.awt.BorderLayout());
-        getContentPane().add(mainJPanel, java.awt.BorderLayout.CENTER);
+        setMinimumSize(new java.awt.Dimension(460, 360));
+        setPreferredSize(new java.awt.Dimension(800, 600));
+        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToolBar ExperimentExecutionJToolBar;
-    private javax.swing.JToolBar SaveLoadJToolBar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JPanel mainJPanel;
-    private javax.swing.JPanel objectPalleteJPanel;
-    private javax.swing.JPanel objectPropertiesJPanel;
-    private javax.swing.JPanel toolBarJPanel;
+    private vpl.gui.RootJPanel mainPanel;
     // End of variables declaration//GEN-END:variables
 }
