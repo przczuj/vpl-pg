@@ -82,13 +82,16 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel {
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         if (jToggleButton1.isSelected()) {
+            jToggleButton1.setText("Pause");
             PhysicsExecutionTask.getInstance().start();
         } else {
+            jToggleButton1.setText("Play");
             PhysicsExecutionTask.getInstance().stop();
         }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        jToggleButton1.setText("Play");
         PhysicsExecutionTask.getInstance().stop();
         jToggleButton1.setSelected(false);
     }//GEN-LAST:event_jButton2ActionPerformed

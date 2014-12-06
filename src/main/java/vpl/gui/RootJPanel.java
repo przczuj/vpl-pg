@@ -68,6 +68,7 @@ public class RootJPanel extends javax.swing.JPanel {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         addObjectJPanel2 = new vpl.gui.AddObjectJPanel();
         addForceJPanel1 = new vpl.gui.AddForceJPanel();
+        propertiesJPanel1 = new vpl.gui.PropertiesJPanel();
         rightJPanel = new javax.swing.JPanel();
         objectListJPanel1 = new vpl.gui.ObjectListJPanel();
 
@@ -83,8 +84,9 @@ public class RootJPanel extends javax.swing.JPanel {
         leftJPanel.setPreferredSize(new java.awt.Dimension(250, 676));
         leftJPanel.setLayout(new java.awt.BorderLayout());
 
-        jTabbedPane1.addTab("Object properties", addObjectJPanel2);
-        jTabbedPane1.addTab("Force properties", addForceJPanel1);
+        jTabbedPane1.addTab("Add Object", addObjectJPanel2);
+        jTabbedPane1.addTab("Add Force", addForceJPanel1);
+        jTabbedPane1.addTab("Properties", propertiesJPanel1);
 
         leftJPanel.add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
@@ -106,6 +108,7 @@ public class RootJPanel extends javax.swing.JPanel {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel leftJPanel;
     private vpl.gui.ObjectListJPanel objectListJPanel1;
+    private vpl.gui.PropertiesJPanel propertiesJPanel1;
     private javax.swing.JPanel rightJPanel;
     // End of variables declaration//GEN-END:variables
 }

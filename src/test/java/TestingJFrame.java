@@ -24,7 +24,8 @@ public class TestingJFrame extends javax.swing.JFrame {
     }
     
     public void refreshModel() {
-        Map<String, RigidBody> testMap = new HashMap<>();
+        Map<String, Force> forceMap = new HashMap<>();
+        Map<String, RigidBody> rbMap = new HashMap<>();
         try {
             RigidBody rb1 = new RigidBody();
             rb1.getActingForces().add(new Force());
@@ -36,15 +37,15 @@ public class TestingJFrame extends javax.swing.JFrame {
             rb3.getActingForces().add(new Force());
             RigidBody rb4 = new RigidBody();
 
-            testMap.put("rb 1", rb1);
-            testMap.put("rb 2", rb2);
-            testMap.put("rb 3", rb3);
-            testMap.put("rb 4", rb4);
+            rbMap.put("rb 1", rb1);
+            rbMap.put("rb 2", rb2);
+            rbMap.put("rb 3", rb3);
+            rbMap.put("rb 4", rb4);
 
         } catch (Exception e) {
             
         }
-        objectListJPanel1.refreshModel(testMap);
+        objectListJPanel1.refreshModel(rbMap, forceMap);
     }
 
     /**

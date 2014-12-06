@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
+import vpl.gui.viewmodel.selection.SelectionItem;
 import vpl.math.Triple;
 import vpl.physics.Collision;
 import vpl.physics.Force;
@@ -13,10 +14,15 @@ import vpl.physics.RigidBody;
 import vpl.physics.api.RigidBodyDrawingInfo;
 import vpl.physics.controller.ControllerStub;
 import vpl.physics.controller.Experiment;
-import vpl.gui.shapes.Shape;
+import vpl.physics.AxisAngle;
+import vpl.physics.shapes.Shape;
 
 public class Model {
     private static Model instance;
+    
+    public final static String SELECTED_ITEM_CHANGED = "selectedItemName";
+    public final static String RIGID_BODY_LIST_CHANGED = "rigidBodyList";
+    public final static String AN_RIGID_BODY_CHANGED = "rigidBody";
     
     private List<SimpleListener> listeners;
 
@@ -29,7 +35,9 @@ public class Model {
     
     @Getter @Setter private Experiment experiment;
     
-    @Getter @Setter private String selectedItemName;
+    @Getter @Setter private SelectionItem selectedItem;
+    
+    @Getter @Setter private double time;
     
     @Getter private Triple cameraPosition;
     @Getter private Triple lookingPoint;
@@ -49,6 +57,10 @@ public class Model {
         physics = new ControllerStub(this);
         
         listeners = new ArrayList<>();
+    }
+    
+    public void createRigidBody(Shape shape, Triple position, double timeToLive, double mass, AxisAngle initialRotation, Triple initialSpeed) {
+        
     }
     
 //    public List<Shape> getStaticShapeList() {

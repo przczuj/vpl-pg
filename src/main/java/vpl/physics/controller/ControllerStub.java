@@ -120,7 +120,7 @@ public class ControllerStub {
         rb.getShape().recalculate();
         rigidBodies.put("body " + rigidBodies.size(), rb);
     }
-    public void createRigidBody(Shape shape, Triple position, double timeTick, double mass, AxisAngle initialRotation) throws Exception {
+    public void createRigidBody(Shape shape, Triple position, double timeToLive, double mass, AxisAngle initialRotation) throws Exception {
         RigidBody rb = new RigidBody();
         rb.setShape(shape);
         //rb.setTimeTick(timeTick);
@@ -136,7 +136,7 @@ public class ControllerStub {
     public void createUniformForce(Triple value) {
         Force uniformForce = new Force();
         uniformForce.setForceValue(value);
-        uniformForces.put("force " + uniformForces.size(), uniformForce);
+        uniformForces.put("uniform force " + uniformForces.size(), uniformForce);
         for (RigidBody rb : rigidBodies.values()) {
             rb.registerUniformForce(uniformForce);
         }

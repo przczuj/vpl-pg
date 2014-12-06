@@ -39,6 +39,8 @@ public class PhysicsExecutionTask {
                 public void run() {
                     System.out.println("task");
                     model.getPhysics().update();
+                    model.refreshView(Model.AN_RIGID_BODY_CHANGED);
+                    model.setTime(model.getTime() + TICK_RATE_MILLISEC);
                 }
             }, /*first execution delay*/ 0, TICK_RATE_MILLISEC, TimeUnit.MILLISECONDS);
         }

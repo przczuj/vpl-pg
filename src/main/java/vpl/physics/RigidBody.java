@@ -58,6 +58,7 @@ public class RigidBody {
     @Getter
     @Setter
     private boolean forcesChanged;
+    @Getter
     @Setter
     private Triple position;// location of the center of mass
 
@@ -116,11 +117,6 @@ public class RigidBody {
     public void setMass(double mass) throws Exception {
         this.mass = mass;
         shape.setMass(mass);
-    }
-
-    public Triple getPosition() {
-        calculatePosition();
-        return position;
     }
 
     /*   public Force calculateTotalForce()

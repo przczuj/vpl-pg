@@ -72,8 +72,8 @@
             <Component class="vpl.gui.AddObjectJPanel" name="addObjectJPanel2">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                  <JTabbedPaneConstraints tabName="Object properties">
-                    <Property name="tabTitle" type="java.lang.String" value="Object properties"/>
+                  <JTabbedPaneConstraints tabName="Add Object">
+                    <Property name="tabTitle" type="java.lang.String" value="Add Object"/>
                   </JTabbedPaneConstraints>
                 </Constraint>
               </Constraints>
@@ -81,8 +81,17 @@
             <Component class="vpl.gui.AddForceJPanel" name="addForceJPanel1">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                  <JTabbedPaneConstraints tabName="Force properties">
-                    <Property name="tabTitle" type="java.lang.String" value="Force properties"/>
+                  <JTabbedPaneConstraints tabName="Add Force">
+                    <Property name="tabTitle" type="java.lang.String" value="Add Force"/>
+                  </JTabbedPaneConstraints>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="vpl.gui.PropertiesJPanel" name="propertiesJPanel1">
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+                  <JTabbedPaneConstraints tabName="Properties">
+                    <Property name="tabTitle" type="java.lang.String" value="Properties"/>
                   </JTabbedPaneConstraints>
                 </Constraint>
               </Constraints>

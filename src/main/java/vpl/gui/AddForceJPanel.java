@@ -4,6 +4,8 @@
  */
 package vpl.gui;
 
+import vpl.gui.viewmodel.selection.RigidBodySelectionItem;
+import vpl.gui.viewmodel.selection.SelectionItem;
 import vpl.math.Triple;
 import vpl.physics.Force;
 import vpl.physics.RigidBody;
@@ -24,8 +26,10 @@ public class AddForceJPanel extends javax.swing.JPanel implements SimpleListener
 
     @Override
     public void valuesChanged(String message) {
-        if (message.equals("selectedItemName")) {
-            objectAttachedTextField.setText(model.getSelectedItemName());
+        if (message.equals(Model.SELECTED_ITEM_CHANGED)) {
+            if (model.getSelectedItem() != null) {
+                objectAttachedTextField.setText(model.getSelectedItem().toString());
+            }
         }
     }
 
@@ -57,6 +61,7 @@ public class AddForceJPanel extends javax.swing.JPanel implements SimpleListener
         jLabel1 = new javax.swing.JLabel();
         foreverCheckBox = new javax.swing.JCheckBox();
         addForceButton = new javax.swing.JButton();
+        uniformCheckBox = new javax.swing.JCheckBox();
 
         propertiesLabel.setText("properties:");
 
@@ -112,6 +117,8 @@ public class AddForceJPanel extends javax.swing.JPanel implements SimpleListener
             }
         });
 
+        uniformCheckBox.setText("uniform");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -145,10 +152,12 @@ public class AddForceJPanel extends javax.swing.JPanel implements SimpleListener
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(objectAttachedTextField))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(propertiesLabel)
-                            .addComponent(addForceButton))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(propertiesLabel)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(addForceButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(uniformCheckBox)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -190,7 +199,9 @@ public class AddForceJPanel extends javax.swing.JPanel implements SimpleListener
                     .addComponent(cLabel)
                     .addComponent(cTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addForceButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addForceButton)
+                    .addComponent(uniformCheckBox))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -205,9 +216,14 @@ public class AddForceJPanel extends javax.swing.JPanel implements SimpleListener
         boolean forever = foreverCheckBox.isSelected();
         double ttl = Double.parseDouble(ttlTextField.getText());
         
-        RigidBody body = model.getPhysics().getRigidBodies().get(model.getSelectedItemName());
-        model.getPhysics().createForce(new Triple(a, b, c), new Triple(x, y, z), body, ttl, forever);
-        model.refreshView("rigidBodyList");
+        if (uniformCheckBox.isSelected()) {
+            model.getPhysics().createUniformForce(new Triple(a, b, c));
+        } else if (model.getSelectedItem() instanceof RigidBodySelectionItem) {
+            RigidBodySelectionItem selectedRigidBody = (RigidBodySelectionItem) model.getSelectedItem();
+            RigidBody body = selectedRigidBody.getBody(); // model.getPhysics().getRigidBodies().get(selectedRigidBody.getName());
+            model.getPhysics().createForce(new Triple(a, b, c), new Triple(x, y, z), body, ttl, forever);
+        }
+        model.refreshView(Model.RIGID_BODY_LIST_CHANGED);
     }//GEN-LAST:event_addForceButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -224,6 +240,7 @@ public class AddForceJPanel extends javax.swing.JPanel implements SimpleListener
     private javax.swing.JLabel propertiesLabel;
     private javax.swing.JLabel ttlLabel;
     private javax.swing.JTextField ttlTextField;
+    private javax.swing.JCheckBox uniformCheckBox;
     private javax.swing.JLabel xLabel;
     private javax.swing.JTextField xTextField;
     private javax.swing.JLabel yLabel;

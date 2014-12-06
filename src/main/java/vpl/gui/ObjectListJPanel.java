@@ -18,6 +18,11 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+import lombok.Getter;
+import vpl.gui.viewmodel.selection.ForceSelectionItem;
+import vpl.gui.viewmodel.selection.RigidBodySelectionItem;
+import vpl.gui.viewmodel.selection.SelectionItem;
+import vpl.gui.viewmodel.selection.UniformForceSelectionItem;
 import vpl.physics.Force;
 import vpl.physics.RigidBody;
 import vpl.physics.controller.Model;
@@ -26,6 +31,7 @@ import vpl.physics.controller.SimpleListener;
 public class ObjectListJPanel extends javax.swing.JPanel implements SimpleListener {
     
     private Map<String, RigidBody> rigidBodies;
+    private Map<String, Force> uniformForces;
     private DefaultTreeModel treeModel;
     private DefaultMutableTreeNode root;
     private Model model;
@@ -45,23 +51,20 @@ public class ObjectListJPanel extends javax.swing.JPanel implements SimpleListen
 
             @Override
             public void valueChanged(TreeSelectionEvent e) {
-                String selectedItemName = getSelectedItemName();
-                if (selectedItemName != null) {
-                    model.setSelectedItemName(selectedItemName);
-                    model.refreshView("selectedItemName");
-                }
+                model.setSelectedItem(getSelectedItem());
+                model.refreshView(Model.SELECTED_ITEM_CHANGED);
             }
         });
         
         model.register(this);
     }
     
-    public String getSelectedItemName() {
+    public SelectionItem getSelectedItem() {
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
-        if (node == null) {
-            return null;
+        if (node != null) {
+            return (SelectionItem) node.getUserObject();
         }
-        return (String) node.getUserObject();
+        return null;
     }
     
     public void setSelectedItemName(String name) {
@@ -80,13 +83,14 @@ public class ObjectListJPanel extends javax.swing.JPanel implements SimpleListen
 
     @Override
     public void valuesChanged(String message) {
-        if (message.equals("rigidBodyList")) {
-            refreshModel(model.getPhysics().getRigidBodies());
+        if (message.equals(Model.RIGID_BODY_LIST_CHANGED)) {
+            refreshModel(model.getPhysics().getRigidBodies(), model.getPhysics().getUniformForces());
         }
     }
     
-    public void refreshModel(Map<String, RigidBody> rigidBodies) {
+    public void refreshModel(Map<String, RigidBody> rigidBodies, Map<String, Force> uniformForces) {
         this.rigidBodies = rigidBodies;
+        this.uniformForces = uniformForces;
         generateRigidBodyTree(root);
         treeModel.reload();
     }
@@ -101,15 +105,22 @@ public class ObjectListJPanel extends javax.swing.JPanel implements SimpleListen
             String rigidBodyName = rigidBodyMapEntry.getKey();
             RigidBody rigidBody = rigidBodyMapEntry.getValue();
             
-            DefaultMutableTreeNode rigidBodyNode = new DefaultMutableTreeNode(rigidBodyName);
+            DefaultMutableTreeNode rigidBodyNode = new DefaultMutableTreeNode(new RigidBodySelectionItem(rigidBodyName, rigidBody));
             int forceNum = 0;
             for (Force force : rigidBody.getActingForces()) {
-                DefaultMutableTreeNode forceNode = new DefaultMutableTreeNode("Force " + forceNum);
+                DefaultMutableTreeNode forceNode = new DefaultMutableTreeNode(new ForceSelectionItem(forceNum, rigidBodyName, rigidBody));
                 forceNum++;
                 rigidBodyNode.add(forceNode);
             }
             
             root.add(rigidBodyNode);
+        }
+        
+        for (Entry<String, Force> uniformForceMapEntry : uniformForces.entrySet()) {
+            String uniformForceName = uniformForceMapEntry.getKey();
+            Force uniformForce = uniformForceMapEntry.getValue();
+            DefaultMutableTreeNode uniformForceNode = new DefaultMutableTreeNode(new UniformForceSelectionItem(uniformForceName, uniformForce));
+            root.add(uniformForceNode);
         }
     }
 
@@ -149,5 +160,4 @@ public class ObjectListJPanel extends javax.swing.JPanel implements SimpleListen
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
-
 }
