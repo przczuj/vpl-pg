@@ -190,9 +190,9 @@
      
             double t = 1.0 - c;
             //time to scale
-            double magnitude = 2.0 * Math.PI / 360.0;
-                  ///Math.sqrt(angles.getAngles().getX()*angles.getAngles().getX()
-            ///  + angles.getAngles().getY()*angles.getAngles().getY() + angles.getAngles().getZ()*angles.getAngles().getZ());
+            double magnitude =// 2.0 * Math.PI / 360.0;
+                  Math.sqrt(angles.getAngles().getX()*angles.getAngles().getX()
+              + angles.getAngles().getY()*angles.getAngles().getY() + angles.getAngles().getZ()*angles.getAngles().getZ());
      
             angles.getAngles().setX(angles.getAngles().getX() / magnitude);
             angles.getAngles().setY(angles.getAngles().getY() / magnitude);
@@ -268,7 +268,7 @@
                     } else {
                         t.setX(Math.sqrt(xx));
                         t.setY(xy / t.getX());
-                        t.setZ(xy / t.getZ());
+                        t.setZ(xz / t.getZ());
                     }
                 } else if (yy > zz) { // m[1][1] is the largest diagonal term
                     if (yy < epsilon) {
