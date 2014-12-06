@@ -67,10 +67,10 @@
         private Torque previousTotalTorque;
         private ArrayList<Force> actingUniformForces;
      
-        
         private AxisAngle rotationAngles;
         @Getter @Setter
         private Matrix rotationMatrix;
+        private Matrix previousRotationMatrix;
         private Matrix rotationMatrixRateOfChange;
      
         public RigidBody() throws Exception {
@@ -94,8 +94,9 @@
             rotationAngles = new AxisAngle();
             rotationMatrixRateOfChange = new Matrix(3, 3);
             rotationMatrix = new Matrix(3, 3);
+            previousRotationMatrix = new Matrix(3, 3);
             setInitialRotation();
-            timeTick = 20;
+            timeTick = 0.05;
             //by default, shape is set to be a ball
             shape = new BallShape();
             shape.setMass(mass);
@@ -123,7 +124,7 @@
         }
      
         public Triple getPosition() {
-            calculatePosition();
+            calculate();
             return position;
         }
      
@@ -149,6 +150,16 @@
      
         private void calculateTotalTorque() {
             Torque newTotal = new Torque();
+            if (isForcesChanged())
+            {
+             actingTorques = new ArrayList<Torque>();
+             
+             for (Force f : actingForces)
+             {
+                 Torque t = new Torque(f);
+                 actingTorques.add(t);
+             }
+            }
             for (Torque t : actingTorques) {
                 newTotal.setTorque(mathLogic.vectorSum(newTotal.getTorque(), t.getTorque()));
             }
@@ -266,29 +277,109 @@
         private void calculateRotation() {
      
             calculateAngularVelocity();
+            previousRotationMatrix = rotationMatrix;
+            //no need to do so since there is no change
+            if(angularVelocity.getX()==0 && angularVelocity.getY() == 0 && angularVelocity.getZ() == 0)
+                return;
             //R* (t) = omega(t) * R(t)  whereas R*(t) means rate of change of R, ie d/dt R(t)
+           //let R represent the rotation matrix
+            //R* rate of change of R
+            //we get
+            //R* = R/dt
+            //thus R = integral over R* dt
+            Matrix angularVelocityMatrix = angularVelocity.toMatrixForRotation();
+            Matrix rotationRateOfChange = mathLogic.multiplyByMatrix(angularVelocityMatrix, rotationMatrix);
+            //to be improved
+            Matrix rotationIncrement = mathLogic.multiplyByScalar(timeTick, rotationRateOfChange);
+            rotationMatrix = mathLogic.matrixSum(rotationMatrix, rotationIncrement);
+           
+           
+            for (int i=0;i<3;i++)
+            {
+                for (int j=0;j<3;j++)
+                {
+               //    if ( rotationMatrix.getValueAt(i, j)>1 ||  rotationMatrix.getValueAt(i, j)<-1)
+                ///    rotationMatrix.setValueAt(i, j, rotationMatrix.getValueAt(i, j)%(2*Math.PI));
+                }
+            }
+        /*    rotationMatrix = mathLogic.integrateMatrices(previousRotationMatrix);
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
             double[] angVel = new double[3];
             angVel[0] = angularVelocity.getX();
             angVel[1] = angularVelocity.getY();
             angVel[2] = angularVelocity.getZ();
-     
+            Matrix rotationChange = new Matrix(3,3);
+           
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     //check if it's ok
                     rotationMatrixRateOfChange.setValueAt(i, j, rotationMatrix.getValueAt(i, j) * angVel[i]);
                 }
             }
-            //now that we have rate of change
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
+               for (int j = 0; j < 3; j++) {
+                for (int i = 0; i < 3; i++) {
                     //check if it's ok
-                    rotationMatrix.setValueAt(i, j, rotationMatrix.getValueAt(i, j) + rotationMatrixRateOfChange.getValueAt(i, j) * timeTick);
-                    //rotation happens within 0..2PI value range
-                    //thus...
-                    rotationMatrix.setValueAt(i, j, rotationMatrix.getValueAt(i, j) % (2 * Math.PI));
+                    rotationChange.setValueAt(i,j,  rotationMatrixRateOfChange.getValueAt(i, j) * timeTick);
+                    //each column represents a direction vector
+                //   rotationMatrix.setValueAt(i, j, rotationMatrix.getValueAt(i, j) % (2 * Math.PI));
+                   
+                }
+               }
+               
+               //scaling rate of change
+               for (int j=0;j<3;j++)
+               {
+               
+                 double magnitude = Math.sqrt(rotationChange.getValueAt(0, j)*rotationChange.getValueAt(0, j)
+                        +rotationChange.getValueAt(1, j)*rotationChange.getValueAt(1, j)
+                        +rotationChange.getValueAt(2, j)*rotationChange.getValueAt(2, j));
+                 
+                for (int i=0; i<3;i++)
+                {
+                    if(magnitude!=0)
+                    {
+                        if (magnitude>1)
+                          rotationChange.setValueAt(i,j,rotationChange.getValueAt(i,j)/magnitude);  
+                    }
+                }
+               }
+               
+            //now that we have rate of change
+            for (int j = 0; j < 3; j++) {
+                for (int i = 0; i < 3; i++) {
+                    //check if it's ok
+                    rotationMatrix.setValueAt(i, j, rotationMatrix.getValueAt(i, j) + rotationChange.getValueAt(i, j));
+                    //each column represents a direction vector
+                //   rotationMatrix.setValueAt(i, j, rotationMatrix.getValueAt(i, j) % (2 * Math.PI));
+                   
+                }
+               
+                double magnitude = Math.sqrt(rotationMatrix.getValueAt(0, j)*rotationMatrix.getValueAt(0, j)
+                        +rotationMatrix.getValueAt(1, j)*rotationMatrix.getValueAt(1, j)
+                        +rotationMatrix.getValueAt(2, j)*rotationMatrix.getValueAt(2, j));
+               
+                for (int i = 0; i < 3; i++) {
+                    //check if it's ok
+                    if(magnitude!=0) {
+                        if (magnitude>1)
+                    rotationMatrix.setValueAt(i, j, rotationMatrix.getValueAt(i, j)/magnitude);
+                    }
+                    //each column represents a direction vector
+                //   rotationMatrix.setValueAt(i, j, rotationMatrix.getValueAt(i, j) % (2 * Math.PI));
+                   
                 }
             }
-     
+    */
         }
      
         public void print() {
@@ -315,11 +406,7 @@
             rotationAngles = mathLogic.rotationMatrixToAngles(rotationMatrix);
             return rotationAngles;
         }
-        
-        public Triple getSimpleAngles() { //in drawing no complicated operations are needed.
-            //neccessary operations will be made by functions like glRotate
-            return new Triple(0,0,0);
-        }       
+       
        
         public Triple getPointVelociy (Triple point)
         {

@@ -54,7 +54,16 @@
             t.setX(a.getZ()-b.getZ());
             return t;
         }
-     
+       
+        //to unit length
+        public Triple normalize()
+        {
+            double magnitude = Math.sqrt(x*x+y*y+z*z);
+            Triple result = new Triple(x/magnitude,y/magnitude,z/magnitude);
+            return result;
+        }
+       
+           
         public Matrix toMatrix() {
             Matrix mat = new Matrix(3, 1);
             mat.setValueAt(0, 0, getX());
@@ -62,7 +71,21 @@
             mat.setValueAt(2, 0, getZ());
             return mat;
         }
-     
+       
+       
+        public Matrix toMatrixForRotation()
+        {
+         Matrix matrix = new Matrix(3,3);
+         matrix.setValueAt(0, 1, -1*z);
+         matrix.setValueAt(0, 2, y);
+         matrix.setValueAt(1, 0, z);
+         matrix.setValueAt(1, 2, -1*x);
+         matrix.setValueAt(2, 0, -1*y);
+         matrix.setValueAt(2, 1, x);
+         
+         
+         return matrix;
+        }
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();

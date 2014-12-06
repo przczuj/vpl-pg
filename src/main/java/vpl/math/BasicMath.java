@@ -46,7 +46,7 @@
             Triple C = new Triple();
             C.setX(A.getY() * B.getZ() - A.getZ() * B.getY());
             C.setY(A.getZ() * B.getX() - A.getX() * B.getZ());
-            C.setZ(A.getX() * B.getY() - A.getZ() * B.getY());
+            C.setZ(A.getX() * B.getY() - A.getY() * B.getX());
             return C;
         }
      
@@ -190,9 +190,9 @@
      
             double t = 1.0 - c;
             //time to scale
-            double magnitude =// 2.0 * Math.PI / 360.0;
+            double magnitude =
                   Math.sqrt(angles.getAngles().getX()*angles.getAngles().getX()
-              + angles.getAngles().getY()*angles.getAngles().getY() + angles.getAngles().getZ()*angles.getAngles().getZ());
+             + angles.getAngles().getY()*angles.getAngles().getY() + angles.getAngles().getZ()*angles.getAngles().getZ());
      
             angles.getAngles().setX(angles.getAngles().getX() / magnitude);
             angles.getAngles().setY(angles.getAngles().getY() / magnitude);
@@ -216,15 +216,12 @@
             return matrix;
         }
        
-       public double dotProduct(Triple t1, Triple t2)
+       public Triple dotProduct(Triple t1, Triple t2)
         {
-            /*Triple result = new Triple();
+            Triple result = new Triple();
             result.setX(t1.getX()*t2.getX());
             result.setY(t1.getY()*t2.getY());
-            result.setZ(t1.getZ()*t2.getZ());*/
-            double result=t1.getX()*t2.getX();
-            result+=t1.getY()*t2.getY();
-            result+=t1.getZ()*t2.getZ();
+            result.setZ(t1.getZ()*t2.getZ());
             return result;
         }
        
