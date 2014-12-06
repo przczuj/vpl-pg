@@ -216,12 +216,15 @@
             return matrix;
         }
        
-       public Triple dotProduct(Triple t1, Triple t2)
+       public double dotProduct(Triple t1, Triple t2)
         {
-            Triple result = new Triple();
+            /*Triple result = new Triple();
             result.setX(t1.getX()*t2.getX());
             result.setY(t1.getY()*t2.getY());
-            result.setZ(t1.getZ()*t2.getZ());
+            result.setZ(t1.getZ()*t2.getZ());*/
+            double result=t1.getX()*t2.getX();
+            result+=t1.getY()*t2.getY();
+            result+=t1.getZ()*t2.getZ();
             return result;
         }
        

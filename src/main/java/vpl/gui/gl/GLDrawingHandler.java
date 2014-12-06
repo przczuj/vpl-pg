@@ -26,6 +26,7 @@ import vpl.gui.shapes.Cube;
 import vpl.gui.shapes.Cuboid;
 import vpl.gui.shapes.Cyllinder;
 import vpl.gui.shapes.Shape;
+import vpl.math.BasicMath;
 
 public class GLDrawingHandler implements GLEventListener {
 
@@ -244,7 +245,7 @@ public class GLDrawingHandler implements GLEventListener {
 
     private void checkCollisions() {
         List<RigidBody> rigidBodies = new ArrayList<>(api.getRigidBodies().values());
-
+        BasicMath logic=new BasicMath();
         for (int i = 0; i < rigidBodies.size(); i++) {
             List<RigidBody> checkInNextStep = new ArrayList<RigidBody>();
             for (int j = i + 1; j < rigidBodies.size(); j++) {
@@ -254,7 +255,78 @@ public class GLDrawingHandler implements GLEventListener {
                 double r1 = rb1.getShape().getSphereRadius();
                 double r2 = rb2.getShape().getSphereRadius();
                 if (distance <= r1 + r2) {
-                    checkInNextStep.add(rb2);
+                    //checkInNextStep.add(rb2);
+                    
+                    //spheral collision
+                    
+                    //basis vector
+                    double xx,xy,xz;
+                    Triple pos1,pos2;
+                    pos1=rb1.getPosition();
+                    pos2=rb2.getPosition();
+                    xx=pos2.getX()-pos1.getX();
+                    xy=pos2.getY()-pos2.getY();
+                    xz=pos2.getZ()-pos2.getZ();                    
+                    Triple xvec=new Triple(xx,xy,xz);
+                    
+                    //normalization
+                    double d=xvec.getLength();
+                    xx/=d;
+                    xy/=d;
+                    xz/=d;
+                    xvec=new Triple(xx,xy,xz);
+                    
+                    //x-direction velocity vector and the perpendicular y-vector
+                    Triple collisionPoint=new Triple(pos1.getX()+r1*xvec.getX(),
+                        pos1.getY()+r1*xvec.getY(),pos1.getZ()+r1*xvec.getZ());
+                    //third line
+                    Triple v1= rb1.getPointVelociy(collisionPoint);
+                    //fourth line
+                    double x1=logic.dotProduct(xvec, v1);
+                    //fifth line
+                    Triple v1x=new Triple();
+                    v1x.setXYZ(xvec.getX()*x1, xvec.getY()*x1, xvec.getZ()*x1);
+                    //sixth line
+                    Triple v1y=new Triple();
+                    v1y.setXYZ(v1.getX()-v1x.getX(), v1.getY()-v1x.getY(), v1.getZ()-v1x.getZ());
+                    //seventh line
+                    double m1=rb1.getMass();
+                    
+                    //anologycal operations for second rb
+                    xvec.setXYZ(xvec.getX()*(-1), xvec.getY()*(-1), xvec.getZ()*(-1));
+                    //x-direction velocity vector and the perpendicular y-vector
+                    Triple collisionPoint2=new Triple(pos2.getX()+r2*xvec.getX(),
+                        pos2.getY()+r2*xvec.getY(),pos2.getZ()+r2*xvec.getZ());
+                    //third line
+                    Triple v2= rb2.getPointVelociy(collisionPoint);
+                    //fourth line
+                    double x2=logic.dotProduct(xvec, v2);
+                    //fifth line
+                    Triple v2x=new Triple();
+                    v2x.setXYZ(xvec.getX()*x2, xvec.getY()*x2, xvec.getZ()*x2);
+                    //sixth line
+                    Triple v2y=new Triple();
+                    v2y.setXYZ(v2.getX()-v2x.getX(), v2.getY()-v2x.getY(), v2.getZ()-v2x.getZ());
+                    //seventh line
+                    double m2=rb2.getMass();
+                    
+                    //velocity 1
+                    Triple vel1;
+                    vel1=new Triple();
+                    double mass1=(m1-m2)/(m2+m1);
+                    double mass2=(2*m2)/(m1+m2);
+                    vel1.setX(v1x.getX()*mass1+v2x.getX()*mass2+v1y.getX());
+                    vel1.setY(v1x.getY()*mass1+v2x.getY()*mass2+v1y.getY());
+                    vel1.setX(v1x.getZ()*mass1+v2x.getZ()*mass2+v1y.getZ());
+                    
+                    //velocity2
+                    Triple vel2;
+                    vel2=new Triple();
+                    double mass3=(2*m1)/(m1+m2);
+                    double mass4=(m2-m1)/(m1+m2);
+                    vel2.setX(v1x.getX()*mass3+v2x.getX()*mass4+v2y.getX());
+                    vel2.setY(v1x.getY()*mass3+v2x.getY()*mass4+v2y.getY());
+                    vel2.setX(v1x.getZ()*mass3+v2x.getZ()*mass4+v2y.getZ());
                 }
             }
         }
