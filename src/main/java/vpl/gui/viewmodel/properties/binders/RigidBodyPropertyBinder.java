@@ -14,6 +14,9 @@ import vpl.gui.viewmodel.properties.binders.shapes.BallShapePropertyBinder;
 import vpl.gui.viewmodel.properties.binders.shapes.ConeShapePropertyBinder;
 import vpl.gui.viewmodel.properties.binders.shapes.CuboidShapePropertyBinder;
 import vpl.gui.viewmodel.properties.binders.shapes.CyllinderShapePropertyBinder;
+import vpl.math.BasicMath;
+import vpl.math.Matrix;
+import vpl.physics.AxisAngle;
 import vpl.physics.RigidBody;
 import vpl.physics.shapes.BallShape;
 import vpl.physics.shapes.ConeShape;
@@ -52,6 +55,53 @@ public class RigidBodyPropertyBinder implements ObjectPropertyBinder {
 
             @Override public void setProperty(String text) {
                 rigidBody.getPosition().setZ(Double.parseDouble(text));
+            }
+        },
+        //==========================================================//
+        
+        //==========================================================//
+        new SimplerPropertyBinder("Rotation X", true) {
+            @Override public String getProperty() {
+                return String.valueOf(rigidBody.getRotationAngles().getAngles().getX());
+            }
+
+            @Override public void setProperty(String text) {
+                AxisAngle rotationAngles = rigidBody.getRotationAngles();
+                rotationAngles.getAngles().setX(Double.parseDouble(text));
+                rigidBody.setRotationMatrix(new BasicMath().anglesToRotationMatrix(rotationAngles));
+            }
+        },
+        new SimplerPropertyBinder("Rotation Y", true) {
+            @Override public String getProperty() {
+                return String.valueOf(rigidBody.getRotationAngles().getAngles().getY());
+            }
+
+            @Override public void setProperty(String text) {
+                AxisAngle rotationAngles = rigidBody.getRotationAngles();
+                rotationAngles.getAngles().setY(Double.parseDouble(text));
+                rigidBody.setRotationMatrix(new BasicMath().anglesToRotationMatrix(rotationAngles));
+            }
+        },
+        new SimplerPropertyBinder("Rotation Z", true) {
+            @Override public String getProperty() {
+                return String.valueOf(rigidBody.getRotationAngles().getAngles().getZ());
+            }
+
+            @Override public void setProperty(String text) {
+                AxisAngle rotationAngles = rigidBody.getRotationAngles();
+                rotationAngles.getAngles().setZ(Double.parseDouble(text));
+                rigidBody.setRotationMatrix(new BasicMath().anglesToRotationMatrix(rotationAngles));
+            }
+        },
+        new SimplerPropertyBinder("Rotation angle", true) {
+            @Override public String getProperty() {
+                return String.valueOf(rigidBody.getRotationAngles().getAngle());
+            }
+
+            @Override public void setProperty(String text) {
+                AxisAngle rotationAngles = rigidBody.getRotationAngles();
+                rotationAngles.setAngle(Double.parseDouble(text));
+                rigidBody.setRotationMatrix(new BasicMath().anglesToRotationMatrix(rotationAngles));
             }
         },
         //==========================================================//
