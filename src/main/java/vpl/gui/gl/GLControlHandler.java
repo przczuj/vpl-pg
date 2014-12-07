@@ -113,9 +113,11 @@ public class GLControlHandler implements KeyListener, MouseListener, MouseMotion
     }
 
     public void mouseEntered(MouseEvent me) {
+        System.out.println("entered");
     }
 
     public void mouseExited(MouseEvent me) {
+        System.out.println("exited");
     }
     
     public void mouseDragged(MouseEvent me) {
