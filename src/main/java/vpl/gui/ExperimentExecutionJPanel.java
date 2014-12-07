@@ -4,14 +4,28 @@
  */
 package vpl.gui;
 
+import java.awt.FileDialog;
+import java.awt.Frame;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import vpl.physics.controller.Model;
 import vpl.physics.controller.PhysicsExecutionTask;
+import vpl.serialization.XmlSerializationManager;
+import vpl.serialization.xml.XmlExperiment;
 
 public class ExperimentExecutionJPanel extends javax.swing.JPanel {
 
+    private Model model;
+    
     /**
      * Creates new form ExperimentExecutionJPanel
      */
     public ExperimentExecutionJPanel() {
+        model = Model.getInstance();
         initComponents();
     }
 
@@ -29,6 +43,8 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel {
         jSlider1 = new javax.swing.JSlider();
         jLabel1 = new javax.swing.JLabel();
         jSpinner1 = new javax.swing.JSpinner();
+        saveButton = new javax.swing.JButton();
+        loadButton = new javax.swing.JButton();
 
         setMaximumSize(new java.awt.Dimension(32767, 46));
 
@@ -48,6 +64,20 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel {
 
         jLabel1.setText("time:");
 
+        saveButton.setText("Save");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
+
+        loadButton.setText("Load");
+        loadButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -58,11 +88,15 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(saveButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(loadButton)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -74,8 +108,11 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel {
                         .addComponent(jButton2)
                         .addComponent(jToggleButton1))
                     .addComponent(jSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSpinner1))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jSpinner1)
+                        .addComponent(saveButton)
+                        .addComponent(loadButton)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -96,11 +133,45 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel {
         jToggleButton1.setSelected(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
+        try {
+            final FileDialog loadDialog = new FileDialog(new Frame(), "load", FileDialog.LOAD);
+            loadDialog.setVisible(true);
+            File file = new File(loadDialog.getDirectory() + loadDialog.getFile());
+            FileInputStream fileInputStream = new FileInputStream(file);
+            XmlExperiment xmlExperiment = XmlSerializationManager.unmarshal(fileInputStream); 
+            model.getPhysics().setRigidBodies(xmlExperiment.exportRigidBodyMap());
+            model.getPhysics().setUniformForces(xmlExperiment.exportUniformForceMap());
+            fileInputStream.close();
+            System.out.println("LOADED");
+        } catch (Exception ex) {
+            Logger.getLogger(ExperimentExecutionJPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_loadButtonActionPerformed
+
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        try {
+            final FileDialog saveDialog = new FileDialog(new Frame(), "save", FileDialog.SAVE);
+            saveDialog.setVisible(true);
+            System.out.println(saveDialog.getDirectory() + saveDialog.getFile());
+            File file = new File(saveDialog.getDirectory() + saveDialog.getFile());
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            XmlSerializationManager.marshal(fileOutputStream, 
+                    new XmlExperiment(model.getPhysics().getRigidBodies(), model.getPhysics().getUniformForces()));
+            fileOutputStream.close();
+            System.out.println("SAVED");
+        } catch (Exception ex) {
+            Logger.getLogger(ExperimentExecutionJPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_saveButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JButton loadButton;
+    private javax.swing.JButton saveButton;
     // End of variables declaration//GEN-END:variables
 }
