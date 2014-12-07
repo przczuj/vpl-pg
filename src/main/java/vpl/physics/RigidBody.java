@@ -435,9 +435,9 @@
             Triple distance = point.getDistance(point, this.position);
             Triple angularComponent = mathLogic.crossProduct(angularVelocity, distance);
            
-            pointVel.setX(distance.getX()+angularComponent.getX());
-            pointVel.setY(distance.getY()+angularComponent.getY());
-            pointVel.setZ(distance.getZ()+angularComponent.getZ());
+            pointVel.setX(linearVelocity.getX()+angularComponent.getX());
+            pointVel.setY(linearVelocity.getY()+angularComponent.getY());
+            pointVel.setZ(linearVelocity.getZ()+angularComponent.getZ());
            
             return pointVel;
         }
