@@ -16,7 +16,7 @@ public class Cuboid extends Cube {
     double b, c;
 
     public Cuboid(double x, double y, double z, double anglex, double angley, double anglez, double a, double b, double c) {
-        super(x, y, z, anglex, angley, anglez, a);
+        super(x, y, z, anglex, angley, anglez, a,1);
         this.b = b;
         this.c = c;
     }

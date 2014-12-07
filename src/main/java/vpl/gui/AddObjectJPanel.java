@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package vpl.gui;
- 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,24 +24,25 @@ import vpl.gui.shapes.Cube;
 import vpl.gui.shapes.Cuboid;
 import vpl.gui.shapes.Cyllinder;
 import vpl.gui.shapes.Shape;
+import vpl.math.BasicMath;
 import vpl.physics.AxisAngle;
- 
+
 public class AddObjectJPanel extends javax.swing.JPanel {
- 
+
     public List<Shape> shapesList;
     private Model model;
     private ControllerStub api;
-   
+    
     /**
      * Creates new form AddObjectJPanel
      */
     public AddObjectJPanel() {
         model = Model.getInstance();
         api = model.getPhysics();
-       
+        
         shapesList = new ArrayList<>();
         initComponents();
- 
+
         DefaultListModel<String> listModel = new DefaultListModel<String>();
         listModel.addElement("ball");
         listModel.addElement("cube");
@@ -286,20 +287,32 @@ public class AddObjectJPanel extends javax.swing.JPanel {
         double a = Double.parseDouble(aTextField.getText());
         double b = Double.parseDouble(bTextField.getText());
         double c = Double.parseDouble(cTextField.getText());
-        AxisAngle angles = new AxisAngle();
-        angles.setAngle(0);
-        angles.setAngles(new Triple(xa,ya,za));
+        if (xa==0  && ya ==0 && za == 0)
+            xa = 0.00001;
+        /*AxisAngle angles = new AxisAngle();
+        angles.setAngle(Math.PI/6);
+        angles.setAngles(new Triple(xa,ya,za));*/
+        
+        BasicMath bm=new BasicMath();
+        Triple newV= bm.rotatePoint(new Triple(1,1,1).normalize(), new Triple(0,0,0), xa, ya, za);
+        //double ang=bm.dotProduct(new Triple(1,0,0), newV);
+        /*AxisAngle angles=new AxisAngle();
+        angles.setAngle();*/
+        AxisAngle angles=new AxisAngle();
+        angles.setAngle(Math.PI);
+        angles.setAngles(new Triple((1+newV.getX())/2,(1+newV.getY())/2,(1+newV.getZ())/2).normalize());
+        
         if (selected.equals("ball")) {
             try {
                 BallShape ball = new BallShape();
                 ball.setR(r);
                 ball.setType("BALL");
-                    ball.calculateRadius();                   
+                    ball.calculateRadius();
                     api.createRigidBody(ball, new Triple(x, y, z), 0, 10,angles);
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
-           
+            
             shapesList.add(new Ball(x, y, z, r, xa, ya, za));
         } else if (selected.equals("cube")) {
             try {
@@ -308,12 +321,13 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                 cube.setY(a);
                 cube.setZ(a);
                 cube.calculateRadius();
+                cube.setType("CUBE");
                 api.createRigidBody(cube, new Triple(x, y, z), 0, 10,angles);
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
-           
-            shapesList.add(new Cube(x, y, z, xa, ya, za, a));
+            
+            //shapesList.add(new Cube(x, y, z, xa, ya, za, a));
         } else if (selected.equals("cuboid")) {
             try {
                 CuboidShape cuboid = new CuboidShape();
@@ -328,7 +342,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
-           
+            
             shapesList.add(new Cuboid(x, y, z, xa, ya, za, a, b, c));
         } else if (selected.equals("cyllinder")) {
             try {
@@ -340,7 +354,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
-           
+            
             shapesList.add(new Cyllinder(x, y, z, xa, ya, za, r, h));
         } else if (selected.equals("cone")) {
             try {
@@ -352,7 +366,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
- 
+
             shapesList.add(new Cone(x, y, z, xa, ya, za, r, h));
         } else {
             System.out.println("ERROR. WRONG SELECTION");

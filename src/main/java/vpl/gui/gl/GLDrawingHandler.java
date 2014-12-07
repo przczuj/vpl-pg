@@ -213,7 +213,9 @@
             for (RigidBody rb : rigidBodiesList) {
                 String type = rb.getShape().getType();
                 Triple position = rb.getPosition();
-                Triple angles = rb.getRotationAngles().getAngles();
+                Triple angles = rb.getRotationAngles().getAngles().normalize();
+                double angle=rb.getRotationAngles().getAngle();
+                
                 switch (type.toUpperCase()) {
                     case "BALL":
                         shapesList.add(new Ball(position.getX(), position.getY(),
@@ -222,7 +224,7 @@
                     case "CUBE":
                         CuboidShape cube = (CuboidShape) rb.getShape();
                         shapesList.add(new Cube(position.getX(), position.getY(),
-                                position.getZ(), angles.getX(), angles.getY(), angles.getZ(), cube.getX()));
+                                position.getZ(), angles.getX(), angles.getY(), angles.getZ(), cube.getX(),angle));
                         break;
                     case "CUBOID":
                         CuboidShape cs = (CuboidShape) rb.getShape();

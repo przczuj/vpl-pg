@@ -9,6 +9,7 @@
     import vpl.physics.AxisAngle;
     import vpl.math.Matrix;
     import java.lang.Exception;
+import static java.lang.Math.PI;
     import static java.lang.Math.cos;
     import static java.lang.Math.sin;
      
@@ -95,10 +96,10 @@
             return p;
         }
      
-        public Matrix createRotationMatrix(int x, int y, int z, double angle) {
+        public Matrix createRotationMatrix(double x, double y, double z, double angle) {
             double[][] m = new double[3][3];
-            double s = sin(angle);
-            double c = cos(angle);
+            double s = sin(angle/180.0*PI);
+            double c = cos(angle/180.0*PI);
             m[0][0] = x * x * (1.0 - c) + c;
             m[0][1] = x * y * (1.0 - c) - z * s;
             m[0][2] = x * z * (1.0 - c) + y * s;
@@ -216,12 +217,15 @@
             return matrix;
         }
        
-       public Triple dotProduct(Triple t1, Triple t2)
+       public double dotProduct(Triple t1, Triple t2)
         {
-            Triple result = new Triple();
-            result.setX(t1.getX()*t2.getX());
+            double result;
+            /*result.setX(t1.getX()*t2.getX());
             result.setY(t1.getY()*t2.getY());
-            result.setZ(t1.getZ()*t2.getZ());
+            result.setZ(t1.getZ()*t2.getZ());*/
+            result=t1.getX()*t2.getX();
+            result+=t1.getY()*t2.getX();
+            result+=t1.getZ()*t2.getZ();
             return result;
         }
        

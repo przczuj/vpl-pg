@@ -14,10 +14,11 @@ import javax.media.opengl.GL2;
 public class Cube extends Shape {
 
     protected double a;
-
-    public Cube(double x, double y, double z, double anglex, double angley, double anglez, double a) {
+    protected double angle;
+    public Cube(double x, double y, double z, double anglex, double angley, double anglez, double a,double angle) {
         super(x, y, z, anglex, angley, anglez);
         this.a = a;
+        this.angle=angle;
     }
 
     @Override
@@ -25,9 +26,10 @@ public class Cube extends Shape {
         gl.glPushMatrix();
         gl.glTranslated(x, y, z);
 
-        gl.glRotated(anglez, 0, 0, 1);
+        /*gl.glRotated(anglez, 0, 0, 1);
         gl.glRotated(angley, 0, 1, 0);
-        gl.glRotated(anglex, 1, 0, 0);
+        gl.glRotated(anglex, 1, 0, 0);*/
+        gl.glRotated(angle*180/Math.PI, anglex, angley, anglez);
         gl.glTranslated(-x, -y, -z);
 
 
