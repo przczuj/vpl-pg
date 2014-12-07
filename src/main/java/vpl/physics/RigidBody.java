@@ -1,6 +1,4 @@
-	
-
-    /*
+/*
      * To change this template, choose Tools | Templates
      * and open the template in the editor.
      */
@@ -148,8 +146,30 @@
             setForcesChanged(true);
         }
      
-        private void calculateTotalTorque() {
+        private void calculateTotalTorque() { if(totalForce.getForceValue().getLength()==0)
+            {
+             int ch =0;  
+            }
+        boolean forcesStopped = true;
+        for (Force f : actingForces)
+        {
+            if (f.getTimeToLive()>=0 || f.isForever() ==true )
+            {
+                if(f.getForceValue().getX() != 0 || f.getForceValue().getY() != 0 || f.getForceValue().getZ() != 0)
+                {
+                 forcesStopped = false;  
+                }
+            }
+        }
+        if (forcesStopped)
+        {
+           
+            previousTotalTorque = totalTorque;
+            totalTorque = new Torque();
+         return;  
+        }
             Torque newTotal = new Torque();
+           
             if (isForcesChanged())
             {
              actingTorques = new ArrayList<Torque>();
@@ -463,4 +483,3 @@
     //q[3]= (R[1][0] - R[0][1])*s2
     //else....
     //
-
