@@ -121,9 +121,11 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel {
         if (jToggleButton1.isSelected()) {
             jToggleButton1.setText("Pause");
             PhysicsExecutionTask.getInstance().start();
+            System.out.println("Playing");
         } else {
             jToggleButton1.setText("Play");
             PhysicsExecutionTask.getInstance().stop();
+            System.out.println("Paused");
         }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
@@ -131,19 +133,25 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel {
         jToggleButton1.setText("Play");
         PhysicsExecutionTask.getInstance().stop();
         jToggleButton1.setSelected(false);
+        System.out.println("Stopped");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
         try {
             final FileDialog loadDialog = new FileDialog(new Frame(), "load", FileDialog.LOAD);
             loadDialog.setVisible(true);
-            File file = new File(loadDialog.getDirectory() + loadDialog.getFile());
-            FileInputStream fileInputStream = new FileInputStream(file);
-            XmlExperiment xmlExperiment = XmlSerializationManager.unmarshal(fileInputStream); 
-            model.getPhysics().setRigidBodies(xmlExperiment.exportRigidBodyMap());
-            model.getPhysics().setUniformForces(xmlExperiment.exportUniformForceMap());
-            fileInputStream.close();
-            System.out.println("LOADED");
+            if (loadDialog.getFile() != null) {
+                jButton2ActionPerformed(null); //stop
+                File file = new File(loadDialog.getDirectory() + loadDialog.getFile());
+                FileInputStream fileInputStream = new FileInputStream(file);
+                XmlExperiment xmlExperiment = XmlSerializationManager.unmarshal(fileInputStream);
+                model.getPhysics().setRigidBodies(xmlExperiment.exportRigidBodyMap());
+                model.getPhysics().setUniformForces(xmlExperiment.exportUniformForceMap());
+                fileInputStream.close();
+                model.refreshView(Model.RIGID_BODY_LIST_CHANGED);
+                model.refreshView(Model.AN_RIGID_BODY_CHANGED);
+                System.out.println("LOADED");
+            }
         } catch (Exception ex) {
             Logger.getLogger(ExperimentExecutionJPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -153,13 +161,15 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel {
         try {
             final FileDialog saveDialog = new FileDialog(new Frame(), "save", FileDialog.SAVE);
             saveDialog.setVisible(true);
-            System.out.println(saveDialog.getDirectory() + saveDialog.getFile());
-            File file = new File(saveDialog.getDirectory() + saveDialog.getFile());
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            XmlSerializationManager.marshal(fileOutputStream, 
-                    new XmlExperiment(model.getPhysics().getRigidBodies(), model.getPhysics().getUniformForces()));
-            fileOutputStream.close();
-            System.out.println("SAVED");
+            if (saveDialog.getFile() != null) {
+                System.out.println(saveDialog.getDirectory() + saveDialog.getFile());
+                File file = new File(saveDialog.getDirectory() + saveDialog.getFile());
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                XmlSerializationManager.marshal(fileOutputStream, 
+                        new XmlExperiment(model.getPhysics().getRigidBodies(), model.getPhysics().getUniformForces()));
+                fileOutputStream.close();
+                System.out.println("SAVED");
+            }
         } catch (Exception ex) {
             Logger.getLogger(ExperimentExecutionJPanel.class.getName()).log(Level.SEVERE, null, ex);
         }

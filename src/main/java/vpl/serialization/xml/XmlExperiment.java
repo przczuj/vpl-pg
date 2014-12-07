@@ -58,7 +58,11 @@ public class XmlExperiment implements Serializable {
     public Map<String, RigidBody> exportRigidBodyMap() {
         Map<String, RigidBody> rigidBodyMap = new HashMap<>();
         for (XmlRigidBody xmlRigidBody : rigidBodies) {
-            rigidBodyMap.put(xmlRigidBody.getName(), xmlRigidBody.generateRigidBody());
+            RigidBody rigidBody = xmlRigidBody.generateRigidBody();
+            rigidBodyMap.put(xmlRigidBody.getName(), rigidBody);
+            for (XmlUniformForce xmlUniformForce : unifiedForces) {
+                rigidBody.registerUniformForce(xmlUniformForce.generateUniformForce());
+            }
         }
         return rigidBodyMap;
     }

@@ -55,7 +55,7 @@ public class RigidBodyPropertyBinder implements ObjectPropertyBinder {
         //==========================================================//
             
         //==========================================================//
-        new SimplerPropertyBinder("Linear Velocity X", true) {
+        new SimplerPropertyBinder("Linear Velocity X", false) {
             @Override public String getProperty() {
                 return String.valueOf(rigidBody.getLinearVelocity().getX());
             }
@@ -64,7 +64,7 @@ public class RigidBodyPropertyBinder implements ObjectPropertyBinder {
                 rigidBody.getLinearVelocity().setX(Double.parseDouble(text));
             }
         },
-        new SimplerPropertyBinder("Linear Velocity Y", true) {
+        new SimplerPropertyBinder("Linear Velocity Y", false) {
             @Override public String getProperty() {
                 return String.valueOf(rigidBody.getLinearVelocity().getY());
             }
@@ -73,7 +73,7 @@ public class RigidBodyPropertyBinder implements ObjectPropertyBinder {
                 rigidBody.getLinearVelocity().setY(Double.parseDouble(text));
             }
         },
-        new SimplerPropertyBinder("Linear Velocity Z", true) {
+        new SimplerPropertyBinder("Linear Velocity Z", false) {
             @Override public String getProperty() {
                 return String.valueOf(rigidBody.getLinearVelocity().getZ());
             }
@@ -85,7 +85,7 @@ public class RigidBodyPropertyBinder implements ObjectPropertyBinder {
         //==========================================================//
 
         //==========================================================//
-        new SimplerPropertyBinder("Angular Velocity X", true) {
+        new SimplerPropertyBinder("Angular Velocity X", false) {
             @Override public String getProperty() {
                 return String.valueOf(rigidBody.getAngularVelocity().getX());
             }
@@ -94,7 +94,7 @@ public class RigidBodyPropertyBinder implements ObjectPropertyBinder {
                 rigidBody.getAngularVelocity().setX(Double.parseDouble(text));
             }
         },
-        new SimplerPropertyBinder("Angular Velocity Y", true) {
+        new SimplerPropertyBinder("Angular Velocity Y", false) {
             @Override public String getProperty() {
                 return String.valueOf(rigidBody.getAngularVelocity().getY());
             }
@@ -103,13 +103,73 @@ public class RigidBodyPropertyBinder implements ObjectPropertyBinder {
                 rigidBody.getAngularVelocity().setY(Double.parseDouble(text));
             }
         },
-        new SimplerPropertyBinder("Angular Velocity Z", true) {
+        new SimplerPropertyBinder("Angular Velocity Z", false) {
             @Override public String getProperty() {
                 return String.valueOf(rigidBody.getAngularVelocity().getZ());
             }
 
             @Override public void setProperty(String text) {
                 rigidBody.getAngularVelocity().setZ(Double.parseDouble(text));
+            }
+        },
+        //==========================================================//
+        
+        //==========================================================//
+        new SimplerPropertyBinder("Linear Momentum X", true) {
+            @Override public String getProperty() {
+                return String.valueOf(rigidBody.getLinearMomentum().getX());
+            }
+
+            @Override public void setProperty(String text) {
+                rigidBody.getLinearMomentum().setX(Double.parseDouble(text));
+            }
+        },
+        new SimplerPropertyBinder("Linear Momentum Y", true) {
+            @Override public String getProperty() {
+                return String.valueOf(rigidBody.getLinearMomentum().getY());
+            }
+
+            @Override public void setProperty(String text) {
+                rigidBody.getLinearMomentum().setY(Double.parseDouble(text));
+            }
+        },
+        new SimplerPropertyBinder("Linear Momentum Z", true) {
+            @Override public String getProperty() {
+                return String.valueOf(rigidBody.getLinearMomentum().getZ());
+            }
+
+            @Override public void setProperty(String text) {
+                rigidBody.getLinearMomentum().setZ(Double.parseDouble(text));
+            }
+        },
+        //==========================================================//
+
+        //==========================================================//
+        new SimplerPropertyBinder("Angular Momentum X", true) {
+            @Override public String getProperty() {
+                return String.valueOf(rigidBody.getAngularMomentum().getX());
+            }
+
+            @Override public void setProperty(String text) {
+                rigidBody.getAngularMomentum().setX(Double.parseDouble(text));
+            }
+        },
+        new SimplerPropertyBinder("Angular Momentum Y", true) {
+            @Override public String getProperty() {
+                return String.valueOf(rigidBody.getAngularMomentum().getY());
+            }
+
+            @Override public void setProperty(String text) {
+                rigidBody.getAngularMomentum().setY(Double.parseDouble(text));
+            }
+        },
+        new SimplerPropertyBinder("Angular Momentum Z", true) {
+            @Override public String getProperty() {
+                return String.valueOf(rigidBody.getAngularMomentum().getZ());
+            }
+
+            @Override public void setProperty(String text) {
+                rigidBody.getAngularMomentum().setZ(Double.parseDouble(text));
             }
         },
         //==========================================================//

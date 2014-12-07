@@ -93,27 +93,26 @@ public class XmlShape {
 
     public Shape generateShape() {
         Shape shape = null;
-        
         try {
-            if (type == BALL) {
+            if (type.equals(BALL)) {
                 BallShape ballShape = new BallShape();
                 ballShape.setR(radius);
                 shape = ballShape;
 
-            } else if (type == CONE) {
+            } else if (type.equals(CONE)) {
                 ConeShape coneShape = new ConeShape();
                 coneShape.setR(radius);
                 coneShape.setH(height);
                 shape = coneShape;
 
-            } else if (type == CUBOID) {
+            } else if (type.equals(CUBOID)) {
                 CuboidShape cuboidShape = new CuboidShape();
                 cuboidShape.setX(xSize);
                 cuboidShape.setY(ySize);
                 cuboidShape.setZ(zSize);
                 shape = cuboidShape;
 
-            } else if (type == CYLLINDER) {
+            } else if (type.equals(CYLLINDER)) {
                 CyllinderShape cyllinderShape = new CyllinderShape();
                 cyllinderShape.setR(radius);
                 cyllinderShape.setH(height);
@@ -123,7 +122,7 @@ public class XmlShape {
         } catch (Exception ex) {
             Logger.getLogger(XmlShape.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return shape;
     }
 
 }

@@ -21,8 +21,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import vpl.math.BasicMath;
+import vpl.math.Matrix;
 import vpl.physics.Force;
 import vpl.physics.RigidBody;
+import vpl.physics.controller.PhysicsExecutionTask;
+import vpl.physics.shapes.Shape;
 
 @ToString
 @EqualsAndHashCode
@@ -42,8 +46,8 @@ public class XmlRigidBody implements Serializable {
         }
         shape = new XmlShape(rigidBody.getShape(), rigidBody.getRotationAngles());
         position = new XmlTriple(rigidBody.getPosition());
-        linearVelocity = new XmlTriple(rigidBody.getLinearVelocity());
-        angularVelocity = new XmlTriple(rigidBody.getAngularVelocity());
+        linearMomentum = new XmlTriple(rigidBody.getLinearMomentum());
+        angularMomentumy = new XmlTriple(rigidBody.getAngularMomentum());
     }
     
     @XmlAttribute
@@ -61,24 +65,29 @@ public class XmlRigidBody implements Serializable {
     @XmlElement(name = "position")
     private XmlTriple position = new XmlTriple();
     
-    @XmlElement(name = "linearVelocity")
-    private XmlTriple linearVelocity = new XmlTriple();
+    @XmlElement(name = "linearMomentum")
+    private XmlTriple linearMomentum = new XmlTriple();
     
-    @XmlElement(name = "angularVelocity")
-    private XmlTriple angularVelocity = new XmlTriple();
+    @XmlElement(name = "angularMomentum")
+    private XmlTriple angularMomentumy = new XmlTriple();
 
     public RigidBody generateRigidBody() {
         try {
             RigidBody rigidBody = new RigidBody();
             for (XmlForce xmlForce : forces) {
-                rigidBody.getActingForces().add(xmlForce.generateForce());
+                rigidBody.registerForce(xmlForce.generateForce());
             }
-            rigidBody.setShape(shape.generateShape());
-            rigidBody.getShape().setMass(mass);
+            Matrix rotationMatrix = new BasicMath().anglesToRotationMatrix(shape.getRotation().generateAxisAngle());
+            rigidBody.setRotationMatrix(rotationMatrix);
+            Shape physicShape = shape.generateShape();
+            physicShape.setMass(mass);
+            rigidBody.setShape(physicShape);
             rigidBody.setMass(mass);
             rigidBody.setPosition(position.generateTriple());
-            rigidBody.setLinearVelocity(linearVelocity.generateTriple());
-            rigidBody.setAngularVelocity(angularVelocity.generateTriple());
+            rigidBody.setLinearMomentum(linearMomentum.generateTriple());
+            rigidBody.setAngularMomentum(angularMomentumy.generateTriple());
+            rigidBody.setTimeTick(PhysicsExecutionTask.TICK_RATE_MILLISEC);
+            rigidBody.getShape().recalculate();
             return rigidBody;
         } catch (Exception ex) {
             Logger.getLogger(XmlRigidBody.class.getName()).log(Level.SEVERE, null, ex);
