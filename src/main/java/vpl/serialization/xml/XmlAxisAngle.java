@@ -25,13 +25,17 @@ import vpl.physics.AxisAngle;
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "triple")
-public class XmlTriple {
+@XmlType(name = "axisAngle")
+public class XmlAxisAngle {
 
-    public XmlTriple(Triple triple) {
+    public XmlAxisAngle(double a, Triple triple) {
         x = triple.getX();
         y = triple.getY();
         z = triple.getZ();
+    }
+
+    public XmlAxisAngle(AxisAngle axisAngle) {
+        this(axisAngle.getAngle(), axisAngle.getAngles());
     }
 
     @XmlAttribute
@@ -43,7 +47,10 @@ public class XmlTriple {
     @XmlAttribute
     private double z;
     
-    public Triple generateTriple() {
-        return new Triple(x, y, z);
+    @XmlAttribute
+    private double a;
+    
+    public AxisAngle generateAxisAngle() {
+        return new AxisAngle(a, new Triple(x, y, z));
     }
 }

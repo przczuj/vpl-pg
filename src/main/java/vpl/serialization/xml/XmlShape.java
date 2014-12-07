@@ -67,7 +67,7 @@ public class XmlShape {
             
         }
         
-        rotation = new XmlTriple(axisAngle);
+        rotation = new XmlAxisAngle(axisAngle);
     }
 
     @XmlAttribute
@@ -89,7 +89,7 @@ public class XmlShape {
     private Double height;
 
     @XmlElement(name = "rotation")
-    private XmlTriple rotation = new XmlTriple();
+    private XmlAxisAngle rotation = new XmlAxisAngle();
 
     public Shape generateShape() {
         Shape shape = null;

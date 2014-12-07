@@ -1,8 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
+	
 package vpl.physics.controller;
 
 import java.util.TimerTask;
@@ -44,19 +40,19 @@ public class PhysicsExecutionTask {
                 }
             }, /*first execution delay*/ 0, TICK_RATE_MILLISEC, TimeUnit.MILLISECONDS);
         }
-    }
-    
-    public void pause() {
-        if (scheduleFuture != null) {
-            scheduleFuture.cancel(false);
-            scheduleFuture = null;
+            }
+           
+        public void pause() {
+            if (scheduleFuture != null) {
+                scheduleFuture.cancel(false);
+                scheduleFuture = null;
+            }
+        }
+       
+        public void stop() {
+            if (scheduleFuture != null) {
+                scheduleFuture.cancel(false);
+                scheduleFuture = null;
+            }
         }
     }
-    
-    public void stop() {
-        if (scheduleFuture != null) {
-            scheduleFuture.cancel(false);
-            scheduleFuture = null;
-        }
-    }
-}
