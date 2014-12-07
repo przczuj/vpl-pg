@@ -8,6 +8,8 @@ package vpl.serialization.xml;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -66,6 +68,21 @@ public class XmlRigidBody implements Serializable {
     private XmlTriple angularVelocity = new XmlTriple();
 
     public RigidBody generateRigidBody() {
+        try {
+            RigidBody rigidBody = new RigidBody();
+            for (XmlForce xmlForce : forces) {
+                rigidBody.getActingForces().add(xmlForce.generateForce());
+            }
+            rigidBody.setShape(shape.generateShape());
+            rigidBody.getShape().setMass(mass);
+            rigidBody.setMass(mass);
+            rigidBody.setPosition(position.generateTriple());
+            rigidBody.setLinearVelocity(linearVelocity.generateTriple());
+            rigidBody.setAngularVelocity(angularVelocity.generateTriple());
+            return rigidBody;
+        } catch (Exception ex) {
+            Logger.getLogger(XmlRigidBody.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return null;
     }
 
