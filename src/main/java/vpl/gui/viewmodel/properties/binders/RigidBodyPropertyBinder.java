@@ -5,6 +5,8 @@
 
 package vpl.gui.viewmodel.properties.binders;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import vpl.gui.viewmodel.properties.binders.PropertyBinder;
 import vpl.gui.viewmodel.properties.binders.SimplerPropertyBinder;
 import vpl.gui.viewmodel.properties.binders.ObjectPropertyBinder;
@@ -180,6 +182,20 @@ public class RigidBodyPropertyBinder implements ObjectPropertyBinder {
             }
 
             @Override public void setProperty(String text) {
+            }
+        },
+        new SimplerPropertyBinder("Mass", true) {
+            @Override public String getProperty() {
+                return String.valueOf(rigidBody.getMass());
+            }
+
+            @Override public void setProperty(String text) {
+                try {
+                    rigidBody.setMass(Double.parseDouble(text));
+                    rigidBody.getShape().setMass(Double.parseDouble(text));
+                } catch (Exception ex) {
+                    Logger.getLogger(RigidBodyPropertyBinder.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     };
