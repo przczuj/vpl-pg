@@ -47,10 +47,11 @@
                           <Component id="aLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="xLabel" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
                           <Component id="zAngleLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="zAngleTextField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="zAngleTextField" alignment="0" pref="100" max="32767" attributes="0"/>
                           <Component id="aTextField" alignment="0" max="32767" attributes="0"/>
                           <Component id="hTextField" alignment="0" max="32767" attributes="0"/>
                           <Component id="yTextField" alignment="0" max="32767" attributes="0"/>
@@ -61,6 +62,7 @@
                           <Component id="cTextField" alignment="0" max="32767" attributes="0"/>
                           <Component id="xAngleTextField" alignment="0" max="32767" attributes="0"/>
                           <Component id="yAngleTextField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="massTextField" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -135,7 +137,12 @@
                   <Component id="zAngleLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="positionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="massTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="32" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -334,6 +341,16 @@
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[80, 28]"/>
         </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="massTextField">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="10.0"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="mass:"/>
       </Properties>
     </Component>
   </SubComponents>

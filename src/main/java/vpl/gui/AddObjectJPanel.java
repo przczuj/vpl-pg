@@ -93,6 +93,8 @@ public class AddObjectJPanel extends javax.swing.JPanel {
         positionLabel = new javax.swing.JLabel();
         hLabel = new javax.swing.JLabel();
         hTextField = new javax.swing.JTextField();
+        massTextField = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(257, 32767));
 
@@ -173,6 +175,10 @@ public class AddObjectJPanel extends javax.swing.JPanel {
         hTextField.setText("0.0");
         hTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
+        massTextField.setText("10.0");
+
+        jLabel1.setText("mass:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -200,10 +206,11 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                             .addComponent(hLabel)
                             .addComponent(aLabel)
                             .addComponent(xLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(zAngleLabel))
+                            .addComponent(zAngleLabel)
+                            .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(zAngleTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(zAngleTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                             .addComponent(aTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(hTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(yTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -213,7 +220,8 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                             .addComponent(bTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(xAngleTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(yAngleTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(yAngleTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(massTextField))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -270,7 +278,11 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                     .addComponent(zAngleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(zAngleLabel)
                     .addComponent(positionLabel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(massTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -287,6 +299,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
         double a = Double.parseDouble(aTextField.getText());
         double b = Double.parseDouble(bTextField.getText());
         double c = Double.parseDouble(cTextField.getText());
+        double mass = Double.parseDouble(massTextField.getText());
         if (xa==0  && ya ==0 && za == 0)
             xa = 0.00001;
         /*AxisAngle angles = new AxisAngle();
@@ -308,7 +321,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                 ball.setR(r);
                 ball.setType("BALL");
                     ball.calculateRadius();
-                    api.createRigidBody(ball, new Triple(x, y, z), 0, 10,angles);
+                    api.createRigidBody(ball, new Triple(x, y, z), 0, mass,angles);
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -322,7 +335,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                 cube.setZ(a);
                 cube.calculateRadius();
                 cube.setType("CUBE");
-                api.createRigidBody(cube, new Triple(x, y, z), 0, 10,angles);
+                api.createRigidBody(cube, new Triple(x, y, z), 0, mass,angles);
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -338,7 +351,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                     cuboid.setType("CUBE");
                 }
                 cuboid.calculateRadius();
-                api.createRigidBody(cuboid, new Triple(x, y, z), 0, 10,angles);
+                api.createRigidBody(cuboid, new Triple(x, y, z), 0, mass,angles);
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -350,7 +363,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                 cyllinder.setR(r);
                 cyllinder.setH(h);
                 cyllinder.calculateRadius();
-                api.createRigidBody(cyllinder, new Triple(x, y, z), 0, 10,angles);
+                api.createRigidBody(cyllinder, new Triple(x, y, z), 0, mass,angles);
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -362,7 +375,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                 cone.setR(r);
                 cone.setH(h);
                 cone.calculateRadius();
-                api.createRigidBody(cone, new Triple(x, y, z), 0, 10,angles);
+                api.createRigidBody(cone, new Triple(x, y, z), 0, mass,angles);
             } catch (Exception ex) {
                 Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -385,7 +398,9 @@ public class AddObjectJPanel extends javax.swing.JPanel {
     private javax.swing.JList elementsList;
     private javax.swing.JLabel hLabel;
     private javax.swing.JTextField hTextField;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField massTextField;
     private javax.swing.JLabel positionLabel;
     private javax.swing.JLabel propertiesLabel;
     private javax.swing.JLabel rLabel;
