@@ -437,6 +437,12 @@
            
             return pointVel;
         }
+        
+        public void setPosition (Triple pos){
+            this.position.setX(pos.getX());
+            this.position.setY(pos.getY());
+            this.position.setZ(pos.getZ());
+        }
     }
     //state variables
     //v(t) = linMom(t)/massIbody^-1  * transpose(RotationMatrix)

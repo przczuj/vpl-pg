@@ -90,7 +90,7 @@ public class GLDrawingHandler implements GLEventListener {
         this.zl = lookingPoint.getZ();
 
         //collisions (should be moved to better place)
-        checkCollisions();
+        api.checkCollisions();
 
         convertRigidBodiesToShapes();
         drawShapes(gl);
@@ -328,6 +328,10 @@ public class GLDrawingHandler implements GLEventListener {
                     vel2.setX(v1x.getX() * mass3 + v2x.getX() * mass4 + v2y.getX());
                     vel2.setY(v1x.getY() * mass3 + v2x.getY() * mass4 + v2y.getY());
                     vel2.setX(v1x.getZ() * mass3 + v2x.getZ() * mass4 + v2y.getZ());
+                    rb1.setLinearVelocity(vel1);
+                    rb2.setLinearVelocity(vel2);
+                    rb1.setLinearMomentum(new Triple(vel1.getX()*mass1, vel1.getY()*mass1,vel1.getZ()*mass1));
+                    rb2.setLinearMomentum(new Triple(vel2.getX()*mass2, vel2.getY()*mass2,vel2.getZ()*mass2));
                 }
             }
         }
