@@ -138,6 +138,11 @@ public class ControllerStub {
                         vel2.setZ(v1x.getZ() * mass3 + v2x.getZ() * mass4 + v2y.getZ());
                         rb1.setLinearVelocity(vel1);
                         rb2.setLinearVelocity(vel2);
+                        Force f=new Force();
+                        f.setForceValue(new Triple(0,0,0));
+                        
+                        rb1.setTotalForce(f);
+                        rb2.setTotalForce(f);
                         rb1.setLinearMomentum(new Triple(vel1.getX() * m1, vel1.getY() * m1, vel1.getZ() * m1));
                         rb2.setLinearMomentum(new Triple(vel2.getX() * m2, vel2.getY() * m2, vel2.getZ() * m2));
                         while((distance = rb1.getPosition().getDistance(rb2.getPosition()))<=(r1+r2)){
