@@ -243,6 +243,9 @@ public class ControllerStub {
         rb.setMass(mass);
         rb.getShape().recalculate();
         rb.setRotationMatrix(rotation);
+        for (Force uniformForce : uniformForces.values()) {
+            rb.registerUniformForce(uniformForce);
+        }
         rigidBodies.put("body " + rigidBodies.size(), rb);
     }
 
