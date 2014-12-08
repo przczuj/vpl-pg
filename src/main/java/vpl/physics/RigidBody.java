@@ -1,4 +1,4 @@
-    /*
+/*
      * To change this template, choose Tools | Templates
      * and open the template in the editor.
      */
@@ -142,8 +142,30 @@
             setForcesChanged(true);
         }
      
-        private void calculateTotalTorque() {
+        private void calculateTotalTorque() { if(totalForce.getForceValue().getLength()==0)
+            {
+             int ch =0;  
+            }
+        boolean forcesStopped = true;
+        for (Force f : actingForces)
+        {
+            if (f.getTimeToLive()>=0 || f.isForever() ==true )
+            {
+                if(f.getForceValue().getX() != 0 || f.getForceValue().getY() != 0 || f.getForceValue().getZ() != 0)
+                {
+                 forcesStopped = false;  
+                }
+            }
+        }
+        if (forcesStopped)
+        {
+           
+            previousTotalTorque = totalTorque;
+            totalTorque = new Torque();
+         return;  
+        }
             Torque newTotal = new Torque();
+           
             if (isForcesChanged())
             {
              actingTorques = new ArrayList<Torque>();
@@ -409,9 +431,9 @@
             Triple distance = point.getDistance(point, this.position);
             Triple angularComponent = mathLogic.crossProduct(angularVelocity, distance);
            
-            pointVel.setX(distance.getX()+angularComponent.getX());
-            pointVel.setY(distance.getY()+angularComponent.getY());
-            pointVel.setZ(distance.getZ()+angularComponent.getZ());
+            pointVel.setX(linearVelocity.getX()+angularComponent.getX());
+            pointVel.setY(linearVelocity.getY()+angularComponent.getY());
+            pointVel.setZ(linearVelocity.getZ()+angularComponent.getZ());
            
             return pointVel;
         }
