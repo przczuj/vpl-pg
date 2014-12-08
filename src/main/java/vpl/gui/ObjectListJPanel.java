@@ -4,6 +4,8 @@
  */
 package vpl.gui;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +55,40 @@ public class ObjectListJPanel extends javax.swing.JPanel implements SimpleListen
             public void valueChanged(TreeSelectionEvent e) {
                 model.setSelectedItem(getSelectedItem());
                 model.refreshView(Model.SELECTED_ITEM_CHANGED);
+            }
+        });
+        jTree1.addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+                    System.out.println("DELETE");
+                    SelectionItem selectedItem = model.getSelectedItem();
+                    if (selectedItem instanceof RigidBodySelectionItem) {
+                        RigidBodySelectionItem rigidBodySelectionItem = (RigidBodySelectionItem) selectedItem;
+                        model.getPhysics().getRigidBodies().remove(rigidBodySelectionItem.getName());
+
+                    } else if (selectedItem instanceof ForceSelectionItem) {
+                        ForceSelectionItem forceSelectionItem = (ForceSelectionItem) selectedItem;
+                        forceSelectionItem.getBody().getActingForces().remove(forceSelectionItem.getNum());
+
+                    } else if (selectedItem instanceof UniformForceSelectionItem) {
+                        UniformForceSelectionItem uniformForceSelectionItem = (UniformForceSelectionItem) selectedItem;
+                        for (RigidBody rigidBody : model.getPhysics().getRigidBodies().values()) {
+                            rigidBody.deregisterUniformForce(uniformForceSelectionItem.getForce());
+                        }
+                        model.getPhysics().getUniformForces().remove(uniformForceSelectionItem.getName());
+                    }
+                    model.refreshView(Model.RIGID_BODY_LIST_CHANGED);
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
             }
         });
         

@@ -141,6 +141,11 @@
             actingUniformForces.add(f);
             setForcesChanged(true);
         }
+        
+        public void deregisterUniformForce(Force force) {
+            actingUniformForces.remove(force);
+            setForcesChanged(true);
+        }
      
         private void calculateTotalTorque() { if(totalForce.getForceValue().getLength()==0)
             {
