@@ -145,17 +145,22 @@ public class ControllerStub {
                         rb2.setTotalForce(f);
                         rb1.setLinearMomentum(new Triple(vel1.getX() * m1, vel1.getY() * m1, vel1.getZ() * m1));
                         rb2.setLinearMomentum(new Triple(vel2.getX() * m2, vel2.getY() * m2, vel2.getZ() * m2));
+                        rb1.setAngularMomentum(new Triple(0,0,0));
+                        rb1.setAngularVelocity(new Triple(0,0,0));
+                        rb2.setAngularMomentum(new Triple(0,0,0));
+                        rb2.setAngularVelocity(new Triple(0,0,0));
                         while((distance = rb1.getPosition().getDistance(rb2.getPosition()))<=(r1+r2)){
-                            /*Triple rb1pos=rb1.getPosition();
-                            rb1pos.setX(rb1pos.getX()+(vel1.getX()/100.0));
+                            Triple rb1pos=rb1.getPosition();
+                            /*rb1pos.setX(rb1pos.getX()+(vel1.getX()/100.0));
                             rb1pos.setY(rb1pos.getY()+(vel1.getY()/100.0));
-                            rb1pos.setZ(rb1pos.getZ()+(vel1.getZ()/100.0));
+                            rb1pos.setZ(rb1pos.getZ()+(vel1.getZ()/100.0*/
                             
+                            /*
                             Triple rb2pos=rb2.getPosition();
                             rb2pos.setX(rb2pos.getX()+(vel2.getX()/100.0));
                             rb2pos.setY(rb2pos.getY()+(vel2.getY()/100.0));
                             rb2pos.setZ(rb2pos.getZ()+(vel2.getZ()/100.0));*/
-                            Triple rb1pos=rb1.getPosition();
+                            //Triple rb1pos=rb1.getPosition();
                             rb1pos.setX(rb1pos.getX()-(v1.getX()/100.0));
                             rb1pos.setY(rb1pos.getY()-(v1.getY()/100.0));
                             rb1pos.setZ(rb1pos.getZ()-(v1.getZ()/100.0));
@@ -164,6 +169,9 @@ public class ControllerStub {
                             rb2pos.setX(rb2pos.getX()+(vel2.getX()/100.0));
                             rb2pos.setY(rb2pos.getY()+(vel2.getY()/100.0));
                             rb2pos.setZ(rb2pos.getZ()+(vel2.getZ()/100.0));*/
+                            if(v1.getLength()==0&&v2.getLength()==0&&rb1.getLinearMomentum().getLength()==0&&rb2.getLinearMomentum().getLength()==0){
+                                break;
+                            }
                         }
                     }
                 }
