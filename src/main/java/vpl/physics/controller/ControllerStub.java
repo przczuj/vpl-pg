@@ -49,16 +49,22 @@ public class ControllerStub {
 
     public void checkCollisions() {
         List<RigidBody> rigidBodies2 = new ArrayList<>(getRigidBodies().values());
+        RigidBody floor = getRigidBodies().get("_floor");
+        if (floor != null) {
+            rigidBodies2.remove(floor);
+        }
+        
         BasicMath logic = new BasicMath();
         //for (int i = 0; i < rigidBodies2.size(); i++) {
         //List<RigidBody> checkInNextStep = new ArrayList<RigidBody>();
         //for (int j = i + 1; j < rigidBodies2.size(); j++) {
+        
         int i=0;
-        for (RigidBody rb1 : getRigidBodies().values()) {
+        for (RigidBody rb1 : rigidBodies2) {
                 //RigidBody rb1 = rigidBodies2.get(i);
             //RigidBody rb2 = rigidBodies2.get(j);
             int j=0;
-            for (RigidBody rb2 : getRigidBodies().values()) {
+            for (RigidBody rb2 : rigidBodies2) {
                 if (j>i) {
                     double distance = rb1.getPosition().getDistance(rb2.getPosition());
                     double r1 = rb1.getShape().getSphereRadius();
