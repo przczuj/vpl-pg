@@ -16,8 +16,22 @@ import lombok.Setter;
 public class CuboidShape extends Shape {
 
     @Getter
-    @Setter
     protected double x, y, z;
+    
+    public void setX(double x) {
+        this.x = x;
+        calculateRadius();
+    }
+    
+    public void setY(double y) {
+        this.y = y;
+        calculateRadius();
+    }
+    
+    public void setZ(double z) {
+        this.z = z;
+        calculateRadius();
+    }
 
     public CuboidShape() throws Exception {
         init();

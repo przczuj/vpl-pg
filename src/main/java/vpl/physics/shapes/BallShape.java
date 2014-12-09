@@ -36,6 +36,7 @@ public class BallShape extends Shape {
             Logger.getLogger(BallShape.class.getName()).log(Level.SEVERE, null, ex);
         }
         recalculate();
+        calculateRadius();
     }
 
     @Override

@@ -16,13 +16,26 @@ import lombok.Setter;
 public class ConeShape extends Shape {
 
     @Getter
-    @Setter
     protected double r, h;
 
     public ConeShape() throws Exception {
         init();
         type = new String("CONE");
 
+    }
+
+    /**
+     *
+     * @param r
+     */
+    public void setR(double r) {
+        this.r = r;
+        calculateRadius();
+    }
+
+    public void setH(double h) {
+        this.h = h;
+        calculateRadius();
     }
 
     @Override

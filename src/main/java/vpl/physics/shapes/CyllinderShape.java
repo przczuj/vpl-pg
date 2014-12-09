@@ -15,7 +15,6 @@ import lombok.Setter;
  */
 public class CyllinderShape extends Shape {
 
-    @Setter
     @Getter
     protected double r, h;
 
@@ -23,6 +22,16 @@ public class CyllinderShape extends Shape {
         init();
         type = new String("CYLLINDER");
         sphereRadius = Math.sqrt(r * r + h * h);
+    }
+    
+    public void setR(double r) {
+        this.r = r;
+        calculateRadius();
+    }
+
+    public void setH(double h) {
+        this.h = h;
+        calculateRadius();
     }
 
     @Override
