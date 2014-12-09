@@ -41,7 +41,6 @@
         @Setter
         private Triple angularVelocity;
         @Getter
-        @Setter
         private Shape shape; //defines the shape of rigid body (eg. block, ball, disc etc)
         @Getter
         @Setter
@@ -100,6 +99,11 @@
             shape = new BallShape();
             shape.setMass(mass);
      
+        }
+        
+        public void setShape(Shape shape) {
+            this.shape = shape;
+            shape.calculateRadius();
         }
      
         private void setInitialRotation() {
