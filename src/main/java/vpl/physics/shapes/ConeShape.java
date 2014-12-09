@@ -24,10 +24,6 @@ public class ConeShape extends Shape {
 
     }
 
-    /**
-     *
-     * @param r
-     */
     public void setR(double r) {
         this.r = r;
         calculateRadius();

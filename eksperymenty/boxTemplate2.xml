@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<experiment>
+	<rigidBody name="WallXplus" mass="99999999999999999999999999999999">
+		<shape type="CUBOID" xSize="1.0" ySize="19.0" zSize="19.0">
+            <rotation x="33.079733725307605" y="33.079735838556076" z="33.079731612058765" a="3.1415926535896688"/>
+		</shape>
+		<position x="10.0" y="0.0" z="0.0"/>
+		<linearMomentum x="0.0" y="0.0" z="0.0"/>
+		<angularMomentum x="0.0" y="0.0" z="0.0"/>
+	</rigidBody>
+	
+	<rigidBody name="WallXminus" mass="99999999999999999999999999999999">
+		<shape type="CUBOID" xSize="1.0" ySize="19.0" zSize="19.0">
+            <rotation x="33.079733725307605" y="33.079735838556076" z="33.079731612058765" a="3.1415926535896688"/>
+		</shape>
+		<position x="-10.0" y="0.0" z="0.0"/>
+		<linearMomentum x="0.0" y="0.0" z="0.0"/>
+		<angularMomentum x="0.0" y="0.0" z="0.0"/>
+	</rigidBody>
+	
+	<rigidBody name="WallYplus" mass="99999999999999999999999999999999">
+		<shape type="CUBOID" xSize="19.0" ySize="1.0" zSize="19.0">
+            <rotation x="33.079733725307605" y="33.079735838556076" z="33.079731612058765" a="3.1415926535896688"/>
+		</shape>
+		<position x="0.0" y="10.0" z="0.0"/>
+		<linearMomentum x="0.0" y="0.0" z="0.0"/>
+		<angularMomentum x="0.0" y="0.0" z="0.0"/>
+	</rigidBody>
+	
+	<rigidBody name="WallYminus" mass="99999999999999999999999999999999">
+		<shape type="CUBOID" xSize="19.0" ySize="1.0" zSize="19.0">
+            <rotation x="33.079733725307605" y="33.079735838556076" z="33.079731612058765" a="3.1415926535896688"/>
+		</shape>
+		<position x="0.0" y="-10.0" z="0.0"/>
+		<linearMomentum x="0.0" y="0.0" z="0.0"/>
+		<angularMomentum x="0.0" y="0.0" z="0.0"/>
+	</rigidBody>
+	
+	<rigidBody name="WallZplus" mass="99999999999999999999999999999999">
+		<shape type="CUBOID" xSize="19.0" ySize="19.0" zSize="1.0">
+            <rotation x="33.079733725307605" y="33.079735838556076" z="33.079731612058765" a="3.1415926535896688"/>
+		</shape>
+		<position x="0.0" y="0.0" z="10.0"/>
+		<linearMomentum x="0.0" y="0.0" z="0.0"/>
+		<angularMomentum x="0.0" y="0.0" z="0.0"/>
+	</rigidBody>
+	
+	<rigidBody name="WallZminus" mass="99999999999999999999999999999999">
+		<shape type="CUBOID" xSize="19.0" ySize="19.0" zSize="1.0">
+            <rotation x="33.079733725307605" y="33.079735838556076" z="33.079731612058765" a="3.1415926535896688"/>
+		</shape>
+		<position x="0.0" y="0.0" z="-10.0"/>
+		<linearMomentum x="0.0" y="0.0" z="0.0"/>
+		<angularMomentum x="0.0" y="0.0" z="0.0"/>
+	</rigidBody>
+	
+</experiment>

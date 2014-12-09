@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<experiment>
+    <rigidBody name="body 0" mass="10.0">
+        <shape type="BALL" radius="1.0">
+            <rotation x="33.079733725307605" y="33.079735838556076" z="33.079731612058765" a="3.1415926535896688"/>
+        </shape>
+        <position x="0.0" y="0.0" z="0.0"/>
+        <linearMomentum x="10.0" y="0.0" z="0.0"/>
+        <angularMomentum x="0.0" y="0.0" z="0.0"/>
+    </rigidBody>
+    <rigidBody name="body 1" mass="10.0">
+        <shape type="BALL" radius="1.0">
+            <rotation x="33.079733725307605" y="33.079735838556076" z="33.079731612058765" a="3.1415926535896688"/>
+        </shape>
+        <position x="5.0" y="0.0" z="0.8"/>
+        <linearMomentum x="0.0" y="0.0" z="0.0"/>
+        <angularMomentum x="0.0" y="0.0" z="0.0"/>
+    </rigidBody>
+</experiment>
