@@ -14,10 +14,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import vpl.physics.controller.Model;
 import vpl.physics.controller.PhysicsExecutionTask;
+import vpl.physics.controller.SimpleListener;
 import vpl.serialization.XmlSerializationManager;
 import vpl.serialization.xml.XmlExperiment;
 
-public class ExperimentExecutionJPanel extends javax.swing.JPanel {
+public class ExperimentExecutionJPanel extends javax.swing.JPanel implements SimpleListener {
 
     private Model model;
     
@@ -27,6 +28,21 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel {
     public ExperimentExecutionJPanel() {
         model = Model.getInstance();
         initComponents();
+        model.register(this);
+        refreshPosition();
+    }
+    
+    @Override
+    public void valuesChanged(String message) {
+        if(message.equals(Model.CAMERA_POSITION_CHANGED)) {
+            refreshPosition();
+        }
+    }
+    
+    private void refreshPosition() {
+        cameraXTextField.setText(String.format("%4.2f", model.getCameraPosition().getX()));
+        cameraYTextField.setText(String.format("%4.2f", model.getCameraPosition().getY()));
+        cameraZTextField.setText(String.format("%4.2f", model.getCameraPosition().getZ()));
     }
 
     /**
@@ -42,6 +58,13 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         saveButton = new javax.swing.JButton();
         loadButton = new javax.swing.JButton();
+        cameraJPanel = new javax.swing.JPanel();
+        xLabel = new javax.swing.JLabel();
+        yLabel = new javax.swing.JLabel();
+        zLabel = new javax.swing.JLabel();
+        cameraXTextField = new javax.swing.JTextField();
+        cameraYTextField = new javax.swing.JTextField();
+        cameraZTextField = new javax.swing.JTextField();
 
         setMaximumSize(new java.awt.Dimension(32767, 46));
 
@@ -73,6 +96,63 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel {
             }
         });
 
+        xLabel.setText("x:");
+
+        yLabel.setText("y:");
+
+        zLabel.setText("z:");
+
+        cameraXTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cameraXTextFieldActionPerformed(evt);
+            }
+        });
+
+        cameraYTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cameraYTextFieldActionPerformed(evt);
+            }
+        });
+
+        cameraZTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cameraZTextFieldActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout cameraJPanelLayout = new javax.swing.GroupLayout(cameraJPanel);
+        cameraJPanel.setLayout(cameraJPanelLayout);
+        cameraJPanelLayout.setHorizontalGroup(
+            cameraJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cameraJPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(xLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cameraXTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(yLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cameraYTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(zLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cameraZTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        cameraJPanelLayout.setVerticalGroup(
+            cameraJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cameraJPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(cameraJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(xLabel)
+                    .addComponent(cameraXTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(yLabel)
+                    .addComponent(cameraYTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(zLabel)
+                    .addComponent(cameraZTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -82,7 +162,9 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel {
                 .addComponent(jToggleButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 313, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cameraJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(saveButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(loadButton)
@@ -91,7 +173,7 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton2)
@@ -99,7 +181,8 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(saveButton)
                         .addComponent(loadButton)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addComponent(cameraJPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -161,10 +244,32 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_saveButtonActionPerformed
 
+    private void cameraXTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cameraXTextFieldActionPerformed
+        model.getCameraPosition().setX(Double.parseDouble(cameraXTextField.getText().replaceAll(",", ".")));
+        model.refreshView(Model.CAMERA_POSITION_CHANGED);
+    }//GEN-LAST:event_cameraXTextFieldActionPerformed
+
+    private void cameraYTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cameraYTextFieldActionPerformed
+        model.getCameraPosition().setY(Double.parseDouble(cameraYTextField.getText().replaceAll(",", ".")));
+        model.refreshView(Model.CAMERA_POSITION_CHANGED);
+    }//GEN-LAST:event_cameraYTextFieldActionPerformed
+
+    private void cameraZTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cameraZTextFieldActionPerformed
+        model.getCameraPosition().setZ(Double.parseDouble(cameraZTextField.getText().replaceAll(",", ".")));
+        model.refreshView(Model.CAMERA_POSITION_CHANGED);
+    }//GEN-LAST:event_cameraZTextFieldActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel cameraJPanel;
+    private javax.swing.JTextField cameraXTextField;
+    private javax.swing.JTextField cameraYTextField;
+    private javax.swing.JTextField cameraZTextField;
     private javax.swing.JButton jButton2;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JButton loadButton;
     private javax.swing.JButton saveButton;
+    private javax.swing.JLabel xLabel;
+    private javax.swing.JLabel yLabel;
+    private javax.swing.JLabel zLabel;
     // End of variables declaration//GEN-END:variables
 }

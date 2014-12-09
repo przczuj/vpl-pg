@@ -23,6 +23,7 @@ public class Model {
     public final static String SELECTED_ITEM_CHANGED = "selectedItemName";
     public final static String RIGID_BODY_LIST_CHANGED = "rigidBodyList";
     public final static String AN_RIGID_BODY_CHANGED = "rigidBody";
+    public final static String CAMERA_POSITION_CHANGED = "camera";
     
     private List<SimpleListener> listeners;
 

@@ -91,7 +91,8 @@ public class GLControlHandler implements KeyListener, MouseListener, MouseMotion
         }
         cameraPosition.setX(x);
         cameraPosition.setY(y);
-        cameraPosition.setZ(z);  
+        cameraPosition.setZ(z);
+        Model.getInstance().refreshView(Model.CAMERA_POSITION_CHANGED);
     }
 
     @Override
