@@ -26,6 +26,7 @@ import vpl.gui.shapes.Cyllinder;
 import vpl.gui.shapes.Shape;
 import vpl.math.BasicMath;
 import vpl.physics.AxisAngle;
+import vpl.physics.RigidBody;
 
 public class AddObjectJPanel extends javax.swing.JPanel {
  
@@ -95,6 +96,8 @@ public class AddObjectJPanel extends javax.swing.JPanel {
         hTextField = new javax.swing.JTextField();
         massLabel = new javax.swing.JLabel();
         massTextField = new javax.swing.JTextField();
+        floorTemplateButton = new javax.swing.JButton();
+        boxTemplateButton = new javax.swing.JButton();
 
         setMaximumSize(new java.awt.Dimension(257, 32767));
 
@@ -168,7 +171,7 @@ public class AddObjectJPanel extends javax.swing.JPanel {
             }
         });
 
-        positionLabel.setText("position:");
+        positionLabel.setText("templates:");
 
         hLabel.setText("h:");
 
@@ -180,6 +183,20 @@ public class AddObjectJPanel extends javax.swing.JPanel {
         massTextField.setText("10.0");
         massTextField.setPreferredSize(new java.awt.Dimension(80, 28));
 
+        floorTemplateButton.setText("floor");
+        floorTemplateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                floorTemplateButtonActionPerformed(evt);
+            }
+        });
+
+        boxTemplateButton.setText("box");
+        boxTemplateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boxTemplateButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -187,44 +204,51 @@ public class AddObjectJPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(positionLabel)
-                    .addComponent(addShapeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(propertiesLabel)
+                        .addComponent(boxTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bLabel)
-                            .addComponent(cLabel)
-                            .addComponent(xAngleLabel)
-                            .addComponent(yAngleLabel)
-                            .addComponent(yLabel)
-                            .addComponent(zLabel)
-                            .addComponent(rLabel)
-                            .addComponent(hLabel)
-                            .addComponent(aLabel)
-                            .addComponent(xLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(zAngleLabel))
+                            .addComponent(positionLabel)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(floorTemplateButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(addShapeButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(zAngleTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(aTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(hTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(yTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(xTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(zTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(rTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(bTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(xAngleTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(yAngleTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(massLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(massTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(propertiesLabel)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(bLabel)
+                                    .addComponent(cLabel)
+                                    .addComponent(xAngleLabel)
+                                    .addComponent(yAngleLabel)
+                                    .addComponent(yLabel)
+                                    .addComponent(zLabel)
+                                    .addComponent(rLabel)
+                                    .addComponent(hLabel)
+                                    .addComponent(aLabel)
+                                    .addComponent(xLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(zAngleLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(zAngleTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(aTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(hTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(yTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(xTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(zTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(rTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(bTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(xAngleTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(yAngleTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(massLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(massTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -284,8 +308,11 @@ public class AddObjectJPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(massTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(massLabel))
-                .addContainerGap(74, Short.MAX_VALUE))
+                    .addComponent(massLabel)
+                    .addComponent(floorTemplateButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(boxTemplateButton)
+                .addContainerGap(45, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
  
@@ -390,16 +417,66 @@ public class AddObjectJPanel extends javax.swing.JPanel {
         }
         model.refreshView(Model.RIGID_BODY_LIST_CHANGED);
     }//GEN-LAST:event_addShapeButtonActionPerformed
+
+    private final static double dist = 10;
+    private final static double size = 19;
+    private final static double thick = 1;
+    
+    private void floorTemplateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_floorTemplateButtonActionPerformed
+        RigidBody floor = createWall(0, -10, 0, 100, thick, 100);
+        model.getPhysics().getRigidBodies().put("_floor", floor);
+        model.refreshView(Model.RIGID_BODY_LIST_CHANGED);
+    }//GEN-LAST:event_floorTemplateButtonActionPerformed
+
+    private void boxTemplateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxTemplateButtonActionPerformed
+
+        RigidBody floor = createWall(0, -dist, 0, size, thick, size);
+        RigidBody roof = createWall(0, dist, 0, size, thick, size);
+        RigidBody xPlus = createWall(dist, 0, 0, thick, size, size);
+        RigidBody xMinus = createWall(-dist, 0, 0, thick, size, size);
+        RigidBody zPlus = createWall(0, 0, dist, size, size, thick);
+        RigidBody zMinus = createWall(0, 0, -dist, size, size, thick);
+        
+        model.getPhysics().getRigidBodies().put("_floor", floor);
+        model.getPhysics().getRigidBodies().put("_roof", roof);
+        model.getPhysics().getRigidBodies().put("_xPlusWall", xPlus);
+        model.getPhysics().getRigidBodies().put("_xMinusWall", xMinus);
+        model.getPhysics().getRigidBodies().put("_zPlusWall", zPlus);
+        model.getPhysics().getRigidBodies().put("_zMinusWall", zMinus);
+        model.refreshView(Model.RIGID_BODY_LIST_CHANGED);
+        
+    }//GEN-LAST:event_boxTemplateButtonActionPerformed
  
+    private RigidBody createWall(double x, double y, double z, double a, double b, double c) {
+        RigidBody wall = null;
+        try {
+            CuboidShape shape = new CuboidShape();
+            wall = new RigidBody();
+            shape.setX(a);
+            shape.setY(b);
+            shape.setZ(c);
+            wall.setMass(10000000);
+            wall.setShape(shape);
+            wall.getPosition().setX(x);
+            wall.getPosition().setY(y);
+            wall.getPosition().setZ(z);
+        } catch (Exception ex) {
+            Logger.getLogger(AddObjectJPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return wall;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel aLabel;
     private javax.swing.JTextField aTextField;
     private javax.swing.JButton addShapeButton;
     private javax.swing.JLabel bLabel;
     private javax.swing.JTextField bTextField;
+    private javax.swing.JButton boxTemplateButton;
     private javax.swing.JLabel cLabel;
     private javax.swing.JTextField cTextField;
     private javax.swing.JList elementsList;
+    private javax.swing.JButton floorTemplateButton;
     private javax.swing.JLabel hLabel;
     private javax.swing.JTextField hTextField;
     private javax.swing.JScrollPane jScrollPane1;

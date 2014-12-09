@@ -43,6 +43,7 @@ public class XmlSerializationManager {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class.getPackage().getName());
             Marshaller m = jaxbContext.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             m.marshal(experiment, out);
         } catch (JAXBException ex) {
             Logger.getLogger(XmlSerializationManager.class.getName()).log(Level.SEVERE, null, ex);

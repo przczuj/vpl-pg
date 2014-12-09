@@ -21,52 +21,63 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="positionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="addShapeButton" alignment="0" min="-2" pref="60" max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" min="-2" pref="75" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="propertiesLabel" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="boxTemplateButton" min="-2" pref="60" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="bLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="cLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="xAngleLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="yAngleLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="yLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="zLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="rLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="hLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="aLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="xLabel" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
-                          <Component id="zAngleLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="positionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jScrollPane1" min="-2" pref="75" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="floorTemplateButton" alignment="0" max="32767" attributes="0"/>
+                              <Component id="addShapeButton" alignment="0" pref="60" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="zAngleTextField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="aTextField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="hTextField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="yTextField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="xTextField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="zTextField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="rTextField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="bTextField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="cTextField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="xAngleTextField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="yAngleTextField" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="propertiesLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="bLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="xAngleLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="yAngleLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="yLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="zLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="hLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="aLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="xLabel" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
+                                  <Component id="zAngleLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="zAngleTextField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="aTextField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="hTextField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="yTextField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="xTextField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="zTextField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="rTextField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="bTextField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="cTextField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="xAngleTextField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="yAngleTextField" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="massLabel" min="-2" pref="39" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="massTextField" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="massLabel" min="-2" pref="39" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="massTextField" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -138,14 +149,17 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="zAngleTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="zAngleLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="positionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="positionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="massTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="massLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="floorTemplateButton" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="74" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="boxTemplateButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="45" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -330,7 +344,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="positionLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="position:"/>
+        <Property name="text" type="java.lang.String" value="templates:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="hLabel">
@@ -358,6 +372,22 @@
           <Dimension value="[80, 28]"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="floorTemplateButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="floor"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="floorTemplateButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="boxTemplateButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="box"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boxTemplateButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

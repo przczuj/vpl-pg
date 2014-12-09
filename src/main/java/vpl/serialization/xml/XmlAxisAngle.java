@@ -29,6 +29,7 @@ import vpl.physics.AxisAngle;
 public class XmlAxisAngle {
 
     public XmlAxisAngle(double a, Triple triple) {
+        this.a = a;
         x = triple.getX();
         y = triple.getY();
         z = triple.getZ();
