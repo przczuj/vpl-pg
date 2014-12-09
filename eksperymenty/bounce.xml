@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<experiment>
+    <rigidBody name="_floor" mass="1.0E7">
+        <shape type="CUBOID" xSize="100.0" ySize="1.0" zSize="100.0">
+            <rotation x="1.0" y="0.0" z="0.0" a="0.0"/>
+        </shape>
+        <position x="0.0" y="-10.000217193749998" z="0.0"/>
+        <linearMomentum x="0.0" y="-147.25" z="0.0"/>
+        <angularMomentum x="0.0" y="0.0" z="0.0"/>
+    </rigidBody>
+    <rigidBody name="body 1" mass="10.0">
+        <shape type="BALL" radius="1.0">
+            <rotation x="33.0797337253076" y="33.07973583855606" z="33.079731612058765" a="3.1415926535896688"/>
+        </shape>
+        <position x="0.0" y="-8.19875" z="0.0"/>
+        <linearMomentum x="0.0" y="-31.75" z="0.0"/>
+        <angularMomentum x="0.0" y="0.0" z="0.0"/>
+    </rigidBody>
+    <unifiedForce name="uniform force 0">
+        <value x="0.0" y="-10.0" z="0.0"/>
+    </unifiedForce>
+</experiment>
