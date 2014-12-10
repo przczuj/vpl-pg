@@ -30,12 +30,16 @@ public class PropertiesJPanel extends javax.swing.JPanel implements SimpleListen
         jTable1.setModel(tableModel);
         
         model.register(this);
+        valuesChanged(Model.SELECTED_ITEM_CHANGED);
     }
     
     @Override
     public void valuesChanged(String message) {
         if (message.equals(Model.SELECTED_ITEM_CHANGED)) {
-            if (model.getSelectedItem() instanceof RigidBodySelectionItem) {
+            if (model.getSelectedItem() == null) {
+                PropertyObjectNameLabel.setText("Select item from panel on the right");
+                
+            } else if (model.getSelectedItem() instanceof RigidBodySelectionItem) {
                 RigidBodySelectionItem selectionItem = (RigidBodySelectionItem) model.getSelectedItem();
                 RigidBody rigidBody = selectionItem.getBody(); // model.getPhysics().getRigidBodies().get(selectionItem.getName());
                 tableModel.setModelObject(rigidBody);

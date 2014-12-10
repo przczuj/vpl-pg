@@ -43,18 +43,24 @@ public class ControllerStub {
     @Getter
     @Setter
     private Map<String, RigidBody> rigidBodies;
+    
     @Getter
     @Setter
     private Map<String, Force> uniformForces;
+    
     @Getter
     @Setter
     private List<Collision> collisions;
+    
     @Getter
     @Setter
     private List<RigidBodyDrawingInfo> toBeDrawn;
     private BasicMath mathLogic;
     private RigidBodyApi api;
     
+    @Getter
+    @Setter
+    private double coefficientOfRestitution;
     
     //here we obtain the list of all walls currently present in a model
     private ArrayList<RigidBody> getWalls()

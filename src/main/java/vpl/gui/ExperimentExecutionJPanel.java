@@ -12,6 +12,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import vpl.physics.controller.Model;
 import vpl.physics.controller.PhysicsExecutionTask;
 import vpl.physics.controller.SimpleListener;
@@ -22,6 +25,8 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel implements Sim
 
     private Model model;
     
+    private SpinnerNumberModel restitutionSpinnerModel;
+    
     /**
      * Creates new form ExperimentExecutionJPanel
      */
@@ -30,6 +35,16 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel implements Sim
         initComponents();
         model.register(this);
         refreshPosition();
+        restitutionSpinnerModel = new SpinnerNumberModel(0.0, 0.0, 1.0, 0.01);
+        restitutionSpinnerModel.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                double restitution = (double) restitutionSpinnerModel.getValue();
+                restitutionSlider.setValue((int)(restitutionSlider.getMaximum() * restitution));
+                model.getPhysics().setCoefficientOfRestitution(restitution);
+            }
+        });
+        restitutionSpinner.setModel(restitutionSpinnerModel);
     }
     
     @Override
@@ -55,7 +70,6 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel implements Sim
     private void initComponents() {
 
         jToggleButton1 = new javax.swing.JToggleButton();
-        jButton2 = new javax.swing.JButton();
         saveButton = new javax.swing.JButton();
         loadButton = new javax.swing.JButton();
         cameraJPanel = new javax.swing.JPanel();
@@ -65,6 +79,10 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel implements Sim
         cameraXTextField = new javax.swing.JTextField();
         cameraYTextField = new javax.swing.JTextField();
         cameraZTextField = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        restitutionSpinner = new javax.swing.JSpinner();
+        restitutionSlider = new javax.swing.JSlider();
+        jLabel2 = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(32767, 46));
 
@@ -72,13 +90,6 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel implements Sim
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Stop");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
             }
         });
 
@@ -153,64 +164,100 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel implements Sim
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabel1.setText("Restitution:");
+
+        restitutionSlider.setMaximum(1000);
+        restitutionSlider.setValue(0);
+        restitutionSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                restitutionSliderStateChanged(evt);
+            }
+        });
+
+        jLabel2.setText("Camera position:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jToggleButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cameraJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                .addComponent(saveButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(loadButton)
+                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cameraJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(restitutionSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(restitutionSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(saveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(loadButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton2)
-                        .addComponent(jToggleButton1))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(saveButton)
-                        .addComponent(loadButton)))
-                .addContainerGap())
-            .addComponent(cameraJPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(restitutionSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(restitutionSpinner)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cameraJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(jLabel2))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(loadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         if (jToggleButton1.isSelected()) {
-            jToggleButton1.setText("Pause");
-            PhysicsExecutionTask.getInstance().start();
-            System.out.println("Playing");
+            playAction();
         } else {
-            jToggleButton1.setText("Play");
-            PhysicsExecutionTask.getInstance().stop();
-            System.out.println("Paused");
+            stopAction();
         }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void playAction() {
+        jToggleButton1.setText("Pause");
+        PhysicsExecutionTask.getInstance().start();
+        System.out.println("Playing");
+    }
+    
+    private void stopAction() {
         jToggleButton1.setText("Play");
         PhysicsExecutionTask.getInstance().stop();
-        jToggleButton1.setSelected(false);
-        System.out.println("Stopped");
-    }//GEN-LAST:event_jButton2ActionPerformed
-
+        System.out.println("Paused");
+    }
+    
     private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
         try {
             final FileDialog loadDialog = new FileDialog(new Frame(), "load", FileDialog.LOAD);
             loadDialog.setVisible(true);
             if (loadDialog.getFile() != null) {
-                jButton2ActionPerformed(null); //stop
+                stopAction();
                 File file = new File(loadDialog.getDirectory() + loadDialog.getFile());
                 FileInputStream fileInputStream = new FileInputStream(file);
                 XmlExperiment xmlExperiment = XmlSerializationManager.unmarshal(fileInputStream);
@@ -245,28 +292,43 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel implements Sim
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void cameraXTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cameraXTextFieldActionPerformed
-        model.getCameraPosition().setX(Double.parseDouble(cameraXTextField.getText().replaceAll(",", ".")));
+        try {
+            model.getCameraPosition().setX(ParsingHelper.parseDouble(cameraXTextField.getText().replaceAll(",", "."), "Camera position X"));
+        } catch (Exception e) {}
         model.refreshView(Model.CAMERA_POSITION_CHANGED);
     }//GEN-LAST:event_cameraXTextFieldActionPerformed
 
     private void cameraYTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cameraYTextFieldActionPerformed
-        model.getCameraPosition().setY(Double.parseDouble(cameraYTextField.getText().replaceAll(",", ".")));
+        try {
+            model.getCameraPosition().setY(ParsingHelper.parseDouble(cameraYTextField.getText().replaceAll(",", "."), "Camera position Y"));
+        } catch(Exception e) {}
         model.refreshView(Model.CAMERA_POSITION_CHANGED);
     }//GEN-LAST:event_cameraYTextFieldActionPerformed
 
     private void cameraZTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cameraZTextFieldActionPerformed
-        model.getCameraPosition().setZ(Double.parseDouble(cameraZTextField.getText().replaceAll(",", ".")));
+        try {
+            model.getCameraPosition().setZ(ParsingHelper.parseDouble(cameraZTextField.getText().replaceAll(",", "."), "Camera position Z"));
+        } catch (Exception e) {}
         model.refreshView(Model.CAMERA_POSITION_CHANGED);
     }//GEN-LAST:event_cameraZTextFieldActionPerformed
+
+    private void restitutionSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_restitutionSliderStateChanged
+        double restitution = (double)restitutionSlider.getValue() / restitutionSlider.getMaximum();
+        restitutionSpinnerModel.setValue(restitution);
+        model.getPhysics().setCoefficientOfRestitution(restitution);
+    }//GEN-LAST:event_restitutionSliderStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel cameraJPanel;
     private javax.swing.JTextField cameraXTextField;
     private javax.swing.JTextField cameraYTextField;
     private javax.swing.JTextField cameraZTextField;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JButton loadButton;
+    private javax.swing.JSlider restitutionSlider;
+    private javax.swing.JSpinner restitutionSpinner;
     private javax.swing.JButton saveButton;
     private javax.swing.JLabel xLabel;
     private javax.swing.JLabel yLabel;
