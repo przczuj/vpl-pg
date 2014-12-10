@@ -6,38 +6,40 @@
 package vpl.gui.viewmodel.properties.binders;
 
 import vpl.physics.Force;
+import vpl.physics.RigidBody;
 
 public class ForcePropertyBinder implements ObjectPropertyBinder {
     private final Force force;
+    private final RigidBody rb;
     
     private final PropertyBinder[] properties = new PropertyBinder[] {
         //==========================================================//
         new SimplerPropertyBinder("Force value X", true) {
             
             @Override public String getProperty() {
-                return String.valueOf(force.getForceValue().getX());
+                return String.valueOf(force.getRealForceValue().getX());
             }
             
             @Override public void setProperty(String text) {
-                force.getForceValue().setX(Double.parseDouble(text));
+                force.getRealForceValue().setX(Double.parseDouble(text));
             }
         },
         new SimplerPropertyBinder("Force value Y", true) {
             @Override public String getProperty() {
-                return String.valueOf(force.getForceValue().getY());
+                return String.valueOf(force.getRealForceValue().getY());
             }
 
             @Override public void setProperty(String text) {
-                force.getForceValue().setY(Double.parseDouble(text));
+                force.getRealForceValue().setY(Double.parseDouble(text));
             }
         },
         new SimplerPropertyBinder("Force value Z", true) {
             @Override public String getProperty() {
-                return String.valueOf(force.getForceValue().getZ());
+                return String.valueOf(force.getRealForceValue().getZ());
             }
 
             @Override public void setProperty(String text) {
-                force.getForceValue().setZ(Double.parseDouble(text));
+                force.getRealForceValue().setZ(Double.parseDouble(text));
             }
         },
         //==========================================================//
@@ -94,8 +96,9 @@ public class ForcePropertyBinder implements ObjectPropertyBinder {
         }
     };
 
-    public ForcePropertyBinder(Force force) {
+    public ForcePropertyBinder(Force force, RigidBody rb) {
         this.force = force;
+        this.rb = rb;
     }
 
     @Override
@@ -121,6 +124,7 @@ public class ForcePropertyBinder implements ObjectPropertyBinder {
     @Override
     public void setProperty(int index, String text) {
         properties[index].setProperty(text);
+        rb.setForcesChanged(true);
     }
 
 }

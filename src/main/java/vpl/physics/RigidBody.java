@@ -15,7 +15,10 @@
      
     /**
      *
-     * @author kppx
+     * @author Krzysztof Pastuszak
+     * as noted in the project's documentation
+     * general concept and some of the transformations are implementation of model
+     * proposed by David Baraff in [3] from project's bibliography
      */
     public class RigidBody {
      
@@ -286,8 +289,13 @@
      
         private void calculateAngularVelocity() {
             calculateAngularMomentum();
+            
+            Matrix Ibody = new Matrix(3,3);
+            Ibody = mathLogic.multiplyByMatrix(rotationMatrix,shape.getInvertedIBody());
+            Ibody = mathLogic.multiplyByMatrix(Ibody, rotationMatrix.transpose(rotationMatrix));
+            
             //omega(t) = I^-1 * L(t)
-            angularVelocity = mathLogic.multiplyByMatrix(shape.getInvertedIBody(), angularMomentum);
+            angularVelocity = mathLogic.multiplyByMatrix(Ibody, angularMomentum);
         }
      
         private void calculatePosition() {
@@ -318,11 +326,15 @@
             Matrix rotationIncrement = mathLogic.multiplyByScalar(timeTick, rotationRateOfChange);
             rotationMatrix = mathLogic.matrixSum(rotationMatrix, rotationIncrement);
            
-           
+           //for debugging purposes only
             for (int i=0;i<3;i++)
             {
                 for (int j=0;j<3;j++)
                 {
+                    if ( rotationMatrix.getValueAt(i, j) == Double.NaN)
+                    {
+                        System.out.println("NaN encountered");
+                    }
                //    if ( rotationMatrix.getValueAt(i, j)>1 ||  rotationMatrix.getValueAt(i, j)<-1)
                 ///    rotationMatrix.setValueAt(i, j, rotationMatrix.getValueAt(i, j)%(2*Math.PI));
                 }

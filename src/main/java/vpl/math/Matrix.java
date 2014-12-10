@@ -77,7 +77,25 @@
             }
             return 1;
         }
-     
+        
+        public Matrix normalizeByColumn(Matrix mat) //only for 3x3 matrices at the moment
+        {
+            double newMatrix[][] =mat.getMatrix();
+            for (int j =0; j< 3; j++)
+            {
+                 double magnitude = Math.sqrt(newMatrix[0][j]*newMatrix[0][j]
+                         +newMatrix[1][j]*newMatrix[1][j]
+                         +newMatrix[2][j]*newMatrix[2][j]);
+                 
+                 for (int i=0;i<3;i++)
+                 {
+                  newMatrix[i][j] = newMatrix[i][j]/magnitude;   
+                 }
+            }
+            Matrix result = new Matrix(newMatrix);
+            return result;
+        }
+        
         public Matrix cofactor(Matrix matrix) throws NoSquareException {
             Matrix mat = new Matrix(matrix.getRows(), matrix.getColumns());
             for (int i = 0; i < matrix.getRows(); i++) {

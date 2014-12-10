@@ -20,23 +20,40 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="objectAttachedTextField" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="bLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="cLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="aLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="aTextField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="bTextField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="cTextField" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="addForceButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="uniformCheckBox" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="yLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="zLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="ttlLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="aLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="xLabel" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="aTextField" alignment="0" pref="158" max="32767" attributes="0"/>
                           <Component id="yTextField" alignment="0" max="32767" attributes="0"/>
                           <Component id="xTextField" alignment="0" max="32767" attributes="0"/>
                           <Component id="zTextField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="bTextField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="cTextField" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="ttlTextField" max="32767" attributes="0"/>
                               <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
@@ -44,19 +61,14 @@
                           </Group>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="objectAttachedTextField" max="32767" attributes="0"/>
-                  </Group>
                   <Group type="102" attributes="0">
-                      <Component id="propertiesLabel" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="propertiesLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <Component id="addForceButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="uniformCheckBox" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -73,7 +85,7 @@
               </Group>
               <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
               <Component id="propertiesLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace pref="42" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="xTextField" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                   <Component id="xLabel" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -89,12 +101,18 @@
                   <Component id="zLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="ttlLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="ttlTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="foreverCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="ttlLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="aLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="aTextField" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -114,7 +132,7 @@
                   <Component id="addForceButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="uniformCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="21" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -142,7 +160,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="cLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="c:"/>
+        <Property name="text" type="java.lang.String" value="Fz:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="zTextField">
@@ -196,7 +214,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="aLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="a:"/>
+        <Property name="text" type="java.lang.String" value="Fx:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="aTextField">
@@ -209,7 +227,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="bLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="b:"/>
+        <Property name="text" type="java.lang.String" value="Fy:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="bTextField">
@@ -254,6 +272,21 @@
     <Component class="javax.swing.JCheckBox" name="uniformCheckBox">
       <Properties>
         <Property name="text" type="java.lang.String" value="uniform"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Time the force is active"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Force value"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel4">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="(x, y and z direction components)"/>
       </Properties>
     </Component>
   </SubComponents>

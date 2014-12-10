@@ -23,12 +23,12 @@ public class PropertiesTableModel extends AbstractTableModel {
         binder = new RigidBodyPropertyBinder(rigidBody);
     }
 
-    public void setModelObject(Force force, boolean uniform) {
-        if (uniform) {
-            binder = new UniformForcePropertyBinder(force);
-        } else {
-            binder = new ForcePropertyBinder(force);
-        }
+    public void setModelObject(Force force) {
+        binder = new UniformForcePropertyBinder(force);
+    }
+
+    public void setModelObject(Force force, RigidBody rb) {
+        binder = new ForcePropertyBinder(force, rb);
     }
 
     @Override

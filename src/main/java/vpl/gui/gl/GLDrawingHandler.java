@@ -90,7 +90,7 @@ public class GLDrawingHandler implements GLEventListener {
         this.zl = lookingPoint.getZ();
 
         //collisions (should be moved to better place)
-        api.checkCollisions();
+      /////////  api.checkCollisions();
 
         convertRigidBodiesToShapes();
         drawShapes(gl);

@@ -44,13 +44,14 @@ public class PropertiesJPanel extends javax.swing.JPanel implements SimpleListen
             } else if (model.getSelectedItem() instanceof ForceSelectionItem) {
                 ForceSelectionItem selectionItem = (ForceSelectionItem) model.getSelectedItem();
                 Force force = selectionItem.getForce(); // model.getPhysics().getUniformForces().get(selectionItem.getName());
-                tableModel.setModelObject(force, false);
+                RigidBody rigidBody = selectionItem.getBody();
+                tableModel.setModelObject(force, rigidBody);
                 PropertyObjectNameLabel.setText(selectionItem.toString() + " of " + selectionItem.getBodyName());
                 
             } else if (model.getSelectedItem() instanceof UniformForceSelectionItem) {
                 UniformForceSelectionItem selectionItem = (UniformForceSelectionItem) model.getSelectedItem();
                 Force force = selectionItem.getForce(); // model.getPhysics().getUniformForces().get(selectionItem.getName());
-                tableModel.setModelObject(force, true);
+                tableModel.setModelObject(force);
                 PropertyObjectNameLabel.setText(selectionItem.getName());
                 
             }

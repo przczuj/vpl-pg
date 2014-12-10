@@ -9,7 +9,9 @@ import vpl.math.Triple;
 import vpl.physics.api.RigidBodyApi;
 import vpl.physics.api.RigidBodyDrawingInfo;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -27,7 +29,12 @@ import vpl.physics.shapes.CuboidShape;
  */
 /**
  *
- * @author kppx
+ * @author of  the stub Krzysztof Pastuszak - createRigidBody, registering forces, update, empty checkCollisions function
+ * Stub filled and modified by Krzysztof Barszcz and Przemyslaw Czuj 
+ * Some fixes applied by Krzysztof Pastuszak - fixed a bug in detecting collisons, added handling of the wall collisions, 
+ * tried to fix calls coming from other components...
+ * 
+ * 
  */
 public class ControllerStub {
 
@@ -47,15 +54,70 @@ public class ControllerStub {
     private List<RigidBodyDrawingInfo> toBeDrawn;
     private BasicMath mathLogic;
     private RigidBodyApi api;
+    
+    
+    //here we obtain the list of all walls currently present in a model
+    private ArrayList<RigidBody> getWalls()
+    {
+        ArrayList<RigidBody> rigidBodies2;
+        rigidBodies2 = new ArrayList<RigidBody>();
+        RigidBody wallToBeAdded = getRigidBodies().get("_floor");
+        if (wallToBeAdded != null) 
+        {
+                rigidBodies2.add(wallToBeAdded);
+        }
+        wallToBeAdded = getRigidBodies().get("_roof");
+        if (wallToBeAdded != null) 
+        {
+                rigidBodies2.add(wallToBeAdded);
+        }
+        wallToBeAdded = getRigidBodies().get("_xPlusWall");
+        if (wallToBeAdded != null) 
+        {
+                rigidBodies2.add(wallToBeAdded);
+        }
+        wallToBeAdded = getRigidBodies().get("_xMinusWall");
+        if (wallToBeAdded != null) 
+        {
+                rigidBodies2.add(wallToBeAdded);
+        }
+        wallToBeAdded = getRigidBodies().get("_zPlusWall");
+        if (wallToBeAdded != null) 
+        {
+                rigidBodies2.add(wallToBeAdded);
+        }
+        wallToBeAdded = getRigidBodies().get("_zMinusWall");
+        if (wallToBeAdded != null) 
+        {
+                rigidBodies2.add(wallToBeAdded);
+        }
+    return rigidBodies2;
+    }
+    private void  excludeWallsFromList(ArrayList<RigidBody> rigidBodies2)
+    {
+        ArrayList<RigidBody> walls = getWalls();
+        for (RigidBody wallToBeRemoved : walls)
+        {
+            if (wallToBeRemoved != null) 
+            {
+                rigidBodies2.remove(wallToBeRemoved);
+            }
+        }
+      
+        
+    }
 
+// implementation of algorithm proposed by
+// http://studiofreya.com/3d-math-and-physics/simple-sphere-sphere-collisiondetection-and-collision-response/2/ (position [23] in project's documentation
     public void checkCollisions() {
-        List<RigidBody> rigidBodies2 = new ArrayList<>(getRigidBodies().values());
+        ArrayList<RigidBody> rigidBodies2 = new ArrayList<>(getRigidBodies().values());
+        excludeWallsFromList(rigidBodies2);
         RigidBody floor = getRigidBodies().get("_floor");
         if (floor != null) {
             rigidBodies2.remove(floor);
         }
         
-        BasicMath logic = new BasicMath();
+       // BasicMath logic = new BasicMath();
         //for (int i = 0; i < rigidBodies2.size(); i++) {
         //List<RigidBody> checkInNextStep = new ArrayList<RigidBody>();
         //for (int j = i + 1; j < rigidBodies2.size(); j++) {
@@ -70,6 +132,10 @@ public class ControllerStub {
                     double distance = rb1.getPosition().getDistance(rb2.getPosition());
                     double r1 = rb1.getShape().getSphereRadius();
                     double r2 = rb2.getShape().getSphereRadius();
+                    if(r1==0 || r2 ==0) //fix to NaN bug resulting from division by 0 when oe of the bodies had size set to 0 - KP
+                    {
+                        continue;
+                    }
                     if (distance <= r1 + r2) {
                         //checkInNextStep.add(rb2);
                         //checkInNextStep.add(rb2);
@@ -98,7 +164,7 @@ public class ControllerStub {
                         //third line
                         Triple v1 = rb1.getPointVelociy(collisionPoint);
                         //fourth line
-                        double x1 = logic.dotProduct(xvec, v1);
+                        double x1 = mathLogic.dotProduct(xvec, v1);
                         //fifth line
                         Triple v1x = new Triple();
                         v1x.setXYZ(xvec.getX() * x1, xvec.getY() * x1, xvec.getZ() * x1);
@@ -116,7 +182,7 @@ public class ControllerStub {
                         //third line
                         Triple v2 = rb2.getPointVelociy(collisionPoint);
                         //fourth line
-                        double x2 = logic.dotProduct(xvec, v2);
+                        double x2 = mathLogic.dotProduct(xvec, v2);
                         //fifth line
                         Triple v2x = new Triple();
                         v2x.setXYZ(xvec.getX() * x2, xvec.getY() * x2, xvec.getZ() * x2);
@@ -180,26 +246,16 @@ public class ControllerStub {
         }
     }
     
+//modification of checkCollisions method, used to handle collisions with floor
     public void checkFloorCollisions() {
-        List<RigidBody> rigidBodies2 = new ArrayList<>(getRigidBodies().values());
+        ArrayList<RigidBody> rigidBodies2 = new ArrayList<>(getRigidBodies().values());
+        excludeWallsFromList(rigidBodies2);
         RigidBody floor = getRigidBodies().get("_floor");
         if (floor == null) {
             return;
         }
-        rigidBodies2.remove(floor);
-
-        BasicMath logic = new BasicMath();
-        //for (int i = 0; i < rigidBodies2.size(); i++) {
-        //List<RigidBody> checkInNextStep = new ArrayList<RigidBody>();
-        //for (int j = i + 1; j < rigidBodies2.size(); j++) {
-
-        int i = 0;
         for (RigidBody rb1 : rigidBodies2) {
-            //RigidBody rb1 = rigidBodies2.get(i);
-            //RigidBody rb2 = rigidBodies2.get(j);
-            
             RigidBody rb2 = floor;
-            
             double distance = Math.abs(rb2.getPosition().getY() - rb1.getPosition().getY()); // rb1.getPosition().getDistance(rb2.getPosition());
             double r1 = rb1.getShape().getSphereRadius();
             double r2 = ((CuboidShape)rb2.getShape()).getY()/2;
@@ -209,10 +265,209 @@ public class ControllerStub {
                     rb1.getLinearMomentum().setY(-rb1.getLinearMomentum().getY());
                 }
             }
-            i++;
+        }
+    }
+    
+public void checkRoofCollisions() {
+        ArrayList<RigidBody> rigidBodies2 = new ArrayList<>(getRigidBodies().values());
+        excludeWallsFromList(rigidBodies2);
+        RigidBody roof = getRigidBodies().get("_roof");
+        if (roof == null) {
+            return;
+        }
+        for (RigidBody rb1 : rigidBodies2) {
+            RigidBody rb2 = roof;
+            double distance = Math.abs(rb2.getPosition().getY() - rb1.getPosition().getY()); // rb1.getPosition().getDistance(rb2.getPosition());
+            double r1 = rb1.getShape().getSphereRadius();
+            double r2 = ((CuboidShape)rb2.getShape()).getY()/2;
+            if (distance <= r1 + r2) {
+                System.out.println("roof collision!");
+                if (rb1.getLinearMomentum().getY() > 0) {
+                    rb1.getLinearMomentum().setY(-rb1.getLinearMomentum().getY());
+                }
+            }
         }
     }
 
+public void checkXMinusCollisions() {
+        ArrayList<RigidBody> rigidBodies2 = new ArrayList<>(getRigidBodies().values());
+        excludeWallsFromList(rigidBodies2);
+        RigidBody wall = getRigidBodies().get("_xMinusWall");
+        if (wall == null) {
+            return;
+        }
+        for (RigidBody rb1 : rigidBodies2) {
+            RigidBody rb2 = wall;
+            double distance = Math.abs(rb2.getPosition().getX() - rb1.getPosition().getX()); // rb1.getPosition().getDistance(rb2.getPosition());
+            double r1 = rb1.getShape().getSphereRadius();
+            double r2 = ((CuboidShape)rb2.getShape()).getX()/2;
+            if (distance <= r1 + r2) {
+                System.out.println("Wall collision!");
+                if (rb1.getLinearMomentum().getX() < 0) {
+                    rb1.getLinearMomentum().setX(-rb1.getLinearMomentum().getX());
+                }
+            }
+        }
+    }public void checkXPlusCollisions() {
+        ArrayList<RigidBody> rigidBodies2 = new ArrayList<>(getRigidBodies().values());
+        excludeWallsFromList(rigidBodies2);
+        RigidBody wall = getRigidBodies().get("_xPlusWall");
+        if (wall == null) {
+            return;
+        }
+        for (RigidBody rb1 : rigidBodies2) {
+            RigidBody rb2 = wall;
+            double distance = Math.abs(rb2.getPosition().getX() - rb1.getPosition().getX()); // rb1.getPosition().getDistance(rb2.getPosition());
+            double r1 = rb1.getShape().getSphereRadius();
+            double r2 = ((CuboidShape)rb2.getShape()).getX()/2;
+            if (distance <= r1 + r2) {
+                System.out.println("Wall collision!");
+                if (rb1.getLinearMomentum().getX() > 0) {
+                    rb1.getLinearMomentum().setX(-rb1.getLinearMomentum().getX());
+                }
+            }
+        }
+    }
+    public void checkZMinusCollisions() {
+        ArrayList<RigidBody> rigidBodies2 = new ArrayList<>(getRigidBodies().values());
+        excludeWallsFromList(rigidBodies2);
+        RigidBody wall = getRigidBodies().get("_zMinusWall");
+        if (wall == null) {
+            return;
+        }
+        for (RigidBody rb1 : rigidBodies2) {
+            RigidBody rb2 = wall;
+            double distance = Math.abs(rb2.getPosition().getZ() - rb1.getPosition().getZ()); // rb1.getPosition().getDistance(rb2.getPosition());
+            double r1 = rb1.getShape().getSphereRadius();
+            double r2 = ((CuboidShape)rb2.getShape()).getZ()/2;
+            if (distance <= r1 + r2) {
+                System.out.println("Wall collision!");
+                if (rb1.getLinearMomentum().getZ() < 0) {
+                    rb1.getLinearMomentum().setZ(-rb1.getLinearMomentum().getZ());
+                }
+            }
+        }
+    }public void checkZPlusCollisions() {
+        ArrayList<RigidBody> rigidBodies2 = new ArrayList<>(getRigidBodies().values());
+        excludeWallsFromList(rigidBodies2);
+        RigidBody wall = getRigidBodies().get("_zPlusWall");
+        if (wall == null) {
+            return;
+        }
+        for (RigidBody rb1 : rigidBodies2) {
+            RigidBody rb2 = wall;
+            double distance = Math.abs(rb2.getPosition().getZ() - rb1.getPosition().getZ()); // rb1.getPosition().getDistance(rb2.getPosition());
+            double r1 = rb1.getShape().getSphereRadius();
+            double r2 = ((CuboidShape)rb2.getShape()).getZ()/2;
+            if (distance <= r1 + r2) {
+                System.out.println("Wall collision!");
+                if (rb1.getLinearMomentum().getZ() > 0) {
+                    rb1.getLinearMomentum().setZ(-rb1.getLinearMomentum().getZ());
+                }
+            }
+        }
+    }
+    
+    public void checkWallCollisions()
+    {
+        checkFloorCollisions();
+        checkRoofCollisions();
+        checkXMinusCollisions();
+        checkXPlusCollisions();
+        checkZMinusCollisions();
+        checkZPlusCollisions();
+        
+     /*        ArrayList<RigidBody> rigidBodies2 = new ArrayList<>(getRigidBodies().values());
+        excludeWallsFromList(rigidBodies2);
+     //   RigidBody floor = getRigidBodies().get("_floor");
+      //  if (floor != null) {
+      ///      rigidBodies2.remove(floor);
+      ///  }
+        ArrayList<RigidBody> walls = getWalls();
+       // BasicMath logic = new BasicMath();
+        //for (int i = 0; i < rigidBodies2.size(); i++) {
+        //List<RigidBody> checkInNextStep = new ArrayList<RigidBody>();
+        //for (int j = i + 1; j < rigidBodies2.size(); j++) {
+        
+        for (RigidBody rb1 : rigidBodies2) {
+                //RigidBody rb1 = rigidBodies2.get(i);
+            //RigidBody rb2 = rigidBodies2.get(j);
+ 
+            for (RigidBody rb2 : walls) {
+               
+                    double distance = rb1.getPosition().getDistance(rb2.getPosition());
+                   
+                    
+                    double r1 = rb1.getShape().getSphereRadius();
+                    double r2=0;
+                    if (rb2.equals(getRigidBodies().get("_floor")) || rb2.equals(getRigidBodies().get("_roof)")))
+                    {
+                        r2 = ((CuboidShape)rb2.getShape()).getY()/2;
+                        r2 =  Math.abs(r2);
+                        distance = Math.abs(rb2.getPosition().getY() - rb1.getPosition().getY()); 
+                    }
+                        else if ( rb2.equals(getRigidBodies().get("_xMinusWall)")))
+                        {
+                             r2 = ((CuboidShape)rb2.getShape()).getX()/2;
+                            r2 =  Math.abs(r2);
+                            distance = Math.abs(rb2.getPosition().getX() - rb1.getPosition().getX()); // rb1.getPosition().getDistance(rb2.getPosition());
+
+                        }   
+                        else if ( rb2.equals(getRigidBodies().get("_xPlusWall)")))
+                        {
+                             r2 = ((CuboidShape)rb2.getShape()).getX()/2;
+                            r2 =  Math.abs(r2);
+                            distance = Math.abs(rb2.getPosition().getX() - rb1.getPosition().getX()); // rb1.getPosition().getDistance(rb2.getPosition());
+
+                        }   
+                    else if (rb2.equals(getRigidBodies().get("_zPlusWall")) )
+                    {
+                         r2 = ((CuboidShape)rb2.getShape()).getZ()/2;
+                        r2 =  Math.abs(r2);
+                        distance = Math.abs(rb2.getPosition().getZ() - rb1.getPosition().getZ()); // rb1.getPosition().getDistance(rb2.getPosition());
+            
+                    } else if ( rb2.equals(getRigidBodies().get("_zMinusWall)")))
+                    {
+                         r2 = ((CuboidShape)rb2.getShape()).getZ()/2;
+                        r2 =  Math.abs(r2);
+                        distance = Math.abs(rb2.getPosition().getZ() - rb1.getPosition().getZ()); // rb1.getPosition().getDistance(rb2.getPosition());
+            
+                    }
+                    
+                    if(rb1.getPosition().getX()<(-20.0))
+                    {
+                    int z=3;
+                    }
+                    if (distance <= r1 + r2) {
+                        //checkInNextStep.add(rb2);
+                        //checkInNextStep.add(rb2);
+                        Triple currentVelocity = rb1.getLinearVelocity();
+             if (rb2.equals(getRigidBodies().get("_floor")) || rb2.equals(getRigidBodies().get("_roof)")))
+                    {
+                     currentVelocity.setY(currentVelocity.getY()*(-1.0));
+                    }
+                    else if (rb2.equals(getRigidBodies().get("_xPlusWall")) || rb2.equals(getRigidBodies().get("_xMinusWall)")))
+                    {
+                      currentVelocity.setX(currentVelocity.getX()*(-1.0));
+                    }   
+                    else if (rb2.equals(getRigidBodies().get("_zPlusWall")) || rb2.equals(getRigidBodies().get("_zMinusWall)")))
+                    {
+                       
+                  currentVelocity.setZ(currentVelocity.getZ()*(-1.0));
+                    }
+                   rb1.setLinearMomentum(mathLogic.multiplyByScalar(rb1.getMass(),currentVelocity));
+ //spheral collision
+                        //basis vector
+                    
+                    }
+            
+        }
+    }
+             */
+}
+              
+        
+    
     public void solveCollisions() {
         checkCollisions();
         checkFloorCollisions();
@@ -229,16 +484,21 @@ public class ControllerStub {
 
     public void update() {
         checkCollisions();
+        checkWallCollisions();
         toBeDrawn = new ArrayList<RigidBodyDrawingInfo>();
+        ArrayList<RigidBody> walls = getWalls();
         for (RigidBody rb : rigidBodies.values()) {
-            rb.calculate();
+            if ( !walls.contains(rb)) //no need to perform calculations of motion for static walls
+            {
+                rb.calculate();
+            }
             RigidBodyDrawingInfo drawingInfo = new RigidBodyDrawingInfo();
             drawingInfo.setShape(api.getShape(rb));
             drawingInfo.setState(api.getState(rb));
             toBeDrawn.add(drawingInfo);
 
         }
-        solveCollisions();
+     //   solveCollisions();
     }
 
     private void init() {
@@ -270,7 +530,13 @@ public class ControllerStub {
         rb.setPosition(position);
         rb.setMass(mass);
         rb.getShape().recalculate();
-        rigidBodies.put("body " + rigidBodies.size(), rb);
+        int typeCount = 0;
+        for (RigidBody tmp : rigidBodies.values())
+        {
+            if(tmp.getShape().getType().startsWith(rb.getShape().getType()))
+                typeCount++;
+        }
+        rigidBodies.put(rb.getShape().getType()+" " + typeCount, rb);
     }
 
     public void createRigidBody(Shape shape, Triple position, double timeTick, double mass, AxisAngle initialRotation) throws Exception {
@@ -287,7 +553,13 @@ public class ControllerStub {
         for (Force uniformForce : uniformForces.values()) {
             rb.registerUniformForce(uniformForce);
         }
-        rigidBodies.put("body " + rigidBodies.size(), rb);
+           int typeCount = 0;
+        for (RigidBody tmp : rigidBodies.values())
+        {
+            if(tmp.getShape().getType().startsWith(rb.getShape().getType()))
+                typeCount++;
+        }
+        rigidBodies.put(rb.getShape().getType()+" " + typeCount, rb);
     }
 
     public void createUniformForce(Triple value) {
@@ -306,6 +578,6 @@ public class ControllerStub {
         force.setTimeToLive(timeToLive);
         force.setForever(forever);
         rb.registerForce(force);
-
+        
     }
 }

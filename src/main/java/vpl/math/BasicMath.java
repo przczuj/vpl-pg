@@ -113,17 +113,22 @@ import static java.lang.Math.PI;
             return new Matrix(m);
         }
      
-        public Matrix multiplyByScalar(double scalar, Matrix toBeMultiplicated) {
-            Matrix multiplicated = new Matrix(toBeMultiplicated.getMatrix());
-            for (int i = 0; i < multiplicated.getRows(); i++) {
-                for (int j = 0; j < multiplicated.getColumns(); j++) {
-                    multiplicated.setValueAt(i, j, multiplicated.getValueAt(i, j) * scalar);
+        public Matrix multiplyByScalar(double scalar, Matrix toBeMultiplied) {
+            Matrix multiplied = new Matrix(toBeMultiplied.getMatrix());
+            for (int i = 0; i < multiplied.getRows(); i++) {
+                for (int j = 0; j < multiplied.getColumns(); j++) {
+                    multiplied.setValueAt(i, j, multiplied.getValueAt(i, j) * scalar);
                 }
             }
      
-            return multiplicated;
+            return multiplied;
         }
+        public Triple multiplyByScalar(double scalar, Triple toBeMultiplied) {
+            Triple multiplied = new Triple(toBeMultiplied.getX()*scalar,toBeMultiplied.getY()*scalar,toBeMultiplied.getZ()*scalar);
+          
      
+            return multiplied;
+        }
         public Matrix multiplyByMatrix(Matrix a, Matrix b) {
             //number of columns in 1st matrix has to be equal to number of rows in 2nd matrix
             //for multiplication to be possible
@@ -231,11 +236,13 @@ import static java.lang.Math.PI;
         public AxisAngle rotationMatrixToAngles(Matrix rot) {
             Triple t = new Triple();
             double angle;
-            double epsilon = 0.01;       //allows for rounding errors
-            double epsilon2 = 0.1;
+            double epsilon = 0.0001;       //allows for rounding errors
+            double epsilon2 = 0.01;
             assert (rot.getColumns() == rot.getRows() && rot.getRows() == 3);//rotation matrix is always 3x3
-            double m[][] = rot.getMatrix();
-     
+           // Matrix normalized = rot.normalizeByColumn(rot);
+           // double m[][] = normalized.getMatrix();
+            //time to normalize
+            double m[][] =rot.getMatrix();
             //testing for singularity - by euclideanspace
             if ((Math.abs(m[0][1] - m[1][0]) < epsilon)
                     && (Math.abs(m[0][2] - m[2][0]) < epsilon)
@@ -300,14 +307,25 @@ import static java.lang.Math.PI;
             }
             // prevents division by zero, should not happen if matrix is orthogonal and should be
             // caught by singularity test above, but I've left it in just in case
-            angle = Math.acos((m[0][0] + m[1][1] + m[2][2] - 1) / 2);
+            double toAngle = (m[0][0] + m[1][1] + m[2][2] - 1) / 2;
+            if (toAngle >=1  || toAngle <=-1)
+            {
+            /*    if(toAngle>0)
+                toAngle = 1;
+                else
+                    toAngle=-1;*/
+            }
+            angle = Math.acos(toAngle);
             t.setX(Math.toDegrees((m[2][1] - m[1][2]) / s));
             t.setY(Math.toDegrees((m[0][2] - m[2][0]) / s));
             t.setZ(Math.toDegrees((m[1][0] - m[0][1]) / s));
             angle = Math.toDegrees(angle);
-     
+            
             AxisAngle result = new AxisAngle(angle, t);
-     
+            if (angle == Double.NaN) // for debugging purposes only
+            {
+             System.out.println("Nan encountered");   
+            }
             return result;
         }
     }

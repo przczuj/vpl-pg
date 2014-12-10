@@ -41,7 +41,12 @@
             }
             return forceValue;
         }
-     
+        
+        //returns force value regardless of time to live and forever flag
+        public Triple getRealForceValue()
+        {
+            return forceValue;
+        }
         public void decrementTimeToLive(double timeTick, RigidBody rb) {
             if (!forever) {
                 timeToLive = timeToLive - timeTick;
