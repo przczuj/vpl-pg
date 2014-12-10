@@ -74,7 +74,9 @@ public class GLDrawingHandler implements GLEventListener {
         gl.glPushMatrix();
 
         //for reference
-        drawReferenceSquares(gl);
+        //drawReferenceSquares(gl);
+        //drawWindRose(gl);
+        drawWindRose(gl);
 
         this.angleX = model.getCameraAngleH();
         this.angleY = model.getCameraAngleV();
@@ -336,4 +338,22 @@ public class GLDrawingHandler implements GLEventListener {
             }
         }
     }
+
+   private boolean drawWindRose(GL2 gl) {
+        //gl.glBegin(GL.GL_LINES);
+        gl.glLineWidth((float) 2.5);
+        gl.glColor3d(1.0, 1.0, 0.0);
+        //xaxis
+        gl.glPushMatrix();
+        gl.glTranslated(xl, yl, zl);
+        gl.glBegin(GL.GL_LINES);
+            gl.glVertex3d(0.0, 0.0, 0.0);
+            gl.glVertex3d(1.0, 0, 0);
+            //gl.glVertex3d(15, 0, 0);
+        gl.glEnd();
+        gl.glPopMatrix();
+        return true;
+    }
+   
+   
 }
