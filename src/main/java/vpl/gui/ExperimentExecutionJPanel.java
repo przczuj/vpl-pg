@@ -6,18 +6,12 @@ package vpl.gui;
 
 import java.awt.FileDialog;
 import java.awt.Frame;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.security.AccessControlException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -89,6 +83,7 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel implements Sim
         restitutionSpinner = new javax.swing.JSpinner();
         restitutionSlider = new javax.swing.JSlider();
         jLabel2 = new javax.swing.JLabel();
+        showAxis = new javax.swing.JCheckBox();
 
         setMaximumSize(new java.awt.Dimension(32767, 46));
 
@@ -182,6 +177,14 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel implements Sim
 
         jLabel2.setText("Camera position:");
 
+        showAxis.setSelected(true);
+        showAxis.setText("Show axes");
+        showAxis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showAxisActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -194,14 +197,16 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel implements Sim
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cameraJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cameraJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(showAxis))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(restitutionSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(restitutionSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(saveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(loadButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -225,7 +230,11 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel implements Sim
                                 .addComponent(cameraJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(14, 14, 14)
-                                .addComponent(jLabel2))))
+                                .addComponent(jLabel2))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(showAxis)
+                                .addContainerGap())))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -265,23 +274,16 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel implements Sim
             if (loadDialog.getFile() != null) {
                 stopAction();
                 File file = new File(loadDialog.getDirectory() + loadDialog.getFile());
-                InputStream inputStream;
-                try {
-                    inputStream = new FileInputStream(file);
-                    XmlExperiment xmlExperiment = XmlSerializationManager.unmarshal(inputStream);
-                    model.getPhysics().setRigidBodies(xmlExperiment.exportRigidBodyMap());
-                    model.getPhysics().setUniformForces(xmlExperiment.exportUniformForceMap());
-                    inputStream.close();
-                    model.refreshView(Model.RIGID_BODY_LIST_CHANGED);
-                    model.refreshView(Model.AN_RIGID_BODY_CHANGED);
-                    System.out.println("LOADED");
-                } catch (AccessControlException e) {
-                    JOptionPane.showMessageDialog(null, "Sorry, we don't have permissions to you file system.\n"
-                            + "We can't load experiment xml file.", "Permission denied", JOptionPane.ERROR_MESSAGE);
-                }
+                FileInputStream fileInputStream = new FileInputStream(file);
+                XmlExperiment xmlExperiment = XmlSerializationManager.unmarshal(fileInputStream);
+                model.getPhysics().setRigidBodies(xmlExperiment.exportRigidBodyMap());
+                model.getPhysics().setUniformForces(xmlExperiment.exportUniformForceMap());
+                fileInputStream.close();
+                model.refreshView(Model.RIGID_BODY_LIST_CHANGED);
+                model.refreshView(Model.AN_RIGID_BODY_CHANGED);
+                System.out.println("LOADED");
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Can't parse experiment xml file. Check if it is valid.", "Parsing error", JOptionPane.INFORMATION_MESSAGE);
             Logger.getLogger(ExperimentExecutionJPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_loadButtonActionPerformed
@@ -293,30 +295,13 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel implements Sim
             if (saveDialog.getFile() != null) {
                 System.out.println(saveDialog.getDirectory() + saveDialog.getFile());
                 File file = new File(saveDialog.getDirectory() + saveDialog.getFile());
-                try {
-                    FileOutputStream fileOutputStream = new FileOutputStream(file);
-                    XmlSerializationManager.marshal(fileOutputStream,
-                            new XmlExperiment(model.getPhysics().getRigidBodies(), model.getPhysics().getUniformForces()));
-                    fileOutputStream.close();
-                    System.out.println("SAVED");
-                } catch (AccessControlException e) {
-                    JOptionPane.showMessageDialog(null, "Sorry, we don't have permissions to you file system.\n"
-                            + "We can't save experiment xml file.", "Permission denied", JOptionPane.ERROR_MESSAGE);
-                    
-//                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//                    XmlSerializationManager.marshal(outputStream,
-//                            new XmlExperiment(model.getPhysics().getRigidBodies(), model.getPhysics().getUniformForces()));
-//                    JOptionPane.showInputDialog(null,
-//                            "Sorry, we don't have permissions to you file system.\n"
-//                            + "We can't save experiment xml file."
-//                            + "You can copy content of experiment file from text field below",
-//                            "Permission denied",
-//                            JOptionPane.PLAIN_MESSAGE, null, null, new String(outputStream.toByteArray(), StandardCharsets.UTF_8));
-//                    outputStream.close();
-                }
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                XmlSerializationManager.marshal(fileOutputStream, 
+                        new XmlExperiment(model.getPhysics().getRigidBodies(), model.getPhysics().getUniformForces()));
+                fileOutputStream.close();
+                System.out.println("SAVED");
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Couldn't serialize experiment to xml file.", "Parsing error", JOptionPane.INFORMATION_MESSAGE);
             Logger.getLogger(ExperimentExecutionJPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_saveButtonActionPerformed
@@ -348,6 +333,14 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel implements Sim
         model.getPhysics().setCoefficientOfRestitution(restitution);
     }//GEN-LAST:event_restitutionSliderStateChanged
 
+    private void showAxisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAxisActionPerformed
+        if (showAxis.isSelected()) {
+            model.setShowAxis(true);
+        } else {
+            model.setShowAxis(false);            
+        }
+    }//GEN-LAST:event_showAxisActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel cameraJPanel;
     private javax.swing.JTextField cameraXTextField;
@@ -360,6 +353,7 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel implements Sim
     private javax.swing.JSlider restitutionSlider;
     private javax.swing.JSpinner restitutionSpinner;
     private javax.swing.JButton saveButton;
+    private javax.swing.JCheckBox showAxis;
     private javax.swing.JLabel xLabel;
     private javax.swing.JLabel yLabel;
     private javax.swing.JLabel zLabel;

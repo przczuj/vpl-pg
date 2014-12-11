@@ -173,14 +173,14 @@ public class ControllerStub {
                         double x1 = mathLogic.dotProduct(xvec, v1);
                         //fifth line
                         Triple v1x = new Triple();
-                        v1x.setXYZ(xvec.getX() * x1, xvec.getY() * x1, xvec.getZ() * x1);
+                        v1x.setXYZ(xvec.getX() * x1*coefficientOfRestitution, xvec.getY() * x1*coefficientOfRestitution, xvec.getZ() * x1*coefficientOfRestitution);
                         //sixth line
                         Triple v1y = new Triple();
                         v1y.setXYZ(v1.getX() - v1x.getX(), v1.getY() - v1x.getY(), v1.getZ() - v1x.getZ());
                         //seventh line
                         double m1 = rb1.getMass();
 
-                        //anologycal operations for second rb
+                        //anological operations for second rb
                         xvec.setXYZ(xvec.getX() * (-1), xvec.getY() * (-1), xvec.getZ() * (-1));
                         //x-direction velocity vector and the perpendicular y-vector
                         Triple collisionPoint2 = new Triple(pos2.getX() + r2 * xvec.getX(),
@@ -191,7 +191,7 @@ public class ControllerStub {
                         double x2 = mathLogic.dotProduct(xvec, v2);
                         //fifth line
                         Triple v2x = new Triple();
-                        v2x.setXYZ(xvec.getX() * x2, xvec.getY() * x2, xvec.getZ() * x2);
+                        v2x.setXYZ(xvec.getX() * x2*coefficientOfRestitution, xvec.getY() * x2*coefficientOfRestitution, xvec.getZ() * x2*coefficientOfRestitution);
                         //sixth line
                         Triple v2y = new Triple();
                         v2y.setXYZ(v2.getX() - v2x.getX(), v2.getY() - v2x.getY(), v2.getZ() - v2x.getZ());
@@ -268,7 +268,8 @@ public class ControllerStub {
             if (distance <= r1 + r2) {
                 System.out.println("floor collision!");
                 if (rb1.getLinearMomentum().getY() < 0) {
-                    rb1.getLinearMomentum().setY(-rb1.getLinearMomentum().getY());
+                 //   Triple linMom = rb1.getLinearMomentum();
+                    rb1.getLinearMomentum().setY(-rb1.getLinearMomentum().getY()*coefficientOfRestitution);
                 }
             }
         }
@@ -289,7 +290,7 @@ public void checkRoofCollisions() {
             if (distance <= r1 + r2) {
                 System.out.println("roof collision!");
                 if (rb1.getLinearMomentum().getY() > 0) {
-                    rb1.getLinearMomentum().setY(-rb1.getLinearMomentum().getY());
+                    rb1.getLinearMomentum().setY(-rb1.getLinearMomentum().getY()*coefficientOfRestitution);
                 }
             }
         }
@@ -310,7 +311,7 @@ public void checkXMinusCollisions() {
             if (distance <= r1 + r2) {
                 System.out.println("Wall collision!");
                 if (rb1.getLinearMomentum().getX() < 0) {
-                    rb1.getLinearMomentum().setX(-rb1.getLinearMomentum().getX());
+                    rb1.getLinearMomentum().setX(-rb1.getLinearMomentum().getX()*coefficientOfRestitution);
                 }
             }
         }
@@ -329,7 +330,7 @@ public void checkXMinusCollisions() {
             if (distance <= r1 + r2) {
                 System.out.println("Wall collision!");
                 if (rb1.getLinearMomentum().getX() > 0) {
-                    rb1.getLinearMomentum().setX(-rb1.getLinearMomentum().getX());
+                    rb1.getLinearMomentum().setX(-rb1.getLinearMomentum().getX()*coefficientOfRestitution);
                 }
             }
         }
@@ -349,7 +350,7 @@ public void checkXMinusCollisions() {
             if (distance <= r1 + r2) {
                 System.out.println("Wall collision!");
                 if (rb1.getLinearMomentum().getZ() < 0) {
-                    rb1.getLinearMomentum().setZ(-rb1.getLinearMomentum().getZ());
+                    rb1.getLinearMomentum().setZ(-rb1.getLinearMomentum().getZ()*coefficientOfRestitution);
                 }
             }
         }
@@ -368,7 +369,7 @@ public void checkXMinusCollisions() {
             if (distance <= r1 + r2) {
                 System.out.println("Wall collision!");
                 if (rb1.getLinearMomentum().getZ() > 0) {
-                    rb1.getLinearMomentum().setZ(-rb1.getLinearMomentum().getZ());
+                    rb1.getLinearMomentum().setZ(-rb1.getLinearMomentum().getZ()*coefficientOfRestitution);
                 }
             }
         }

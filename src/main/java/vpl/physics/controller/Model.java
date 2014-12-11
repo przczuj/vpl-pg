@@ -43,6 +43,7 @@ public class Model {
     @Getter private Triple cameraPosition;
     @Getter private Triple lookingPoint;
     @Getter @Setter private double cameraAngleV, cameraAngleH; 
+    @Getter @Setter private boolean showAxis = true;
     
     @Getter @Setter private ControllerStub physics;
     
