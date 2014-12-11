@@ -14,6 +14,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import vpl.physics.Force;
 import vpl.physics.RigidBody;
+import vpl.physics.controller.Model;
 
 public class PropertiesTableModel extends AbstractTableModel {
     
@@ -65,7 +66,12 @@ public class PropertiesTableModel extends AbstractTableModel {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         if (binder != null && columnIndex == 1) {
-            binder.setProperty(rowIndex, aValue.toString());
+            try {
+                binder.setProperty(rowIndex, aValue.toString());
+            } catch(Exception e) {
+                // we want to refresh view anyway
+            }
+            Model.getInstance().refreshView(Model.AN_RIGID_BODY_CHANGED);
         }
     }
 

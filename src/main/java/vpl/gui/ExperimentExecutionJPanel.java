@@ -6,12 +6,18 @@ package vpl.gui;
 
 import java.awt.FileDialog;
 import java.awt.Frame;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.security.AccessControlException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -259,16 +265,23 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel implements Sim
             if (loadDialog.getFile() != null) {
                 stopAction();
                 File file = new File(loadDialog.getDirectory() + loadDialog.getFile());
-                FileInputStream fileInputStream = new FileInputStream(file);
-                XmlExperiment xmlExperiment = XmlSerializationManager.unmarshal(fileInputStream);
-                model.getPhysics().setRigidBodies(xmlExperiment.exportRigidBodyMap());
-                model.getPhysics().setUniformForces(xmlExperiment.exportUniformForceMap());
-                fileInputStream.close();
-                model.refreshView(Model.RIGID_BODY_LIST_CHANGED);
-                model.refreshView(Model.AN_RIGID_BODY_CHANGED);
-                System.out.println("LOADED");
+                InputStream inputStream;
+                try {
+                    inputStream = new FileInputStream(file);
+                    XmlExperiment xmlExperiment = XmlSerializationManager.unmarshal(inputStream);
+                    model.getPhysics().setRigidBodies(xmlExperiment.exportRigidBodyMap());
+                    model.getPhysics().setUniformForces(xmlExperiment.exportUniformForceMap());
+                    inputStream.close();
+                    model.refreshView(Model.RIGID_BODY_LIST_CHANGED);
+                    model.refreshView(Model.AN_RIGID_BODY_CHANGED);
+                    System.out.println("LOADED");
+                } catch (AccessControlException e) {
+                    JOptionPane.showMessageDialog(null, "Sorry, we don't have permissions to you file system.\n"
+                            + "We can't load experiment xml file.", "Permission denied", JOptionPane.ERROR_MESSAGE);
+                }
             }
         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Can't parse experiment xml file. Check if it is valid.", "Parsing error", JOptionPane.INFORMATION_MESSAGE);
             Logger.getLogger(ExperimentExecutionJPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_loadButtonActionPerformed
@@ -280,13 +293,30 @@ public class ExperimentExecutionJPanel extends javax.swing.JPanel implements Sim
             if (saveDialog.getFile() != null) {
                 System.out.println(saveDialog.getDirectory() + saveDialog.getFile());
                 File file = new File(saveDialog.getDirectory() + saveDialog.getFile());
-                FileOutputStream fileOutputStream = new FileOutputStream(file);
-                XmlSerializationManager.marshal(fileOutputStream, 
-                        new XmlExperiment(model.getPhysics().getRigidBodies(), model.getPhysics().getUniformForces()));
-                fileOutputStream.close();
-                System.out.println("SAVED");
+                try {
+                    FileOutputStream fileOutputStream = new FileOutputStream(file);
+                    XmlSerializationManager.marshal(fileOutputStream,
+                            new XmlExperiment(model.getPhysics().getRigidBodies(), model.getPhysics().getUniformForces()));
+                    fileOutputStream.close();
+                    System.out.println("SAVED");
+                } catch (AccessControlException e) {
+                    JOptionPane.showMessageDialog(null, "Sorry, we don't have permissions to you file system.\n"
+                            + "We can't save experiment xml file.", "Permission denied", JOptionPane.ERROR_MESSAGE);
+                    
+//                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//                    XmlSerializationManager.marshal(outputStream,
+//                            new XmlExperiment(model.getPhysics().getRigidBodies(), model.getPhysics().getUniformForces()));
+//                    JOptionPane.showInputDialog(null,
+//                            "Sorry, we don't have permissions to you file system.\n"
+//                            + "We can't save experiment xml file."
+//                            + "You can copy content of experiment file from text field below",
+//                            "Permission denied",
+//                            JOptionPane.PLAIN_MESSAGE, null, null, new String(outputStream.toByteArray(), StandardCharsets.UTF_8));
+//                    outputStream.close();
+                }
             }
         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Couldn't serialize experiment to xml file.", "Parsing error", JOptionPane.INFORMATION_MESSAGE);
             Logger.getLogger(ExperimentExecutionJPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_saveButtonActionPerformed
