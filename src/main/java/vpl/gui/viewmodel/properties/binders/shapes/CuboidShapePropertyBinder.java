@@ -5,6 +5,7 @@
 
 package vpl.gui.viewmodel.properties.binders.shapes;
 
+import vpl.gui.ParsingHelper;
 import vpl.gui.viewmodel.properties.binders.ObjectPropertyBinder;
 import vpl.gui.viewmodel.properties.binders.PropertyBinder;
 import vpl.gui.viewmodel.properties.binders.SimplerPropertyBinder;
@@ -21,7 +22,7 @@ public class CuboidShapePropertyBinder implements ObjectPropertyBinder {
             }
 
             @Override public void setProperty(String text) {
-                shape.setX(Double.parseDouble(text));
+                shape.setX(ParsingHelper.parseDouble(text, this.name));
             }
         },
         
@@ -31,7 +32,7 @@ public class CuboidShapePropertyBinder implements ObjectPropertyBinder {
             }
 
             @Override public void setProperty(String text) {
-                shape.setY(Double.parseDouble(text));
+                shape.setY(ParsingHelper.parseDouble(text, this.name));
             }
         },
         
@@ -41,7 +42,7 @@ public class CuboidShapePropertyBinder implements ObjectPropertyBinder {
             }
 
             @Override public void setProperty(String text) {
-                shape.setZ(Double.parseDouble(text));
+                shape.setZ(ParsingHelper.parseDouble(text, this.name));
             }
         }
     };

@@ -5,6 +5,7 @@
 
 package vpl.gui.viewmodel.properties.binders;
 
+import vpl.gui.ParsingHelper;
 import vpl.physics.Force;
 import vpl.physics.RigidBody;
 
@@ -21,7 +22,7 @@ public class ForcePropertyBinder implements ObjectPropertyBinder {
             }
             
             @Override public void setProperty(String text) {
-                force.getRealForceValue().setX(Double.parseDouble(text));
+                force.getRealForceValue().setX(ParsingHelper.parseDouble(text, this.name));
             }
         },
         new SimplerPropertyBinder("Force value Y", true) {
@@ -30,7 +31,7 @@ public class ForcePropertyBinder implements ObjectPropertyBinder {
             }
 
             @Override public void setProperty(String text) {
-                force.getRealForceValue().setY(Double.parseDouble(text));
+                force.getRealForceValue().setY(ParsingHelper.parseDouble(text, this.name));
             }
         },
         new SimplerPropertyBinder("Force value Z", true) {
@@ -39,7 +40,7 @@ public class ForcePropertyBinder implements ObjectPropertyBinder {
             }
 
             @Override public void setProperty(String text) {
-                force.getRealForceValue().setZ(Double.parseDouble(text));
+                force.getRealForceValue().setZ(ParsingHelper.parseDouble(text, this.name));
             }
         },
         //==========================================================//
@@ -51,7 +52,7 @@ public class ForcePropertyBinder implements ObjectPropertyBinder {
             }
 
             @Override public void setProperty(String text) {
-                force.getForceLocation().setX(Double.parseDouble(text));
+                force.getForceLocation().setX(ParsingHelper.parseDouble(text, this.name));
             }
         },
         new SimplerPropertyBinder("Force location Y", true) {
@@ -60,7 +61,7 @@ public class ForcePropertyBinder implements ObjectPropertyBinder {
             }
 
             @Override public void setProperty(String text) {
-                force.getForceLocation().setY(Double.parseDouble(text));
+                force.getForceLocation().setY(ParsingHelper.parseDouble(text, this.name));
             }
         },
         new SimplerPropertyBinder("Force location Z", true) {
@@ -69,7 +70,7 @@ public class ForcePropertyBinder implements ObjectPropertyBinder {
             }
 
             @Override public void setProperty(String text) {
-                force.getForceLocation().setZ(Double.parseDouble(text));
+                force.getForceLocation().setZ(ParsingHelper.parseDouble(text, this.name));
             }
         },
         //==========================================================//
@@ -81,7 +82,7 @@ public class ForcePropertyBinder implements ObjectPropertyBinder {
             }
 
             @Override public void setProperty(String text) {
-                force.setTimeToLive(Double.parseDouble(text));
+                force.setTimeToLive(ParsingHelper.parseDouble(text, this.name));
             }
         },
         
@@ -91,7 +92,7 @@ public class ForcePropertyBinder implements ObjectPropertyBinder {
             }
 
             @Override public void setProperty(String text) {
-                force.setForever(Boolean.parseBoolean(text));
+                force.setForever(ParsingHelper.parseBoolean(text, this.name));
             }
         }
     };

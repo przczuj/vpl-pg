@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import vpl.math.Triple;
@@ -357,19 +358,25 @@ public class AddObjectJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
  
     private void addShapeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addShapeButtonActionPerformed
-        String selected = this.elementsList.getSelectedValue().toString();
-        double x = Double.parseDouble(xTextField.getText());
-        double y = Double.parseDouble(yTextField.getText());
-        double z = Double.parseDouble(zTextField.getText());
-        double r = Double.parseDouble(rTextField.getText());
-        double xa = Double.parseDouble(xAngleTextField.getText());
-        double ya = Double.parseDouble(yAngleTextField.getText());
-        double za = Double.parseDouble(zAngleTextField.getText());
-        double h = Double.parseDouble(hTextField.getText());
-        double a = Double.parseDouble(aTextField.getText());
-        double b = Double.parseDouble(bTextField.getText());
-        double c = Double.parseDouble(cTextField.getText());
-        double mass = Double.parseDouble(massTextField.getText());
+        String selected;
+        try {
+            selected = this.elementsList.getSelectedValue().toString();
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, "You need to choose shape for rigid body from list above \"Create\" button", "No shape selected", JOptionPane.ERROR_MESSAGE);
+            throw new RuntimeException(e);
+        }
+        double x = ParsingHelper.parseDouble(xTextField.getText(), "x");
+        double y = ParsingHelper.parseDouble(yTextField.getText(), "y");
+        double z = ParsingHelper.parseDouble(zTextField.getText(), "z");
+        double r = ParsingHelper.parseDouble(rTextField.getText(), "r");
+        double xa = ParsingHelper.parseDouble(xAngleTextField.getText(), "x angle");
+        double ya = ParsingHelper.parseDouble(yAngleTextField.getText(), "y angle");
+        double za = ParsingHelper.parseDouble(zAngleTextField.getText(), "z angle");
+        double h = ParsingHelper.parseDouble(hTextField.getText(), "h");
+        double a = ParsingHelper.parseDouble(aTextField.getText(), "a");
+        double b = ParsingHelper.parseDouble(bTextField.getText(), "b");
+        double c = ParsingHelper.parseDouble(cTextField.getText(), "c");
+        double mass = ParsingHelper.parseDouble(massTextField.getText(), "mass");
         
         if (xa==0  && ya ==0 && za == 0)
             xa = 0.00001;

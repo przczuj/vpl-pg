@@ -5,6 +5,7 @@
 
 package vpl.gui.viewmodel.properties.binders;
 
+import vpl.gui.ParsingHelper;
 import vpl.gui.viewmodel.properties.binders.ObjectPropertyBinder;
 import vpl.physics.Force;
 
@@ -19,7 +20,7 @@ public class UniformForcePropertyBinder implements ObjectPropertyBinder {
             }
 
             @Override public void setProperty(String text) {
-                force.getForceValue().setX(Double.parseDouble(text));
+                force.getForceValue().setX(ParsingHelper.parseDouble(text, this.name));
             }
         },
         new SimplerPropertyBinder("Force value Y", true) {
@@ -28,7 +29,7 @@ public class UniformForcePropertyBinder implements ObjectPropertyBinder {
             }
 
             @Override public void setProperty(String text) {
-                force.getForceValue().setY(Double.parseDouble(text));
+                force.getForceValue().setY(ParsingHelper.parseDouble(text, this.name));
             }
         },
         new SimplerPropertyBinder("Force value Z", true) {
@@ -37,7 +38,7 @@ public class UniformForcePropertyBinder implements ObjectPropertyBinder {
             }
 
             @Override public void setProperty(String text) {
-                force.getForceValue().setZ(Double.parseDouble(text));
+                force.getForceValue().setZ(ParsingHelper.parseDouble(text, this.name));
             }
         },
         //==========================================================//
@@ -49,7 +50,7 @@ public class UniformForcePropertyBinder implements ObjectPropertyBinder {
             }
 
             @Override public void setProperty(String text) {
-                force.setTimeToLive(Double.parseDouble(text));
+                force.setTimeToLive(ParsingHelper.parseDouble(text, this.name));
             }
         },
         new SimplerPropertyBinder("Is forever", true) {
@@ -58,7 +59,7 @@ public class UniformForcePropertyBinder implements ObjectPropertyBinder {
             }
 
             @Override public void setProperty(String text) {
-                force.setForever(Boolean.parseBoolean(text));
+                force.setForever(ParsingHelper.parseBoolean(text, this.name));
             }
         }
     };

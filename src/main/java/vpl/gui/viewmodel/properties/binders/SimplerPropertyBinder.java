@@ -7,8 +7,8 @@ package vpl.gui.viewmodel.properties.binders;
 
 public abstract class SimplerPropertyBinder implements PropertyBinder {
     
-    private final String name;
-    private final boolean editable;
+    protected final String name;
+    protected final boolean editable;
 
     public SimplerPropertyBinder(String name, boolean editable) {
         this.name = name;

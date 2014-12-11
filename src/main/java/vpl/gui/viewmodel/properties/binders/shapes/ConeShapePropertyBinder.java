@@ -5,6 +5,7 @@
 
 package vpl.gui.viewmodel.properties.binders.shapes;
 
+import vpl.gui.ParsingHelper;
 import vpl.gui.viewmodel.properties.binders.ObjectPropertyBinder;
 import vpl.gui.viewmodel.properties.binders.PropertyBinder;
 import vpl.gui.viewmodel.properties.binders.SimplerPropertyBinder;
@@ -21,7 +22,7 @@ public class ConeShapePropertyBinder implements ObjectPropertyBinder {
             }
 
             @Override public void setProperty(String text) {
-                shape.setR(Double.parseDouble(text));
+                shape.setR(ParsingHelper.parseDouble(text, this.name));
             }
         },
         
@@ -31,7 +32,7 @@ public class ConeShapePropertyBinder implements ObjectPropertyBinder {
             }
 
             @Override public void setProperty(String text) {
-                shape.setH(Double.parseDouble(text));
+                shape.setH(ParsingHelper.parseDouble(text, this.name));
             }
         }
     };

@@ -4,6 +4,7 @@
  */
 package vpl.gui;
 
+import javax.swing.JOptionPane;
 import vpl.gui.viewmodel.selection.RigidBodySelectionItem;
 import vpl.gui.viewmodel.selection.SelectionItem;
 import vpl.math.Triple;
@@ -136,46 +137,53 @@ public class AddForceJPanel extends javax.swing.JPanel implements SimpleListener
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(objectAttachedTextField))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bLabel)
-                            .addComponent(cLabel)
-                            .addComponent(aLabel))
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(aTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(bTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(addForceButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(uniformCheckBox))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(yLabel)
-                            .addComponent(zLabel)
-                            .addComponent(ttlLabel)
-                            .addComponent(xLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(yTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(xTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(zTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(ttlTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(foreverCheckBox))))
-                    .addGroup(layout.createSequentialGroup()
+                                .addComponent(objectAttachedTextField))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(propertiesLabel)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(propertiesLabel)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(bLabel)
+                                    .addComponent(cLabel)
+                                    .addComponent(aLabel))
+                                .addGap(12, 12, 12)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(aTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(bTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(addForceButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(uniformCheckBox))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(yLabel)
+                                    .addComponent(zLabel)
+                                    .addComponent(ttlLabel)
+                                    .addComponent(xLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(12, 12, 12)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(yTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(xTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(zTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(ttlTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(foreverCheckBox))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -184,9 +192,9 @@ public class AddForceJPanel extends javax.swing.JPanel implements SimpleListener
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(objectAttachedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addGap(2, 2, 2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(propertiesLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(xTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(xLabel))
@@ -225,19 +233,26 @@ public class AddForceJPanel extends javax.swing.JPanel implements SimpleListener
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addForceButton)
                     .addComponent(uniformCheckBox))
-                .addGap(20, 20, 20))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void addForceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addForceButtonActionPerformed
-        double x = Double.parseDouble(xTextField.getText());
-        double y = Double.parseDouble(yTextField.getText());
-        double z = Double.parseDouble(zTextField.getText());
-        double a = Double.parseDouble(aTextField.getText());
-        double b = Double.parseDouble(bTextField.getText());
-        double c = Double.parseDouble(cTextField.getText());
+        double x = ParsingHelper.parseDouble(xTextField.getText(), "x");
+        double y = ParsingHelper.parseDouble(yTextField.getText(), "y");
+        double z = ParsingHelper.parseDouble(zTextField.getText(), "z");
+        double a = ParsingHelper.parseDouble(aTextField.getText(), "Fx");
+        double b = ParsingHelper.parseDouble(bTextField.getText(), "Fy");
+        double c = ParsingHelper.parseDouble(cTextField.getText(), "Fz");
         boolean forever = foreverCheckBox.isSelected();
-        double ttl = Double.parseDouble(ttlTextField.getText());
+        double ttl = ParsingHelper.parseDouble(ttlTextField.getText(), "time to live");
+        
+        if (ttl == 0 && forever == false) {
+            int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to add force that will last for 0 seconds?", "Adding force with time to live equal 0", JOptionPane.YES_NO_OPTION);
+            if (dialogResult == JOptionPane.NO_OPTION) {
+                return;
+            }
+        }
         
         if (uniformCheckBox.isSelected()) {
             model.getPhysics().createUniformForce(new Triple(a, b, c));
@@ -245,6 +260,8 @@ public class AddForceJPanel extends javax.swing.JPanel implements SimpleListener
             RigidBodySelectionItem selectedRigidBody = (RigidBodySelectionItem) model.getSelectedItem();
             RigidBody body = selectedRigidBody.getBody(); // model.getPhysics().getRigidBodies().get(selectedRigidBody.getName());
             model.getPhysics().createForce(new Triple(a, b, c), new Triple(x, y, z), body, ttl, forever);
+        } else {
+            JOptionPane.showMessageDialog(null, "You need to select rigid body from panel on the right", "Rigid body not selected", JOptionPane.ERROR_MESSAGE);
         }
         model.refreshView(Model.RIGID_BODY_LIST_CHANGED);
     }//GEN-LAST:event_addForceButtonActionPerformed
